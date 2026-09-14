@@ -28,6 +28,11 @@ const PRECOS = {
   "capacete-gta-start-led"            : { de:   139.99, por:     19.90 },
   "mini-compressor-rezzet"            : { de:   119.90, por:     22.60 },
   "caixa-de-som-jbl-boombox-4"        : { de:  2469.00, por:    99.90 },
+  // ---------- ORDER BUMP (itens antes do checkout; nao tem pagina propria) ----------
+  'bump:suporte-celular-guidao': { de: 89.90, por: 14.90 },
+  'bump:garrafas-dobraveis-500ml': { de: 59.90, por: 9.90 },
+  'bump:bateria-litio-48v-156ah': { de: 1499.00, por: 149.90 },
+
 
   // ---------- OFERTA DE SAÍDA ----------
   // popup de quem tenta fechar a página. Deve ser MENOR que o "por" principal.
@@ -140,7 +145,7 @@ let a = ler('app.js');
 a = sub(a, /(const OLD_UNIT = )[\d.]+/, `$1${P.de.toFixed(2)}`, 'app: OLD_UNIT');
 a = sub(a, /(const BACK_OFFER_TOTAL = Number\(\(O && O\.ofertaSaida && O\.ofertaSaida\.preco\) \|\| )[\d.]+/, `$1${PRECOS.ofertaSaida.por.toFixed(2)}`, 'app: oferta de saída');
 Object.entries(PRECOS).forEach(([slug, v]) => {
-  if (slug === 'principal' || slug === 'ofertaSaida') return;
+  if (slug === 'principal' || slug === 'ofertaSaida' || slug.startsWith('bump:')) return;
   const re = new RegExp(`(url: '${esc('p/' + slug + '/')}'[^}]*?p: ')[\\d.,]+(', old: ')[\\d.,]+(', off: ')[^']+`, 'g');
   if (!new RegExp(re.source).test(a)) { avisos.push(`app: ${slug}`); return; }
   a = a.replace(re, `$1${brl(v.por)}$2${brl(v.de)}$3${off(v.de, v.por)}`);
@@ -159,7 +164,7 @@ gravar('nerva/content.js', c);
 // ================= nerva/pages.js =================
 let g = ler('nerva/pages.js');
 Object.entries(PRECOS).forEach(([slug, v]) => {
-  if (slug === 'principal' || slug === 'ofertaSaida') return;
+  if (slug === 'principal' || slug === 'ofertaSaida' || slug.startsWith('bump:')) return;
   const re = new RegExp(`(slug: '${esc(slug)}'[\\s\\S]*?preco: \\{ de: )[\\d.]+(, por: )[\\d.]+(, off: ')[^']+`);
   if (!re.test(g)) { avisos.push(`pages: ${slug}`); return; }
   g = g.replace(re, `$1${v.de}$2${v.por}$3${off(v.de, v.por)}`);
@@ -184,6 +189,13 @@ blocos.forEach(bl => {
    ...capt(/nomeCurto: '((?:[^'\\]|\\.)*)'/g)]
     .forEach(t => { if (t) titulos[t] = slug; });
 });
+/* itens do order bump nao estao no catalogo: casam pelo titulo cravado aqui */
+const BUMP_TITULOS = {
+  'Suporte de Celular para Moto e Bicicleta com Carregador USB no Guidão': 'bump:suporte-celular-guidao',
+  'Kit 2 Garrafas Dobráveis 500 ml para Colete de Corrida e Ciclismo': 'bump:garrafas-dobraveis-500ml',
+  'Bateria de Lítio Trapézio 48V 15.6Ah com Carregador': 'bump:bateria-litio-48v-156ah',
+};
+Object.assign(titulos, BUMP_TITULOS);
 c = ler('nerva/content.js');
 Object.entries(titulos).forEach(([titulo, slug]) => {
   const v = PRECOS[slug];

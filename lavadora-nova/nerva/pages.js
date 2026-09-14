@@ -901,9 +901,9 @@ function cardDaPagina(pg) {
 function cardDaOferta(main) {
   const p = (main && main.produto) || {}, pr = (main && main.preco) || {};
   return {
-    t: p.nomeCurto || p.titulo || 'Lavadora de Alta Pressão Vonder LAV 1300',
+    t: p.nomeCurto || p.titulo || 'Bicicleta Elétrica V9 Max',
     p: Number(pr.por) || 0, old: Number(pr.de) || 0, off: pr.off || '',
-    sold: p.vendidos || '', img: (main && main.fotos && main.fotos[0]) || 'img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp',
+    sold: p.vendidos || '', img: (main && main.fotos && main.fotos[0]) || 'img/produto/bicicleta-eletrica-v9-max-1.webp',
     ship: pr.freteGratis !== false, full: false, pix: true,
     url: '/', sku: p.sku || ''
   };
@@ -985,7 +985,7 @@ function fotosDoFeed(fotos, base) {
   return (fotos || []).filter(Boolean).map(paraJpg).filter(ehJpgPng).map(u => absoluta(u, base));
 }
 function imagemBoa(fotos, base) {
-  return fotosDoFeed(fotos, base)[0] || absoluta('img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp', base);
+  return fotosDoFeed(fotos, base)[0] || absoluta('img/produto/bicicleta-eletrica-v9-max-1.webp', base);
 }
 function absoluta(u, base) {
   u = String(u || '');

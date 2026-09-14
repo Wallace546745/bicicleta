@@ -28,7 +28,7 @@
   const plural = n => `${n} unidade${n > 1 ? 's' : ''}`;
 
   /* =============================== DADOS =============================== */
-  let PRODUCT = "Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf";
+  let PRODUCT = "Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h";
   let PRODUCT_ID_OVERRIDE = '';
 
   /* Todas as imagens vêm do CDN do marketplace. Para servir do próprio
@@ -43,11 +43,11 @@
      ao receber as demais, basta acrescentar novas linhas _im(...). */
   /* Galeria da lavadora — 5 fotos do anúncio, servidas localmente. */
   const GAL_127V = [
-    _im('img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp', 'Lavadora Vonder LAV 1300 — produto com a caixa e os acessórios inclusos'),
-    _im('img/produto/D_NQ_NP_887392-MLB79705952686_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg', 'Lavadora Vonder LAV 1300 — lavadora em uso na área externa'),
-    _im('img/produto/D_NQ_NP_837659-MLB79706242112_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg', 'Lavadora Vonder LAV 1300 — vazão mínima e máxima de água'),
-    _im('img/produto/D_NQ_NP_797192-MLB79706242102_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg', 'Lavadora Vonder LAV 1300 — pressão máxima e mínima de saída — frente e traseira'),
-    _im('img/produto/D_NQ_NP_774877-MLB79705912884_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg', 'Lavadora Vonder LAV 1300 — acessórios inclusos: pistola, lança, mangueira e aplicador de detergente')
+    _im('img/produto/bicicleta-eletrica-v9-max-1.webp', 'Bicicleta Elétrica V9 Max — vista lateral com bolsa porta-celular de brinde'),
+    _im('img/produto/bicicleta-eletrica-v9-max-2.webp', 'Bicicleta Elétrica V9 Max — tudo o que acompanha: carregador, kit de ferramentas, manual, controle do alarme, retrovisor e cartão NFC'),
+    _im('img/produto/bicicleta-eletrica-v9-max-3.webp', 'Bicicleta Elétrica V9 Max — mais segurança: cartão NFC, controle do alarme, trava da roda dianteira e freios hidráulicos'),
+    _im('img/produto/bicicleta-eletrica-v9-max-4.webp', 'Bicicleta Elétrica V9 Max — ideal para deslocamentos urbanos: avenida, parque, ciclovia e condomínio'),
+    _im('img/produto/bicicleta-eletrica-v9-max-5.webp', 'Bicicleta Elétrica V9 Max — até 60 km de autonomia com bateria 48V 15.6Ah')
   ];
 
   const GALLERY = GAL_127V;
@@ -1722,7 +1722,7 @@
     } else {
       if (selColorImg && segProdImg) {
         segProdImg.src = selColorImg.src;
-        segProdImg.alt = selColorImg.alt || 'Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf';
+        segProdImg.alt = selColorImg.alt || 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h';
       }
       if (segProdName) segProdName.textContent = PRODUCT;
     }
@@ -2370,7 +2370,7 @@
   });
 
   // ViewContent (visualização do produto) — dispara uma vez ao carregar
-  fbTrack('ViewContent', { value: unitPrice(), currency: 'BRL', content_ids: [PRODUCT_ID], content_type: 'product', content_name: 'Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf' });
+  fbTrack('ViewContent', { value: unitPrice(), currency: 'BRL', content_ids: [PRODUCT_ID], content_type: 'product', content_name: 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h' });
   /* TikTok: o ViewContent já saiu do <head> (index.html), antes do offer.json e
      deste arquivo. Só repete se aquele disparo não aconteceu ou reportou outro
      SKU (não deveria: o servidor injeta o produto certo em __TTK_PRODUTO__). */

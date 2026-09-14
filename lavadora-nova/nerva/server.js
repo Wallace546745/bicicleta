@@ -132,7 +132,7 @@ app.post('/api/pix/create', async (req, res) => {
 
     // eventId único: deduplica pixel + CAPI (Meta/TikTok) no lado da Nerva
     const eventId    = crypto.randomUUID();
-    const description = b.description || 'Lavadora de Alta Pressão Vonder LAV 1300';
+    const description = b.description || 'Bicicleta Elétrica V9 Max';
     const orderFp     = orderFingerprint(document, amount, description);
     const anterior    = admin.findRecentByFp(orderFp, IDEM_WINDOW_MS);
     // mesma chave -> a Nerva devolve a mesma cobrança; chave nova -> cobrança nova

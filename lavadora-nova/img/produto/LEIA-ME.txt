@@ -1,15 +1,15 @@
-FOTOS DO PRODUTO PRINCIPAL — Lavadora Vonder LAV 1300
+FOTOS DO PRODUTO PRINCIPAL — Bicicleta Elétrica V9 Max
 ======================================================
 
-5 fotos do anuncio, servidas do proprio site. Nenhuma depende de CDN.
+5 fotos servidas do proprio site. Nenhuma depende de CDN.
 
 Ordem da galeria (a primeira e a foto principal):
 
-  1. D_Q_NP_651172-...-F.webp       produto com a caixa e os acessorios
-  2. D_NQ_NP_887392-...-OO.jpg      lavadora em uso na area externa
-  3. D_NQ_NP_837659-...-OO.jpg      vazao minima e maxima de agua
-  4. D_NQ_NP_797192-...-OO.jpg      pressao max/min - frente e traseira
-  5. D_NQ_NP_774877-...-OO.jpg      acessorios inclusos
+  1. bicicleta-eletrica-v9-max-1.webp   vista lateral + bolsa porta-celular
+  2. bicicleta-eletrica-v9-max-2.webp   tudo o que acompanha (carregador, ferramentas, manual, controle, retrovisor, cartao NFC)
+  3. bicicleta-eletrica-v9-max-3.webp   mais seguranca (NFC, alarme, trava da roda, freios hidraulicos)
+  4. bicicleta-eletrica-v9-max-4.webp   deslocamentos urbanos
+  5. bicicleta-eletrica-v9-max-5.webp   ate 60 km de autonomia, bateria 48V 15.6Ah
 
 A foto 1 e a que aparece na buybox, no carrinho, no checkout e ao
 compartilhar o link.
@@ -18,16 +18,3 @@ PARA MUDAR A ORDEM OU ACRESCENTAR
   app.js            -> array GAL_127V
   nerva/content.js  -> array fotos
 Depois rode: node gerar-paginas.js
-
-CORRECOES QUE ESSAS ARTES TROUXERAM
-As artes oficiais da Vonder mostram dados que divergiam da ficha que eu
-tinha usado antes:
-  - mangueira de alta pressao: 3 m (nao 5 m)
-  - pressao minima: 870 lbf/pol² - 60 bar - 6 MPa
-  - vazao: de 300 a 390 litros/hora (5 a 6,5 L/min)
-Tudo ja corrigido nos bullets, na ficha tecnica e na descricao.
-
-AINDA COM PLACEHOLDER
-Os 3 itens do order bump (kit bico turbo, mangueira de reposicao, kit
-escova) usam img/placeholder/ac1..ac3.svg. Sao itens do funil, nao tem
-anuncio proprio.

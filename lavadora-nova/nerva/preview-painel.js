@@ -7,7 +7,7 @@ const DATA = '/tmp/painel-preview';
 fs.rmSync(DATA, { recursive: true, force: true });
 fs.mkdirSync(DATA, { recursive: true });
 
-const PRODUTO = 'Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf';
+const PRODUTO = 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h';
 const BUMPS = ['Aplicador Snow Foam 500 ml', 'Kit Lavagem Vonixx', 'Mangueira Tramontina 30 m'];
 const NOMES = ['Carlos Eduardo Silva', 'Mariana Alves', 'Rafael Souza', 'Juliana Costa',
   'Paulo Henrique Lima', 'Fernanda Rocha', 'Bruno Cardoso', 'Patrícia Nunes',

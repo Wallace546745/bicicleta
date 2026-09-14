@@ -17,8 +17,8 @@ for (const d of [DATA_DIR, UP_DIR]) if (!fs.existsSync(d)) fs.mkdirSync(d, { rec
 /* ---------- conteúdo padrão (o que está na loja hoje) ---------- */
 const DEFAULT = {
   produto: {
-    titulo: 'Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf',
-    nomeCurto: 'Lavadora de Alta Pressão Vonder LAV 1300',
+    titulo: 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h',
+    nomeCurto: 'Bicicleta Elétrica V9 Max',
     marca: 'Vonder',
     modelo: 'LAV 1300',
     sku: 'VONDER-LAV1300',
@@ -42,17 +42,17 @@ const DEFAULT = {
     freteGratis: true
   },
   fotos: [
-    'img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp',
-    'img/produto/D_NQ_NP_887392-MLB79705952686_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg',
-    'img/produto/D_NQ_NP_837659-MLB79706242112_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg',
-    'img/produto/D_NQ_NP_797192-MLB79706242102_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg',
-    'img/produto/D_NQ_NP_774877-MLB79705912884_102024-OO-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.jpg'
+    'img/produto/bicicleta-eletrica-v9-max-1.webp',
+    'img/produto/bicicleta-eletrica-v9-max-2.webp',
+    'img/produto/bicicleta-eletrica-v9-max-3.webp',
+    'img/produto/bicicleta-eletrica-v9-max-4.webp',
+    'img/produto/bicicleta-eletrica-v9-max-5.webp'
   ],
   variante: {
     rotulo: 'Voltagem',
     opcoes: [
-      { label: '127V', img: 'img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp' },
-      { label: '220V', img: 'img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp' }
+      { label: '127V', img: 'img/produto/bicicleta-eletrica-v9-max-1.webp' },
+      { label: '220V', img: 'img/produto/bicicleta-eletrica-v9-max-1.webp' }
     ]
   },
   bullets: [
@@ -135,11 +135,11 @@ CONTEÚDO DA EMBALAGEM
   ofertaSaida: {
     titulo: 'ESPERA! Não vá embora…',
     sub: 'Liberamos uma condição exclusiva só pra você agora',
-    chamada: 'Leve a Lavadora Vonder LAV 1300 + Aplicador Snow Foam + Kit Vonder 1600 com Aspirador + Kit Vonixx de brinde',
+    chamada: 'Leve a Bicicleta Elétrica V9 Max + Aplicador Snow Foam + Kit Vonder 1600 com Aspirador + Kit Vonixx de brinde',
     preco: 99.7,
     brindeTitulo: 'GRÁTIS: Snow Foam + Kit Vonder 1600 com Aspirador + Kit Vonixx',
     brindeTexto: 'Os 3 brindes já entram separados no seu pedido — sem custo nenhum.',
-    imgProduto: ['img/produto/D_Q_NP_651172-MLB98386075371_112025-F-lavadora-de-alta-presso-lav1300-libras-vonder-1300lbf.webp'],
+    imgProduto: ['img/produto/bicicleta-eletrica-v9-max-1.webp'],
     imgBrindes: ['img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp','img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp','img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp'],
     brindes: [
       { t: 'Aplicador Snow Foam 500 ml (Brinde)', img: 'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp' },
@@ -148,8 +148,8 @@ CONTEÚDO DA EMBALAGEM
     ]
   },
   seo: {
-    title: 'Lavadora De Alta Pressão Lav1300 Libras Vonder 1.300lbf | Domus',
-    description: 'Lavadora de Alta Pressão Vonder LAV 1300: 1.300 lbf/pol², 1.200 W, mangueira de 3 m e bico ajustável. 22% OFF, frete grátis.',
+    title: 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h | Domus',
+    description: 'Bicicleta Elétrica V9 Max: 1.300 lbf/pol², 1.200 W, mangueira de 3 m e bico ajustável. 22% OFF, frete grátis.',
     buscas: ['lavadora de alta pressao','lavadora vonder lav 1300','lava jato 1300 libras','lavadora vonder','lava jato portatil','lavadora alta pressao 127v']
   }
 };

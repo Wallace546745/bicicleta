@@ -88,7 +88,7 @@ fake.listen(9300, async () => {
   ok(req1 && req1.body.amount === 323.91, 'valor: ' + (req1 && req1.body.amount));
   ok(req1 && !!req1.body.externalId, 'externalId presente');
   ok(req1 && req1.body.postbackUrl === 'https://exemplo.com.br/webhooks/nerva', 'postbackUrl https');
-  ok(req1 && req1.body.description === 'Lavadora de Alta Pressão Vonder LAV 1300',
+  ok(req1 && req1.body.description === 'Bicicleta Elétrica V9 Max',
      'descrição: ' + (req1 && req1.body.description));
 
   // 2. CPF inválido é barrado antes de chamar a API

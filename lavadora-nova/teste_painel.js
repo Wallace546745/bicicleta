@@ -79,7 +79,7 @@ fake.listen(9600, async () => {
   const r = await fetch(B + '/api/pix/create', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ value: 323.91, payerCpf: '12345678909', sid: SID,
-                           description: 'Lavadora de Alta Pressão Vonder LAV 1300' })
+                           description: 'Bicicleta Elétrica V9 Max' })
   });
   const pix = await r.json();
   ok(!!pix.qrCode, 'Pix gerado');

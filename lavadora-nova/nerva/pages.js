@@ -410,7 +410,7 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
       vendidos: "+500 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Eletrônicos, Áudio e Vídeo", "Áudio Portátil", "Caixas de Som"]
     },
-    preco: { de: 2469, por: 394.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    preco: { de: 2469, por: 99.9, off: '96% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
     fotos: ["img/relacionados/caixa-de-som-jbl-boombox-4.webp"],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp' }] },
     bullets: ["210 W de potência com som JBL Pro e graves profundos.", "AI Sound Boost ajusta o som em tempo real, com menos distorção.", "Bateria de até 34 horas, recarga completa em 3 horas.", "IP68: à prova d’água e poeira.", "Bluetooth 5.4, áudio lossless por USB-C e função power bank."],

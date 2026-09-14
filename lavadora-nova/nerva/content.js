@@ -140,7 +140,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     { t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', p: 127.65, old: 6097, off: '98% OFF', sold: '+100 vendidos', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp', ship: true, full: true, pix: false },
     { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, off: '86% OFF', sold: '+5000 vendidos', tag: 'Tam. M e G', img: 'img/relacionados/capacete-gta-start-led.webp', ship: true, full: false, pix: false },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, off: '81% OFF', sold: '+5000 vendidos', img: 'img/relacionados/mini-compressor-rezzet.webp', ship: true, full: true, pix: false },
-    { t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', p: 394.9, old: 2469, off: '84% OFF', sold: '+500 vendidos', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp', ship: true, full: true, pix: false }
+    { t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', p: 99.9, old: 2469, off: '96% OFF', sold: '+500 vendidos', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp', ship: true, full: true, pix: false }
   ],
   orderBump: {
     titulo: 'Oferta especial antes de finalizar!',

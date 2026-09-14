@@ -27,7 +27,7 @@ const PRECOS = {
   "bicicleta-eletrica-cavalletta-c2"  : { de:  6097.00, por:   127.65 },
   "capacete-gta-start-led"            : { de:   139.99, por:     19.90 },
   "mini-compressor-rezzet"            : { de:   119.90, por:     22.60 },
-  "caixa-de-som-jbl-boombox-4"        : { de:  2469.00, por:   394.90 },
+  "caixa-de-som-jbl-boombox-4"        : { de:  2469.00, por:    99.90 },
 
   // ---------- OFERTA DE SAÍDA ----------
   // popup de quem tenta fechar a página. Deve ser MENOR que o "por" principal.

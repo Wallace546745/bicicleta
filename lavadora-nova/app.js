@@ -495,7 +495,8 @@
   listboxKeys(qtyMenu, qtyBtn, li => { setQty(Number(li.dataset.q)); });
 
   /* ---------- Carrinho Persistente (localStorage) ---------- */
-  const CART_KEY = '_domus_cart';
+  const CART_KEY = '_domus_cart_v2';        // v2: a chave antiga guardava itens da loja anterior
+  const CART_KEY_ANTIGA = '_domus_cart';
   let extraItems = []; // itens adicionais (order bump, seguro, meli+, etc.)
 
   function getCart() {
@@ -564,6 +565,24 @@
       });
     }
     saveCart(items);
+  }
+
+  /* "Comprar agora": a linha do produto passa a ter a quantidade escolhida na
+     página, ao preço da página. Antes somava +1 a cada clique, e quem clicava
+     duas vezes abria o checkout com 2 unidades e um total diferente do preço
+     que estava vendo. "Adicionar ao carrinho" continua somando. */
+  function setCartItem(item) {
+    const items = getCart();
+    const key = (item.id || item.title) + '___' + (item.variant || '');
+    const existing = items.find(i => ((i.id || i.title) + '___' + (i.variant || '')) === key);
+    if (existing) {
+      existing.qty = Number(item.qty) || 1;
+      if (item.price) existing.price = Number(item.price);
+      if (item.img) existing.img = item.img;
+      saveCart(items);
+    } else {
+      addToCartItem(item);
+    }
   }
 
   function removeCartItem(index) {
@@ -891,6 +910,50 @@
   const normTitulo = s => String(s || '').toLowerCase().normalize('NFD')
     .replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
   let PRECOS_TAB = null;
+
+  /* ---- carrinho salvo no navegador: saneia com o catálogo DESTA página ----
+     O localStorage guarda o carrinho por tempo indeterminado. Um visitante que
+     voltou dias depois, ou que viu outra versão da loja, chegava ao checkout
+     com itens que não existem mais e com preços velhos. Regra: item que não
+     está no catálogo desta página sai; item que está recebe o preço de agora.
+     Roda ao carregar e de novo ao abrir o checkout. */
+  const brlNum = v => typeof v === 'number' ? v : Number(String(v || '').replace(/\./g, '').replace(',', '.')) || 0;
+  function catalogoLocal() {
+    const m = new Map();
+    const add = (t, sku, price) => {
+      if (!(price > 0)) return;
+      if (t) m.set(normTitulo(t), { price, sku: sku || '' });
+      if (sku) m.set('sku:' + String(sku).toUpperCase(), { price, sku });
+    };
+    const opt = $('.buy-opt.is-sel');
+    const pagePrice = opt ? Number(opt.dataset.pix) : 0;
+    add(PRODUCT, PRODUCT_ID, pagePrice);
+    const O = window.OFFER || {};
+    if (O.produto) { add(O.produto.titulo, O.produto.sku, pagePrice); add(O.produto.nomeCurto, '', pagePrice); }
+    RELATED.forEach(r => add(r.t, r.sku, brlNum(r.p)));
+    (O.relacionados || []).forEach(r => add(r.t, r.sku, brlNum(r.p)));
+    return m;
+  }
+  function sanearCarrinho() {
+    let items = getCart();
+    // migra o carrinho da chave antiga uma única vez (passa pelo mesmo filtro)
+    try {
+      const velho = localStorage.getItem(CART_KEY_ANTIGA);
+      if (velho) { const arr = JSON.parse(velho); if (Array.isArray(arr) && !items.length) items = arr; localStorage.removeItem(CART_KEY_ANTIGA); }
+    } catch (_) {}
+    if (!items.length) return;
+    const cat = catalogoLocal();
+    let mudou = false;
+    const limpo = items.filter(i => {
+      const e = (i.sku && cat.get('sku:' + String(i.sku).toUpperCase())) || cat.get(normTitulo(i.title));
+      if (!e) { mudou = true; return false; }                      // item de outra versão da loja
+      if (Math.abs(Number(i.price) - e.price) > 0.009) { i.price = e.price; mudou = true; }
+      if (!i.sku && e.sku) { i.sku = e.sku; mudou = true; }
+      return true;
+    });
+    if (mudou) { saveCart(limpo); updateCartBadges(); console.info('[carrinho] itens antigos removidos ou repreçados pelo catálogo da página'); }
+  }
+  sanearCarrinho();
   function precoOficial(titulo, sku) {
     if (!PRECOS_TAB) return null;
     const e = (sku && PRECOS_TAB.porSku && PRECOS_TAB.porSku[String(sku).toUpperCase()])
@@ -2298,6 +2361,7 @@
       else extraItems.push({ title, price, qty: 1 });
     });
     updateCartBadges();
+    sanearCarrinho();                        // preços da página; itens de outra loja saem
     sincronizarPrecos();                     // tabela oficial: corrige carrinho e order bump
 
     closeOrderBump();
@@ -2451,7 +2515,7 @@
     ttkBotao('Comprar agora');
     soloItem = null;
     const item = getCurrentProductData();
-    addToCartItem(item);
+    setCartItem(item);                       // quantidade da página, não +1
     openOrderBump();
   });
 

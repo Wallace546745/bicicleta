@@ -15,7 +15,11 @@ sudo -u loja bash -c "cd '$DIR/nerva' && npm ci --omit=dev --no-audit --no-fund 
 DOM_REPO=$(tr -d ' \r\n' < "$DIR/deploy/dominio.txt" 2>/dev/null || true)
 DOM_ENV=$(grep '^PUBLIC_URL=' "$DIR/nerva/.env" | cut -d= -f2 | sed 's#^https\?://##')
 if [[ -n "$DOM_REPO" && "$DOM_REPO" != "$DOM_ENV" ]]; then
-  if getent hosts "$DOM_REPO" | grep -q "$(curl -s -m 5 http://169.254.169.254/latest/meta-data/public-ipv4 || echo NAO_EC2)"; then
+  # IP público desta máquina: IMDSv2 (token) e, se não der, um serviço externo
+  TOK=$(curl -s -m 3 -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' || true)
+  MEU_IP=$(curl -s -m 3 -H "X-aws-ec2-metadata-token: $TOK" http://169.254.169.254/latest/meta-data/public-ipv4 || true)
+  [[ "$MEU_IP" =~ ^[0-9.]+$ ]] || MEU_IP=$(curl -s -m 5 https://checkip.amazonaws.com | tr -d ' \n' || true)
+  if [[ "$MEU_IP" =~ ^[0-9.]+$ ]] && getent hosts "$DOM_REPO" | grep -q "$MEU_IP"; then
     echo "domínio $DOM_REPO já aponta para esta máquina: configurando nginx + HTTPS"
     SKIP_CLONE=1 bash "$DIR/deploy/install-vps.sh" "$DOM_REPO" || echo "(instalador com domínio falhou; tenta de novo na próxima verificação)"
   else

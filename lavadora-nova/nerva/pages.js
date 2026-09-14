@@ -123,23 +123,32 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Mobilidade Elétrica", "Patinetes Elétricos"]
     },
     preco: { de: 1260, por: 199.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ["img/relacionados/patinete-eletrico-gm5-p1.webp"],
+    fotos: ['img/relacionados/patinete-eletrico-gm5-p1.webp', 'img/relacionados/patinete-eletrico-gm5-p1-2.webp', 'img/relacionados/patinete-eletrico-gm5-p1-3.webp', 'img/relacionados/patinete-eletrico-gm5-p1-4.webp', 'img/relacionados/patinete-eletrico-gm5-p1-5.webp'],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/patinete-eletrico-gm5-p1.webp' }] },
-    bullets: ["Motor de 400 W e velocidade máxima de 25 km/h.", "Autonomia de até 22 km com uma carga completa.", "Pneus sólidos de 8,5 polegadas: sem câmara, sem furo e sem calibrar.", "Dobrável com um toque e só 13 kg: cabe no porta-malas e no elevador.", "Bluetooth com aplicativo para travar, ver velocidade e bateria.", "Suporta até 120 kg."],
-    descricao: `PATINETE ELÉTRICO GM5 P1 — PRETO, DOBRÁVEL, COM BLUETOOTH
+    bullets: [
+      'Motor de 400 W, velocidade máxima de 25 km/h e subidas de até 15°.',
+      'Bateria de lítio 36V 6Ah com até 22 km de autonomia; recarga em 4 a 5 horas.',
+      'Pneus alveolares de 8,5 polegadas: sem câmara, sem furo e sem calibrar.',
+      'Dobrável e leve, 11,6 kg: cabe no porta-malas e no elevador.',
+      'Tela LCD, 3 marchas, setas, luz traseira e aplicativo por Bluetooth.',
+      'Frenagem dupla e resistência IPX4 a respingos.'
+    ],
+    descricao: `PATINETE ELÉTRICO GM5 P1 — PRETO, DOBRÁVEL, COM APP E TELA LCD
 
-O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e a bateria rende até 22 km por carga, o suficiente para ir e voltar sem recarregar. A recarga completa leva cerca de 5 horas.
+O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e sobe rampas de até 15°. A bateria de lítio 36V 6Ah rende até 22 km por carga, o suficiente para ir e voltar sem recarregar, e a recarga completa leva de 4 a 5 horas.
 
-Os pneus são sólidos, de 8,5 polegadas: não têm câmara de ar, então não furam e não precisam de calibragem. O chassi é de liga de alumínio, e o mecanismo de dobra fecha o guidão com um toque. Dobrado, o patinete pesa cerca de 13 kg e cabe no porta-malas, embaixo da mesa ou no canto do elevador.
+Os pneus alveolares de 8,5 polegadas não têm câmara de ar: não furam e não precisam de calibragem. O chassi é de liga de alumínio e dobra com um toque. Dobrado, o patinete pesa 11,6 kg e cabe no porta-malas, embaixo da mesa ou no canto do elevador.
 
-Pelo aplicativo, conectado por Bluetooth, dá para travar o patinete, acompanhar velocidade e nível de bateria e ajustar o modo de condução.
+A tela LCD no guidão mostra velocidade, nível de bateria, marcha selecionada (3 marchas), iluminação e avisos de avaria. Pelo aplicativo, conectado por Bluetooth, dá para travar o patinete, acompanhar velocidade e bateria e ajustar o modo de condução.
+
+Segurança: frenagem dupla, setas de direção no guidão, luz traseira e resistência IPX4 a respingos.
 
 A autonomia real varia com o peso do condutor, o relevo e o modo de uso.
 
 CONTEÚDO DA EMBALAGEM
 1 patinete GM5 P1, 1 carregador e 1 manual.
 
-Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
+Aviso: preço ainda precisa ser conferido no anúncio.`,
     specs: [
       { k: 'Marca', v: 'GM5' },
       { k: 'Modelo', v: 'P1' },
@@ -147,12 +156,19 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
       { k: 'Motor', v: '400 W' },
       { k: 'Velocidade máxima', v: '25 km/h' },
       { k: 'Autonomia', v: 'Até 22 km' },
-      { k: 'Tempo de recarga', v: 'Aprox. 5 horas' },
-      { k: 'Pneus', v: '8,5 polegadas, sólidos (sem câmara)' },
-      { k: 'Chassi', v: 'Liga de alumínio, dobrável' },
-      { k: 'Peso', v: 'Aprox. 13 kg' },
-      { k: 'Carga máxima', v: '120 kg' },
+      { k: 'Bateria', v: 'Lítio 36V 6Ah' },
+      { k: 'Tempo de recarga', v: '4 a 5 horas' },
+      { k: 'Ângulo de subida', v: 'Até 15°' },
+      { k: 'Pneus', v: '8,5 polegadas, alveolares (sem câmara)' },
+      { k: 'Marchas', v: '3' },
+      { k: 'Freios', v: 'Frenagem dupla' },
+      { k: 'Painel', v: 'Tela LCD com velocidade, bateria e marcha' },
       { k: 'Conectividade', v: 'Bluetooth com aplicativo' },
+      { k: 'Iluminação', v: 'Farol, setas de direção e luz traseira' },
+      { k: 'Resistência à água', v: 'IPX4' },
+      { k: 'Chassi', v: 'Liga de alumínio, dobrável' },
+      { k: 'Peso', v: '11,6 kg' },
+      { k: 'Carga máxima', v: '120 kg' },
       { k: 'Garantia', v: '6 meses' }
     ],
     avaliacoes: {
@@ -169,7 +185,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     bump: "acess",
     seo: {
       title: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth — 25 km/h e Autonomia de 22 km | Domus',
-      description: 'O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e a bat',
+      description: 'O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e sobe ',
       buscas: ["patinete eletrico gm5 p1", "patinete eletrico dobravel", "patinete eletrico adulto 400w"]
     }
   },

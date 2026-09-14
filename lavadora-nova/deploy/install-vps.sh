@@ -3,20 +3,24 @@
 #  Instala a loja numa VPS Ubuntu 22.04/24.04 (Debian 12 também funciona).
 #  Roda como root, UMA vez:
 #
-#     curl -fsSL https://raw.githubusercontent.com/Wallace546745/lavadora-nova/claude/beautiful-turing-ihd5e3/deploy/install-vps.sh -o install-vps.sh
-#     sudo bash install-vps.sh loja.seudominio.com.br
+#     curl -fsSL https://raw.githubusercontent.com/Wallace546745/bicicleta/claude/optimistic-pascal-q6f5t4/lavadora-nova/deploy/install-vps.sh -o install-vps.sh
+#     sudo bash install-vps.sh loja.seudominio.com
+#
+#  Na AWS: crie a instância com deploy/ec2-user-data.sh (ou rode deploy/aws-setup.sh
+#  do seu computador) e este script roda sozinho no primeiro boot. Ver deploy/AWS.md.
 #
 #  O que faz: Node 22 + Nginx + Certbot, usuário "loja", clona o repositório em
-#  /var/www/lavadora, instala dependências, cria o nerva/.env (se não existir),
+#  /var/www/bicicleta (a loja fica na pasta lavadora-nova/), instala dependências, cria o nerva/.env (se não existir),
 #  registra o serviço systemd, configura o Nginx e emite o certificado HTTPS.
 #  Pode rodar de novo sem estragar nada (é idempotente).
 # =============================================================================
 set -euo pipefail
 
 DOMINIO="${1:-}"
-REPO="${REPO:-https://github.com/Wallace546745/lavadora-nova.git}"
-BRANCH="${BRANCH:-claude/beautiful-turing-ihd5e3}"
-DIR=/var/www/lavadora
+REPO="${REPO:-https://github.com/Wallace546745/bicicleta.git}"
+BRANCH="${BRANCH:-claude/optimistic-pascal-q6f5t4}"
+CLONE=/var/www/bicicleta                  # checkout do repositório
+DIR=$CLONE/lavadora-nova                  # a loja (index.html, nerva/, p/…)
 EMAIL_CERT="${EMAIL_CERT:-}"          # opcional: e-mail para avisos do certificado
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"      # so se o repositorio for privado (token com leitura)
 # Segredos podem vir na PROPRIA linha do comando (vao direto para o nerva/.env):
@@ -46,7 +50,7 @@ echo "    node $(node -v)"
 
 echo "==> 3/7 usuário e código"
 id -u loja >/dev/null 2>&1 || useradd --system --create-home --shell /usr/sbin/nologin loja
-mkdir -p "$(dirname "$DIR")"
+mkdir -p "$(dirname "$CLONE")"
 CLONE_URL="$REPO"
 # O token NUNCA vai para a URL do remote (ficaria em .git/config, dentro da
 # pasta servida pela web). Vai para um credential store fora do site, so
@@ -58,13 +62,13 @@ if [[ -n "$GITHUB_TOKEN" ]]; then
   git config --global credential.helper 'store --file /home/loja/.git-credentials'
 fi
 if [[ "${SKIP_CLONE:-0}" == "1" && -f "$DIR/nerva/server.js" ]]; then
-  echo "    codigo ja esta em $DIR (SKIP_CLONE=1)"; chown -R loja:loja "$DIR"
-elif [[ -d "$DIR/.git" ]]; then
-  sudo -u loja git -C "$DIR" remote set-url origin "$CLONE_URL"
-  sudo -u loja git -C "$DIR" fetch -q origin "$BRANCH" && sudo -u loja git -C "$DIR" checkout -q -B "$BRANCH" "origin/$BRANCH"
+  echo "    codigo ja esta em $DIR (SKIP_CLONE=1)"; chown -R loja:loja "$CLONE"
+elif [[ -d "$CLONE/.git" ]]; then
+  sudo -u loja git -C "$CLONE" remote set-url origin "$CLONE_URL"
+  sudo -u loja git -C "$CLONE" fetch -q origin "$BRANCH" && sudo -u loja git -C "$CLONE" checkout -q -B "$BRANCH" "origin/$BRANCH"
 else
-  git clone -q --branch "$BRANCH" "$CLONE_URL" "$DIR"
-  chown -R loja:loja "$DIR"
+  git clone -q --branch "$BRANCH" "$CLONE_URL" "$CLONE"
+  chown -R loja:loja "$CLONE"
 fi
 sudo -u loja bash -c "cd '$DIR/nerva' && npm ci --omit=dev --no-audit --no-fund --silent"
 sudo -u loja mkdir -p "$DIR/nerva/data"
@@ -100,6 +104,11 @@ FALTA=""
 for v in NERVA_API_KEY NERVA_WEBHOOK_SECRET; do
   grep -qE "^$v=.+" "$DIR/nerva/.env" && ! grep -qE "^$v=(sk_live_sua_chave_aqui|whsec_seu_secret_aqui)$" "$DIR/nerva/.env" || FALTA="$FALTA $v"
 done
+
+echo "==> 4b/7 páginas estáticas com o domínio (canonical, og:url, og:image e JSON-LD absolutos)"
+if [[ $SO_IP == 0 ]]; then
+  sudo -u loja bash -c "cd '$DIR' && SITE_URL=https://$DOMINIO node gerar-paginas.js >/dev/null" && echo "    metas absolutas em https://$DOMINIO"
+fi
 
 echo "==> 5/7 serviço systemd"
 cp "$DIR/deploy/lavadora.service" /etc/systemd/system/lavadora.service

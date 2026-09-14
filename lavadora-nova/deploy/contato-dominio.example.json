@@ -1,0 +1,14 @@
+{
+  "FirstName": "Seu",
+  "LastName": "Nome",
+  "ContactType": "PERSON",
+  "OrganizationName": "",
+  "AddressLine1": "Rua Exemplo, 123",
+  "AddressLine2": "",
+  "City": "Sao Paulo",
+  "State": "SP",
+  "CountryCode": "BR",
+  "ZipCode": "01310-100",
+  "PhoneNumber": "+55.11999998888",
+  "Email": "seu@email.com"
+}

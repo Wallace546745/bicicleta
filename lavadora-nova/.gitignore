@@ -15,3 +15,6 @@ nerva/data/
 *.log
 .DS_Store
 Thumbs.db
+
+# dados pessoais do registro do dominio (deploy/route53-registrar-dominio.sh)
+deploy/contato-dominio.json

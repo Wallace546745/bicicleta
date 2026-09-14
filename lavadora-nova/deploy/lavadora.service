@@ -2,7 +2,7 @@
 #   sudo cp deploy/lavadora.service /etc/systemd/system/
 #   sudo systemctl daemon-reload && sudo systemctl enable --now lavadora
 [Unit]
-Description=Loja Lavadora Vonder (Nerva + TikTok)
+Description=Loja Bicicleta Elétrica V9 Max (Nerva + TikTok)
 After=network-online.target
 Wants=network-online.target
 
@@ -10,7 +10,7 @@ Wants=network-online.target
 Type=simple
 User=loja
 Group=loja
-WorkingDirectory=/var/www/lavadora/nerva
+WorkingDirectory=/var/www/bicicleta/lavadora-nova/nerva
 # o server.js lê o nerva/.env sozinho (env.js) — nada de segredo aqui
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
@@ -24,7 +24,7 @@ StandardError=journal
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
-ReadWritePaths=/var/www/lavadora/nerva/data /var/www/lavadora/p
+ReadWritePaths=/var/www/bicicleta/lavadora-nova/nerva/data /var/www/bicicleta/lavadora-nova/p /var/www/bicicleta/lavadora-nova/index.html
 
 [Install]
 WantedBy=multi-user.target

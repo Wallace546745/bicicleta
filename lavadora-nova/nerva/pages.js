@@ -39,9 +39,7 @@ const VENDEDOR = { vendedor: 'Domus', vendedorVendas: '+250 mil vendas', condica
    isso ia como brand nos contents do pixel — capacete Norisk como Vonder. Sem
    marca conhecida, o campo simplesmente nao vai. */
 const MARCAS = {
-  'kit-vonixx-vexus': 'Vonixx', 'kit-lavadora-aspirador-vonder': 'Vonder', 'mangueira-trama-aco-wap': 'WAP',
-  'mangueira-jardim-tramontina': 'Tramontina', 'kit-ferramentas-46-pecas': 'VLX', 'serra-marmore-makita': 'Makita',
-  'capacete-norisk-razor': 'Norisk', 'capacete-norisk-ff302-grand-prix': 'Norisk', 'fone-bluetooth-capacete': 'Kateluo'
+  "patinete-eletrico-gm5-p1": "GM5", "bicicleta-eletrica-cavalletta-c2": "Cavalletta", "capacete-gta-start-led": "GTA", "mini-compressor-rezzet": "Rezzet", "caixa-de-som-jbl-boombox-4": "JBL"
 };
 const CAT_SMART  = ['Eletrônicos', 'Casa Inteligente', 'Assistentes e Automação'];
 const CAT_QUIM   = ['Acessórios para Veículos', 'Cuidado com o Veículo', 'Produtos de Limpeza'];
@@ -55,801 +53,386 @@ const V127 = img => ({ rotulo: 'Voltagem', opcoes: [{ label: '127V', img }] });
 const CATALOGO = [
   /* ---------------------------------------------------------------- */
   {
-    slug: 'snow-foam-500ml',
-    card: { t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', img: 'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp', sold: '+1000 vendidos', ship: true, full: true, pix: false },
+    slug: 'carregador-48v-2ah',
+    card: { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', img: 'img/relacionados/carregador-48v-2ah.webp', sold: '+1000 vendidos', ship: true, full: true, pix: false },
     produto: {
-      titulo: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml — Canhão de Espuma com Engate',
-      nomeCurto: 'Aplicador Snow Foam 500 ml',
-      modelo: 'SNOWFOAM-500', sku: 'SNOWFOAM-500',
-      vendidos: '+1000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.7', avaliacoes: '2.104', categoria: CAT_QUIM
+      titulo: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica — MBE4015, Bivolt',
+      nomeCurto: 'Carregador 48V 2Ah MBE4015',
+      modelo: 'CARREGADOR-48V-2A', sku: 'CARREGADOR-48V-2A',
+      vendidos: "+1000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Peças para Bicicletas", "Baterias e Carregadores"]
     },
-    preco: { de: 59.9, por: 19.9, off: '67% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp'],
-    variante: V127('img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp'),
-    bullets: [
-      'Canhão de espuma com reservatório de 500 ml.',
-      'Gera espuma densa a partir do shampoo diluído.',
-      'Regulagem de vazão e do formato do jato.',
-      'Bico de latão com engate de encaixe rápido.',
-      'Confira o tipo de engate da sua lavadora antes de comprar.'
-    ],
-    descricao: `APLICADOR SNOW FOAM PARA LAVADORA DE PRESSÃO — 500 ML
+    preco: { de: 149.9, por: 23.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/carregador-48v-2ah.webp"],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/carregador-48v-2ah.webp' }] },
+    bullets: ["Carregador para baterias de lítio 48V: saída de 54,6V e 2A.", "Serve para bicicletas e scooters elétricas 48V, como a V9 Max.", "Entrada bivolt automática, de 100V a 240V.", "LED indica carregando (vermelho) e carga completa (verde).", "Proteção contra sobrecarga, curto-circuito e superaquecimento.", "Confira o conector da sua bateria antes de comprar."],
+    descricao: `CARREGADOR 48V 54,6V 2AH — MBE4015
 
-É o acessório que transforma shampoo diluído em espuma densa. O reservatório de 500 ml se acopla à lança da lavadora e a mistura sai como aquela camada branca que cobre o carro inteiro.
+Carregador de reposição para baterias de lítio 48V de bicicletas e scooters elétricas. A saída de 54,6V é a tensão de carga completa de um pack de lítio 48V (13 células em série), e a corrente de 2A completa a carga de uma bateria de 15 a 20Ah em cerca de 8 a 10 horas.
 
-O ganho não é estético. A espuma fica agarrada à superfície e amolece a sujeira antes de qualquer contato com esponja ou luva — e é justamente esfregar sujeira seca que risca a pintura. Com a espuma agindo primeiro, boa parte da poeira sai só com o jato.
+Ter um segundo carregador resolve o problema de quem carrega em dois lugares, em casa e no trabalho, sem precisar levar o carregador na mochila todo dia.
 
-Tem regulagem de vazão e do formato do jato, então dá para ajustar a densidade da espuma conforme o produto usado.
+A entrada é bivolt automática, então funciona em qualquer tomada de 100V a 240V. O LED muda de vermelho para verde quando a carga termina, e o circuito desliga a corrente sozinho para não sobrecarregar a bateria.
 
-ATENÇÃO AO ENGATE
-O bico de latão usa encaixe rápido. Cada fabricante de lavadora adota um padrão próprio de engate — confira o da sua antes de comprar, ou verifique se o vendedor oferece adaptador.
+ATENÇÃO AO CONECTOR
+Cada fabricante usa um plugue diferente na bateria. Confira o formato do conector da sua bateria antes de comprar.
 
-Aviso: preço ainda precisa ser conferido no anúncio.`,
+CONTEÚDO DA EMBALAGEM
+1 carregador MBE4015 e 1 cabo de força.
+
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Tipo', v: 'Aplicador de espuma (canhão snow foam)' },
-      { k: 'Capacidade do reservatório', v: '500 ml' },
-      { k: 'Bico', v: 'Latão com engate de encaixe rápido' },
-      { k: 'Regulagens', v: 'Vazão e formato do jato' },
-      { k: 'Uso', v: 'Com shampoo automotivo diluído' },
-      { k: 'Compatibilidade', v: 'Depende do padrão de engate da lavadora' }
+      { k: 'Modelo', v: 'MBE4015' },
+      { k: 'Tensão de entrada', v: '100V a 240V AC, bivolt automático' },
+      { k: 'Tensão de saída', v: '54,6V DC' },
+      { k: 'Corrente de saída', v: '2A' },
+      { k: 'Bateria compatível', v: 'Lítio 48V (13S)' },
+      { k: 'Indicador', v: 'LED vermelho carregando, verde carga completa' },
+      { k: 'Proteções', v: 'Sobrecarga, curto-circuito e superaquecimento' },
+      { k: 'Uso', v: 'Bicicletas e scooters elétricas 48V' },
+      { k: 'Cor', v: 'Preto' },
+      { k: 'Garantia', v: '90 dias' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '701 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
         { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
         { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "sem-carregador",
     seo: {
-      title: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml — Canhão de Espuma com Engate | Domus',
-      description: 'O snow foam é o passo que separa uma lavagem comum de uma lavagem segura. A espuma densa cobre o veículo e fica agarrada à superfície, dando tempo par',
-      buscas: ['snow foam para lavadora 500 ml', 'snowfoam-500', 'snow']
+      title: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica — MBE4015, Bivolt | Domus',
+      description: 'Carregador de reposição para baterias de lítio 48V de bicicletas e scooters elétricas. A saída de 54,6V é a tensão de carga completa de um pack de lít',
+      buscas: ["carregador bicicleta eletrica 48v", "carregador 54.6v 2a", "carregador scooter eletrica"]
     }
   },
   /* ---------------------------------------------------------------- */
   {
-    slug: 'kit-vonixx-vexus',
-    card: { t: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus', img: 'img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp', sold: '+5000 vendidos', ship: true, full: true, pix: false },
+    slug: 'patinete-eletrico-gm5-p1',
+    card: { t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', img: 'img/relacionados/patinete-eletrico-gm5-p1.webp', sold: '+500 vendidos', ship: true, full: true, pix: false },
     produto: {
-      titulo: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus com Acessórios',
-      nomeCurto: 'Kit Lavagem Automotiva Vonixx Vexus',
-      modelo: 'VONIXX-VEXUS-KIT', sku: 'VONIXX-VEXUS-KIT',
-      vendidos: '+5000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.8', avaliacoes: '8.412', categoria: CAT_QUIM
+      titulo: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth — 25 km/h e Autonomia de 22 km',
+      nomeCurto: 'Patinete Elétrico GM5 P1',
+      modelo: 'GM5-P1-PRETO', sku: 'GM5-P1-PRETO',
+      vendidos: "+500 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Mobilidade Elétrica", "Patinetes Elétricos"]
     },
-    preco: { de: 129.9, por: 27.9, off: '79% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp'),
-    bullets: [
-      'V-Floc: shampoo neutro concentrado, não remove a cera nem o selante.',
-      'Intense: renovador de plásticos internos com proteção UV.',
-      'Sintra Fast: limpador bactericida, elimina 99,9% das bactérias.',
-      'Vexus: limpador de rodas e motores de alta performance.',
-      'Acompanha toalha de microfibra, pincel e esponjas aplicadoras.'
-    ],
-    descricao: `KIT LAVAGEM AUTOMOTIVA VONIXX — 4 PRODUTOS E ACESSÓRIOS
+    preco: { de: 1260, por: 199.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/patinete-eletrico-gm5-p1.webp"],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/patinete-eletrico-gm5-p1.webp' }] },
+    bullets: ["Motor de 400 W e velocidade máxima de 25 km/h.", "Autonomia de até 22 km com uma carga completa.", "Pneus sólidos de 8,5 polegadas: sem câmara, sem furo e sem calibrar.", "Dobrável com um toque e só 13 kg: cabe no porta-malas e no elevador.", "Bluetooth com aplicativo para travar, ver velocidade e bateria.", "Suporta até 120 kg."],
+    descricao: `PATINETE ELÉTRICO GM5 P1 — PRETO, DOBRÁVEL, COM BLUETOOTH
 
-O kit cobre o carro inteiro, de fora para dentro, com quatro produtos de 500 ml cada.
+O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e a bateria rende até 22 km por carga, o suficiente para ir e voltar sem recarregar. A recarga completa leva cerca de 5 horas.
 
-O V-Floc é um shampoo de pH neutro e alta concentração. Isso importa porque detergente comum desengordura tudo e leva junto a cera ou o selante da pintura. O V-Floc limpa sem atacar essa proteção.
+Os pneus são sólidos, de 8,5 polegadas: não têm câmara de ar, então não furam e não precisam de calibragem. O chassi é de liga de alumínio, e o mecanismo de dobra fecha o guidão com um toque. Dobrado, o patinete pesa cerca de 13 kg e cabe no porta-malas, embaixo da mesa ou no canto do elevador.
 
-O Vexus resolve rodas e motor — as áreas de sujeira mais pesada, com pó de pastilha e graxa. O Sintra Fast é um limpador bactericida para o interior, e o Intense renova os plásticos internos com proteção UV, sem deixar aquele brilho oleoso no painel.
+Pelo aplicativo, conectado por Bluetooth, dá para travar o patinete, acompanhar velocidade e nível de bateria e ajustar o modo de condução.
 
-Acompanha toalha de microfibra, pincel para detalhes e esponjas aplicadoras — o suficiente para trabalhar sem improvisar.
+A autonomia real varia com o peso do condutor, o relevo e o modo de uso.
 
-Aviso: preço ainda precisa ser conferido no anúncio.`,
+CONTEÚDO DA EMBALAGEM
+1 patinete GM5 P1, 1 carregador e 1 manual.
+
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Marca', v: 'Vonixx' },
-      { k: 'Produtos', v: 'V-Floc, Intense, Sintra Fast e Vexus' },
-      { k: 'Volume', v: '500 ml cada' },
-      { k: 'V-Floc', v: 'Shampoo neutro concentrado' },
-      { k: 'Intense', v: 'Renovador de plásticos internos com proteção UV' },
-      { k: 'Sintra Fast', v: 'Limpador bactericida — 99,9% das bactérias' },
-      { k: 'Vexus', v: 'Limpador de rodas e motores' },
-      { k: 'Acessórios', v: 'Toalha de microfibra, pincel e esponjas' }
+      { k: 'Marca', v: 'GM5' },
+      { k: 'Modelo', v: 'P1' },
+      { k: 'Cor', v: 'Preto' },
+      { k: 'Motor', v: '400 W' },
+      { k: 'Velocidade máxima', v: '25 km/h' },
+      { k: 'Autonomia', v: 'Até 22 km' },
+      { k: 'Tempo de recarga', v: 'Aprox. 5 horas' },
+      { k: 'Pneus', v: '8,5 polegadas, sólidos (sem câmara)' },
+      { k: 'Chassi', v: 'Liga de alumínio, dobrável' },
+      { k: 'Peso', v: 'Aprox. 13 kg' },
+      { k: 'Carga máxima', v: '120 kg' },
+      { k: 'Conectividade', v: 'Bluetooth com aplicativo' },
+      { k: 'Garantia', v: '6 meses' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '2804 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
         { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
         { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "acess",
     seo: {
-      title: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus com Acessórios | Domus',
-      description: 'O V-Floc é um shampoo de pH neutro, o que significa que ele limpa sem atacar a cera ou o selante já aplicados na pintura. Detergente comum de cozinha ',
-      buscas: ['kit lavagem automotiva vonixx vexus', 'vonixx-vexus-kit', 'kit']
+      title: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth — 25 km/h e Autonomia de 22 km | Domus',
+      description: 'O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e a bat',
+      buscas: ["patinete eletrico gm5 p1", "patinete eletrico dobravel", "patinete eletrico adulto 400w"]
     }
   },
   /* ---------------------------------------------------------------- */
   {
-    slug: 'kit-lavadora-aspirador-vonder',
-    card: { t: 'Kit Lavadora 1600 e Aspirador de Pó e Líquido APV1010 Vonder', img: 'img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp', sold: '+500 vendidos', ship: true, full: true, pix: false },
+    slug: 'bicicleta-eletrica-cavalletta-c2',
+    card: { t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp', sold: '+100 vendidos', ship: true, full: true, pix: false },
     produto: {
-      titulo: 'Kit Vonder — Lavadora de Alta Pressão 1600 e Aspirador de Pó e Líquido APV1010',
-      nomeCurto: 'Kit Lavadora 1600 + Aspirador APV1010 Vonder',
-      modelo: 'VONDER-KIT-LAV1600-APV1010', sku: 'VONDER-KIT-LAV1600-APV1010',
-      vendidos: '+500 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.7', avaliacoes: '1.180', categoria: CAT_FERR
+      titulo: 'Bicicleta Elétrica Cavalletta C2 750W — Bateria de Lítio Removível 48V 20Ah, até 65 km',
+      nomeCurto: 'Bicicleta Elétrica Cavalletta C2',
+      modelo: 'CAVALLETTA-C2-750W', sku: 'CAVALLETTA-C2-750W',
+      vendidos: "+100 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Bicicletas", "Bicicletas Elétricas"]
     },
-    preco: { de: 1099, por: 127, off: '88% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp'],
-    variante: V127('img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp'),
-    bullets: [
-      'Lavadora de alta pressão de 1.600 lbf/pol² — mais potente que a LAV 1300.',
-      'Aspirador APV1010 para pó e líquido, útil no pós-lavagem.',
-      'Aspira a água que sobra no carro, na garagem ou na área de serviço.',
-      'Duas ferramentas da mesma marca, com acessórios inclusos.',
-      'Sai mais em conta que comprar os dois separados.'
-    ],
-    descricao: `KIT VONDER — LAVADORA 1600 + ASPIRADOR DE PÓ E LÍQUIDO APV1010
+    preco: { de: 6097, por: 979.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/bicicleta-eletrica-cavalletta-c2.webp"],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp' }] },
+    bullets: ["Motor de 750 W e velocidade limitada a 32 km/h: sem CNH e sem placa.", "Bateria de lítio 48V 20Ah removível, com até 65 km de autonomia.", "Sobe rampas de até 15°.", "Bateria sai da bike para carregar em casa ou no escritório.", "Ideal para trajetos urbanos curtos e médios."],
+    descricao: `BICICLETA ELÉTRICA CAVALLETTA C2 — 750W, BATERIA REMOVÍVEL 48V 20AH
 
-A combinação resolve o ciclo completo: a lavadora tira a sujeira, o aspirador recolhe a água que sobra. Faz diferença ao lavar o carro em garagem coberta ou ao limpar a área de serviço, onde a água empoçada é o incômodo maior.
+A Cavalletta C2 é uma bicicleta elétrica urbana com motor de 750 W e bateria de lítio de 48V 20Ah, que rende até 65 km por carga. A velocidade é limitada a 32 km/h, o que enquadra o modelo como veículo autopropelido: não exige CNH nem emplacamento (Resolução CONTRAN 996/2023).
 
-A lavadora do kit é a de 1.600 lbf/pol², um degrau acima da LAV 1300. O APV1010 aspira tanto pó quanto líquido, então serve o ano inteiro, não só nos dias de lavagem.
+A bateria é removível: sai da bike com uma chave e carrega em qualquer tomada, em casa ou no trabalho, sem precisar levar a bicicleta até a tomada. O motor de 750 W vence subidas de até 15° com carga.
 
-Comprado em kit, sai por menos que os dois avulsos.
+A proposta é o deslocamento urbano de curta e média distância. Não é indicada para vias expressas nem viagens longas.
 
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
+A autonomia real varia com o peso do condutor, o relevo, a calibragem dos pneus e o modo de condução.
+
+CONTEÚDO DA EMBALAGEM
+1 bicicleta elétrica Cavalletta C2, 1 bateria 48V 20Ah, 1 carregador, chaves e manual.
+
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Marca', v: 'Vonder' },
-      { k: 'Itens', v: 'Lavadora de alta pressão 1600 e aspirador APV1010' },
-      { k: 'Pressão da lavadora', v: '1.600 lbf/pol²' },
-      { k: 'Aspirador', v: 'Pó e líquido' },
-      { k: 'Uso indicado', v: 'Doméstico' },
-      { k: 'Garantia', v: 'Conforme o fabricante' }
+      { k: 'Marca', v: 'Cavalletta' },
+      { k: 'Modelo', v: 'C2' },
+      { k: 'Motor', v: '750 W' },
+      { k: 'Bateria', v: 'Lítio 48V 20Ah, removível' },
+      { k: 'Autonomia', v: 'Até 65 km por carga' },
+      { k: 'Velocidade máxima', v: '32 km/h (limitada)' },
+      { k: 'Inclinação máxima', v: '15°' },
+      { k: 'Exige CNH ou placa', v: 'Não (Resolução CONTRAN 996/2023)' },
+      { k: 'Uso', v: 'Urbano, curta e média distância' },
+      { k: 'Garantia', v: '6 meses' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '393 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
         { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
         { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "acess",
     seo: {
-      title: 'Kit Vonder — Lavadora de Alta Pressão 1600 e Aspirador de Pó e Líquido APV1010 | Domus',
-      description: 'A combinação resolve o ciclo completo: a lavadora tira a sujeira, o aspirador recolhe a água que sobra. Faz diferença ao lavar o carro em garagem cobe',
-      buscas: ['kit lavadora 1600 + aspirador apv1010 vonder', 'vonder-kit-lav1600-apv1010', 'kit']
+      title: 'Bicicleta Elétrica Cavalletta C2 750W — Bateria de Lítio Removível 48V 20Ah, até 65 km | Domus',
+      description: 'A Cavalletta C2 é uma bicicleta elétrica urbana com motor de 750 W e bateria de lítio de 48V 20Ah, que rende até 65 km por carga. A velocidade é limit',
+      buscas: ["bicicleta eletrica cavalletta c2", "bicicleta eletrica 750w", "bike eletrica bateria removivel"]
     }
   },
   /* ---------------------------------------------------------------- */
   {
-    slug: 'mangueira-trama-aco-wap',
-    card: { t: 'Mangueira Trama de Aço 10 m WAP Combate Turbo 2600', img: 'img/relacionados/D_Q_NP_930716-MLB103748074706_012026-F-mangueira-trama-de-aco-10-mts-wap-combate-turbo-2600.webp', sold: '+500 vendidos', ship: true, full: true, pix: false },
+    slug: 'capacete-gta-start-led',
+    card: { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', img: 'img/relacionados/capacete-gta-start-led.webp', sold: '+5000 vendidos', tag: 'Tam. M e G', ship: true, full: false, pix: false },
     produto: {
-      titulo: 'Mangueira Trama de Aço 10 Metros — WAP Combate e Turbo 2600',
-      nomeCurto: 'Mangueira Trama de Aço 10 m WAP',
-      modelo: 'WAP-MANG-10M', sku: 'WAP-MANG-10M',
-      vendidos: '+500 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '940', categoria: CAT_ACESS
+      titulo: 'Capacete GTA Start com Sinalizador de LED — Ciclismo, MTB e Bike Elétrica',
+      nomeCurto: 'Capacete GTA Start LED',
+      modelo: 'GTA-START-LED', sku: 'GTA-START-LED',
+      vendidos: "+5000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Vestuário e Proteção", "Capacetes"]
     },
-    preco: { de: 279, por: 32.9, off: '88% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_930716-MLB103748074706_012026-F-mangueira-trama-de-aco-10-mts-wap-combate-turbo-2600.webp'],
-    variante: V127('img/relacionados/D_Q_NP_930716-MLB103748074706_012026-F-mangueira-trama-de-aco-10-mts-wap-combate-turbo-2600.webp'),
-    bullets: [
-      '10 metros: contorna o carro sem reposicionar a lavadora.',
-      'Trama de aço interna — aguenta a pressão sem estufar.',
-      'Engate rápido nas duas pontas: máquina e pistola.',
-      'Capa emborrachada com protetor anti-dobra nas extremidades.',
-      'Para as linhas WAP Combate e Turbo 2600 — confira o engate.'
-    ],
-    descricao: `MANGUEIRA TRAMA DE AÇO 10 METROS — WAP COMBATE E TURBO 2600
+    preco: { de: 139.99, por: 22.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/capacete-gta-start-led.webp"],
+    variante: { rotulo: 'Tamanho', opcoes: [{ label: 'M (54-58 cm)', img: 'img/relacionados/capacete-gta-start-led.webp' }, { label: 'G (58-62 cm)', img: 'img/relacionados/capacete-gta-start-led.webp' }] },
+    bullets: ["Sinalizador traseiro com 6 LEDs vermelhos: contínuo, pisca e strobo.", "Construção In Mold, leve: cerca de 237 g.", "18 entradas de ar para ventilação.", "Viseira e almofadas internas removíveis para lavar.", "Tamanhos M (54 a 58 cm) e G (58 a 62 cm)."],
+    descricao: `CAPACETE GTA START COM SINALIZADOR DE LED
 
-O comprimento é o ganho mais óbvio: com 10 metros você contorna o carro sem parar para reposicionar a lavadora a cada lado.
+Capacete de ciclismo com sinalizador traseiro integrado: 6 LEDs vermelhos com três funções, contínuo, pisca e strobo, para você ser visto de longe à noite e em dias de chuva. Na bike elétrica, que anda mais rápido no trânsito, essa visibilidade extra faz diferença.
 
-A trama de aço interna é o que diferencia essa mangueira da que vem de fábrica. Ela aguenta a pressão sem estufar e resiste às dobras que, na mangueira comum, acabam virando vazamento.
-
-Atenção ao engate: esta mangueira é feita para as linhas WAP Combate e Turbo 2600. Confira o encaixe do seu equipamento antes de comprar.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'WAP' },
-      { k: 'Comprimento', v: '10 metros' },
-      { k: 'Reforço', v: 'Trama de aço interna' },
-      { k: 'Conexões', v: 'Engate rápido nas duas pontas' },
-      { k: 'Proteção', v: 'Capa emborrachada com anti-dobra nas extremidades' },
-      { k: 'Compatibilidade', v: 'WAP Combate e Turbo 2600' },
-      { k: 'Observação', v: 'Verifique o padrão de engate do seu equipamento' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '313 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Mangueira Trama de Aço 10 Metros — WAP Combate e Turbo 2600 | Domus',
-      description: 'O comprimento é o ganho mais óbvio: com 10 metros você contorna o carro sem parar para reposicionar a lavadora a cada lado.',
-      buscas: ['mangueira trama de aço 10 m wap', 'wap-mang-10m', 'mangueira']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'mangueira-jardim-tramontina',
-    card: { t: 'Mangueira Jardim Flexível Reforçada 30 m Tramontina Verde', img: 'img/relacionados/D_Q_NP_932088-MLA99464283910_112025-F.webp', sold: '+10mil vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Mangueira de Jardim Flexível Reforçada 30 Metros — Tramontina, Verde',
-      nomeCurto: 'Mangueira Jardim Tramontina 30 m',
-      modelo: 'TRAMONTINA-MANG-30M', sku: 'TRAMONTINA-MANG-30M',
-      vendidos: '+10mil vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.7', avaliacoes: '6.520', categoria: CAT_ACESS
-    },
-    preco: { de: 249.9, por: 29.9, off: '88% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_932088-MLA99464283910_112025-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_932088-MLA99464283910_112025-F.webp'),
-    bullets: [
-      '30 metros de alcance a partir da torneira.',
-      'Construção em 4 camadas, resistente a dobras.',
-      'Flexível — enrola e guarda com facilidade.',
-      'Alimenta a lavadora de alta pressão ou rega direto.',
-      'Suporta até 10 bar (145 psi) e 50 °C.'
-    ],
-    descricao: `MANGUEIRA DE JARDIM FLEXÍVEL REFORÇADA 30 METROS — TRAMONTINA
-
-A lavadora precisa de água chegando na entrada, e é aí que a mangueira de jardim entra. Com 30 metros, você posiciona o equipamento onde for preciso sem depender da distância até a torneira.
-
-A construção reforçada resiste às dobras que estrangulam o fluxo — problema comum em mangueira fina, que faz a bomba trabalhar em falta d'água e reduz a vida útil do aparelho.
-
-Fora da lavagem, serve para regar o jardim e limpar a área externa.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'Tramontina' },
-      { k: 'Linha', v: 'Flex' },
-      { k: 'Comprimento', v: '30 metros' },
-      { k: 'Cor', v: 'Verde' },
-      { k: 'Construção', v: '4 camadas' },
-      { k: 'Pressão suportada', v: 'Até 10 bar — 145 psi' },
-      { k: 'Temperatura máxima', v: '50 °C' },
-      { k: 'Uso', v: 'Alimentação de lavadora, rega e limpeza em geral' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '2173 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Mangueira de Jardim Flexível Reforçada 30 Metros — Tramontina, Verde | Domus',
-      description: 'A lavadora precisa de água chegando na entrada, e é aí que a mangueira de jardim entra. Com 30 metros, você posiciona o equipamento onde for preciso s',
-      buscas: ['mangueira jardim tramontina 30 m', 'tramontina-mang-30m', 'mangueira']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'extensao-eletrica-10m',
-    card: { t: 'Extensão Elétrica 10 m Reforçada 3 Tomadas 10A/20A Bivolt', img: 'img/relacionados/D_Q_NP_643511-MLA111285869538_052026-F.webp', sold: '+10mil vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Extensão Elétrica 10 Metros Reforçada — 3 Tomadas, 10A/20A, Bivolt',
-      nomeCurto: 'Extensão Elétrica 10 m Reforçada',
-      modelo: 'EXT-10M-3T', sku: 'EXT-10M-3T',
-      vendidos: '+10mil vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '4.870', categoria: CAT_ACESS
-    },
-    preco: { de: 119.9, por: 79.9, off: '33% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_643511-MLA111285869538_052026-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_643511-MLA111285869538_052026-F.webp'),
-    bullets: [
-      '10 metros — alcança a área externa sem puxar o aparelho.',
-      '3 tomadas, todas em uso simultâneo.',
-      'Suporta 10A e 20A, bivolt.',
-      'Cabo reforçado, para uso profissional ou em obra.',
-      'O cordão da lavadora tem 5 m; a extensão completa o alcance.'
-    ],
-    descricao: `EXTENSÃO ELÉTRICA 10 METROS REFORÇADA — 3 TOMADAS, BIVOLT
-
-O cordão elétrico da lavadora tem 5 metros. Somando a mangueira, quase sempre falta um pouco para chegar onde você quer trabalhar. A extensão de 10 metros resolve isso.
-
-O cabo reforçado e a capacidade de 20A são o que importa aqui: extensão fina esquenta e cai em queda de tensão, o que faz o motor da lavadora perder força e sofrer.
-
-São 3 tomadas, úteis quando você usa lavadora e aspirador ao mesmo tempo. Confira sempre a corrente indicada na etiqueta dos aparelhos.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Comprimento', v: '10 metros' },
-      { k: 'Tomadas', v: '3' },
-      { k: 'Corrente', v: '10A e 20A' },
-      { k: 'Tensão', v: 'Bivolt' },
-      { k: 'Cabo', v: 'Reforçado' },
-      { k: 'Uso', v: 'Profissional, residencial e obra' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a lavadora de alta pressão.',
-      comentarios: '1623 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso sempre junto com a lavadora, faz bastante diferença.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Extensão Elétrica 10 Metros Reforçada — 3 Tomadas, 10A/20A, Bivolt | Domus',
-      description: 'O cordão elétrico da lavadora tem 5 metros. Somando a mangueira, quase sempre falta um pouco para chegar onde você quer trabalhar. A extensão de 10 me',
-      buscas: ['extensão elétrica 10 m reforçada', 'ext-10m-3t', 'extensão']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'kit-multi-ferramentas-48v',
-    card: { t: 'Kit Multi Ferramentas 4 em 1 48V Sem Fio com 2 Baterias e Maleta', img: 'img/relacionados/D_Q_NP_941321-MLA111648675325_052026-F.webp', sold: '+1000 vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Kit Multi Ferramentas 4 em 1 48V Sem Fio — Furadeira, Martelete, Esmerilhadeira e Chave de Impacto',
-      nomeCurto: 'Kit Multi Ferramentas 4 em 1 48V',
-      modelo: 'SIMAKE-4EM1-48V', sku: 'SIMAKE-4EM1-48V',
-      vendidos: '+1000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '1.840', categoria: CAT_FERR
-    },
-    preco: { de: 799, por: 59, off: '93% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_941321-MLA111648675325_052026-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_941321-MLA111648675325_052026-F.webp'),
-    bullets: [
-      'Quatro ferramentas num só kit, com cabeças intercambiáveis.',
-      'Furadeira, parafusadeira, martelete, esmerilhadeira e chave de impacto.',
-      'Sem fio, com 2 baterias — uma trabalha enquanto a outra carrega.',
-      'Maleta de transporte com espaço para os acessórios.',
-      'Para uso doméstico e profissional leve.'
-    ],
-    descricao: `KIT MULTI FERRAMENTAS 4 EM 1 — 48V SEM FIO
-
-O conceito é simples: um corpo motorizado e cabeças que se trocam. Em vez de comprar cinco ferramentas separadas, você tem furadeira, parafusadeira, martelete, esmerilhadeira e chave de impacto num único kit.
-
-As duas baterias resolvem o problema clássico do sem fio: quando uma acaba, você troca e continua o trabalho enquanto a outra carrega. Não há pausa no meio do serviço.
-
-A maleta mantém tudo junto, com espaço para as cabeças e os acessórios. Boa escolha para quem faz manutenção em casa e não quer uma bancada cheia de ferramentas soltas.
-
-Para uso doméstico e profissional leve. Serviços pesados e contínuos pedem ferramentas dedicadas.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'Simake' },
-      { k: 'Tipo', v: 'Kit multi ferramentas 4 em 1' },
-      { k: 'Tensão da bateria', v: '48V' },
-      { k: 'Baterias inclusas', v: '2' },
-      { k: 'Alimentação', v: 'Sem fio, a bateria' },
-      { k: 'Funções', v: 'Furadeira, parafusadeira, martelete, esmerilhadeira e chave de impacto' },
-      { k: 'Acompanha', v: 'Maleta de transporte e acessórios' },
-      { k: 'Uso indicado', v: 'Doméstico e profissional leve' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a robustez e o custo-benefício, e mencionam bastante o uso em manutenção doméstica e pequenos serviços.',
-      comentarios: '613 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 128, texto: 'Chegou rápido e veio bem embalado. Cumpre o que promete.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 8 meses', likes: 94, texto: 'Boa ferramenta pelo preço. Uso direto e não deu problema.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 67, texto: 'Já uso há um bom tempo, continua funcionando como no primeiro dia.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 41, texto: 'Atende bem para o meu uso. Só senti falta de um manual melhor.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 6 meses', likes: 29, texto: 'Recomendo. Custo-benefício muito bom.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Kit Multi Ferramentas 4 em 1 48V Sem Fio — Furadeira, Martelete, Esmerilhadeira e Chave de Impacto | Domus',
-      description: 'O conceito é simples: um corpo motorizado e cabeças que se trocam. Em vez de comprar cinco ferramentas separadas, você tem furadeira, parafusadeira, m',
-      buscas: ['kit multi ferramentas 4 em 1 48v', 'simake-4em1-48v', 'kit']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'kit-ferramentas-46-pecas',
-    card: { t: 'Kit Ferramentas 46 Peças com Soquetes e Chaves — VLX Vermelho', img: 'img/relacionados/D_Q_NP_722524-MLA115953917796_092026-F.webp', sold: '+5000 vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Kit de Ferramentas 46 Peças com Soquetes e Chaves — Para Carro e Casa, VLX',
-      nomeCurto: 'Kit Ferramentas 46 Peças VLX',
-      modelo: 'VLX-KIT46', sku: 'VLX-KIT46',
-      vendidos: '+5000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '5.210', categoria: CAT_FERR
-    },
-    preco: { de: 149.9, por: 39.9, off: '73% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_722524-MLA115953917796_092026-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_722524-MLA115953917796_092026-F.webp'),
-    bullets: [
-      '46 peças: soquetes, catraca, extensões, bits e chave Allen.',
-      'Aço cromo vanádio (CRV) — resistente e durável.',
-      'Serve para o carro e para a manutenção da casa.',
-      'Maleta organizada — cada peça no seu lugar.',
-      'Compacto: cabe no porta-malas sem ocupar espaço.',
-      'Cobre a maioria das medidas do dia a dia.'
-    ],
-    descricao: `KIT DE FERRAMENTAS 46 PEÇAS COM SOQUETES E CHAVES — VLX
-
-É o kit que resolve o imprevisto. As 46 peças cobrem as medidas mais comuns — soquetes, chaves, catraca e pontas — o suficiente para apertar, soltar e ajustar tanto no carro quanto em casa.
-
-O ponto forte é a organização. Cada peça tem seu encaixe na maleta, então você vê na hora se está faltando alguma, e não perde tempo procurando.
-
-Pelo tamanho, cabe no porta-malas e fica ali para quando precisar. Também serve bem como kit de primeira necessidade em casa, para quem não quer montar uma bancada.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'VLX' },
-      { k: 'Material', v: 'Aço cromo vanádio (CRV)' },
-      { k: 'Peças', v: '46' },
-      { k: 'Cor', v: 'Vermelho' },
-      { k: 'Conteúdo', v: 'Soquetes, catraca, extensões, barra T, bits e chave Allen' },
-      { k: 'Acompanha', v: 'Maleta organizadora' },
-      { k: 'Uso indicado', v: 'Carro, moto, casa e oficina' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a robustez e o custo-benefício, e mencionam bastante o uso em manutenção doméstica e pequenos serviços.',
-      comentarios: '1736 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 128, texto: 'Chegou rápido e veio bem embalado. Cumpre o que promete.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 8 meses', likes: 94, texto: 'Boa ferramenta pelo preço. Uso direto e não deu problema.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 67, texto: 'Já uso há um bom tempo, continua funcionando como no primeiro dia.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 41, texto: 'Atende bem para o meu uso. Só senti falta de um manual melhor.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 6 meses', likes: 29, texto: 'Recomendo. Custo-benefício muito bom.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Kit de Ferramentas 46 Peças com Soquetes e Chaves — Para Carro e Casa, VLX | Domus',
-      description: 'É o kit que resolve o imprevisto. As 46 peças cobrem as medidas mais comuns — soquetes, chaves, catraca e pontas — o suficiente para apertar, soltar e',
-      buscas: ['kit ferramentas 46 peças vlx', 'vlx-kit46', 'kit']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'serra-marmore-makita',
-    card: { t: 'Serra Mármore 4-3/8" 4100NH3Z 1300W Makita', img: 'img/relacionados/D_Q_NP_605349-MLA100018712599_122025-F.webp', sold: '+500 vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Serra Mármore Makita 4100NH3Z — 4-3/8 Polegadas, 1.300 W',
-      nomeCurto: 'Serra Mármore Makita 4100NH3Z',
-      modelo: 'MAKITA-4100NH3Z', sku: 'MAKITA-4100NH3Z',
-      vendidos: '+500 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.8', avaliacoes: '2.360', categoria: CAT_FERR
-    },
-    preco: { de: 749, por: 23.1, off: '97% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_605349-MLA100018712599_122025-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_605349-MLA100018712599_122025-F.webp'),
-    bullets: [
-      'Motor de 1.300 W para corte contínuo em material duro.',
-      'Disco de 4-3/8 polegadas (110 mm).',
-      'Corta mármore, granito, porcelanato e cerâmica.',
-      'Makita — referência em ferramenta elétrica profissional.',
-      'Uso profissional, aguenta jornada de obra.'
-    ],
-    descricao: `SERRA MÁRMORE MAKITA 4100NH3Z — 1.300 W
-
-Ferramenta de obra, não de fim de semana. Os 1.300 W entregam torque para cortar mármore, granito, porcelanato e cerâmica sem o motor perder rotação no meio do corte — que é onde a ferramenta barata trava e lasca a peça.
-
-O disco de 4-3/8 polegadas é o padrão para rodapé, soleira e recorte de piso, o serviço mais comum de acabamento.
-
-A Makita é referência no segmento profissional justamente pela durabilidade do motor sob uso contínuo. Se você corta pedra com frequência, é o tipo de compra que se paga.
-
-Use sempre proteção ocular e respiratória: o corte a seco gera muito pó.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'Makita' },
-      { k: 'Modelo', v: '4100NH3Z' },
-      { k: 'Potência', v: '1.300 W' },
-      { k: 'Disco', v: '4-3/8 polegadas — 110 mm' },
-      { k: 'Materiais', v: 'Mármore, granito, porcelanato e cerâmica' },
-      { k: 'Uso indicado', v: 'Profissional' },
-      { k: 'Segurança', v: 'Exige proteção ocular e respiratória' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a robustez e o custo-benefício, e mencionam bastante o uso em manutenção doméstica e pequenos serviços.',
-      comentarios: '786 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 128, texto: 'Chegou rápido e veio bem embalado. Cumpre o que promete.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 8 meses', likes: 94, texto: 'Boa ferramenta pelo preço. Uso direto e não deu problema.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 67, texto: 'Já uso há um bom tempo, continua funcionando como no primeiro dia.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 41, texto: 'Atende bem para o meu uso. Só senti falta de um manual melhor.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 6 meses', likes: 29, texto: 'Recomendo. Custo-benefício muito bom.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Serra Mármore Makita 4100NH3Z — 4-3/8 Polegadas, 1.300 W | Domus',
-      description: 'Ferramenta de obra, não de fim de semana. Os 1.300 W entregam torque para cortar mármore, granito, porcelanato e cerâmica sem o motor perder rotação n',
-      buscas: ['serra mármore makita 4100nh3z', 'makita-4100nh3z', 'serra']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'inversora-solda-mig-130a',
-    card: { t: 'Máquina Inversora de Solda MIG sem Gás 130A 3 em 1 TIG Lift', img: 'img/relacionados/D_Q_NP_757497-MLA102161920445_122025-F.webp', sold: '+1000 vendidos', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Máquina Inversora de Solda MIG sem Gás 130A — 3 em 1 com TIG Lift e Acessórios',
-      nomeCurto: 'Inversora de Solda MIG 130A 3 em 1',
-      modelo: 'TBT-MIG130-3EM1', sku: 'TBT-MIG130-3EM1',
-      vendidos: '+1000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '1.470', categoria: CAT_FERR
-    },
-    preco: { de: 899, por: 97.76, off: '89% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_757497-MLA102161920445_122025-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_757497-MLA102161920445_122025-F.webp'),
-    bullets: [
-      'Três processos numa máquina: MIG, eletrodo e TIG Lift.',
-      'MIG sem gás — usa arame tubular, dispensa cilindro.',
-      '130 A de corrente, suficiente para chapa fina e média.',
-      'Tecnologia inversora: leve e de baixo consumo.',
-      'Acompanha máscara, luvas, arame tubular e os dois cabos.'
-    ],
-    descricao: `MÁQUINA INVERSORA DE SOLDA MIG SEM GÁS 130A — 3 EM 1
-
-Três processos no mesmo equipamento: MIG, eletrodo revestido e TIG Lift. Na prática, você atende do portão de casa ao reparo em chapa fina sem trocar de máquina.
-
-O detalhe que mais pesa é o MIG sem gás. Usando arame tubular, você dispensa o cilindro de gás — sem aluguel, sem recarga, sem transporte de cilindro. Para quem solda esporadicamente, muda toda a conta.
-
-Os 130 A dão conta de chapa fina e média, faixa da maioria dos serviços domésticos e de pequena oficina. A tecnologia inversora deixa o equipamento leve e reduz o consumo em relação às máquinas de transformador.
-
-Acompanha máscara de solda, luvas, um rolo de arame tubular, cabo de garra e cabo porta-eletrodo — dá para começar sem comprar mais nada. Ainda assim, solda exige EPI adequado: máscara de escurecimento automático, luvas e avental.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
-    specs: [
-      { k: 'Marca', v: 'The Black Tools' },
-      { k: 'Modelo', v: 'ILM130' },
-      { k: 'Processos', v: 'MIG, eletrodo e TIG Lift' },
-      { k: 'Corrente máxima', v: '130 A' },
-      { k: 'MIG', v: 'Sem gás, com arame tubular' },
-      { k: 'Tecnologia', v: 'Inversora' },
-      { k: 'Cor', v: 'Amarelo' },
-      { k: 'Acompanha', v: 'Máscara de solda, luvas, arame tubular, cabo de garra e cabo porta-eletrodo' },
-      { k: 'Segurança', v: 'Exige máscara, luvas e avental' }
-    ],
-    avaliacoes: {
-      resumoIA: 'Os compradores destacam a robustez e o custo-benefício, e mencionam bastante o uso em manutenção doméstica e pequenos serviços.',
-      comentarios: '490 comentários',
-      lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 128, texto: 'Chegou rápido e veio bem embalado. Cumpre o que promete.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 8 meses', likes: 94, texto: 'Boa ferramenta pelo preço. Uso direto e não deu problema.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 67, texto: 'Já uso há um bom tempo, continua funcionando como no primeiro dia.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 41, texto: 'Atende bem para o meu uso. Só senti falta de um manual melhor.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 6 meses', likes: 29, texto: 'Recomendo. Custo-benefício muito bom.', fotos: [] }
-      ]
-    },
-    bump: 'portatil',
-    seo: {
-      title: 'Máquina Inversora de Solda MIG sem Gás 130A — 3 em 1 com TIG Lift e Acessórios | Domus',
-      description: 'Três processos no mesmo equipamento: MIG, eletrodo revestido e TIG Lift. Na prática, você atende do portão de casa ao reparo em chapa fina sem trocar ',
-      buscas: ['inversora de solda mig 130a 3 em 1', 'tbt-mig130-3em1', 'máquina']
-    }
-  },
-  /* ---------------------------------------------------------------- */
-  {
-    slug: 'capacete-norisk-razor',
-    card: { t: 'Capacete Moto Norisk Razor Preto Brilho — Monocolor', img: 'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp', sold: '+5000 vendidos', tag: 'Tam. 56', ship: true, full: true, pix: false },
-    produto: {
-      titulo: 'Capacete Moto Norisk Razor Preto Brilho — Fechado, Monocolor',
-      nomeCurto: 'Capacete Norisk Razor Preto',
-      modelo: 'NORISK-RAZOR-56', sku: 'NORISK-RAZOR-56',
-      vendidos: '+5000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.7', avaliacoes: '6.180', categoria: CAT_MOTO
-    },
-    preco: { de: 349, por: 59.3, off: '83% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp'],
-    variante: { rotulo: 'Tamanho', opcoes: [{ label: '56', img: 'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp' }, { label: '58', img: 'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp' }, { label: '60', img: 'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp' }, { label: '62', img: 'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp' }] },
-    bullets: [
-      'Capacete fechado, viseira fumê e certificação Inmetro.',
-      'Acabamento preto brilho, sem grafismo.',
-      'Forro interno removível e lavável.',
-      'Fivela de engate rápido.',
-      'Disponível do 56 ao 62 — meça a cabeça antes de escolher.'
-    ],
-    descricao: `CAPACETE MOTO NORISK RAZOR — PRETO BRILHO
-
-Capacete fechado de linha básica, para quem quer proteção com certificação Inmetro sem pagar por grafismo. O acabamento preto brilho é monocolor, então combina com qualquer moto e não desvaloriza com o tempo.
-
-O forro interno sai para lavar — detalhe que faz diferença em quem usa a moto todo dia, porque suor acumulado é o que mais deteriora o interior do capacete.
-
-A fivela é de engate rápido, mais prática no dia a dia que o sistema de argolas.
+A construção In Mold funde a casca externa ao EPS, o que deixa o capacete leve, cerca de 237 g, e resistente. As 18 entradas de ar mantêm a cabeça ventilada. A viseira e as almofadas internas saem para lavar.
 
 COMO ESCOLHER O TAMANHO
-Meça a circunferência da cabeça com uma fita métrica, na altura da testa, logo acima das sobrancelhas. O número em centímetros é o tamanho do capacete. Na dúvida entre dois, prefira o menor: o forro cede um pouco com o uso.
+Meça a circunferência da cabeça com uma fita métrica, logo acima das sobrancelhas. De 54 a 58 cm, tamanho M. De 58 a 62 cm, tamanho G.
 
 Capacete é item de segurança. Se sofrer impacto, deve ser substituído mesmo sem dano aparente.
 
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
+CONTEÚDO DA EMBALAGEM
+1 capacete GTA Start com viseira e sinalizador de LED.
+
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Marca', v: 'Norisk' },
-      { k: 'Modelo', v: 'Razor' },
-      { k: 'Tipo', v: 'Fechado (full face)' },
-      { k: 'Cor', v: 'Preto brilho' },
-      { k: 'Desenho', v: 'Monocolor' },
-      { k: 'Tamanhos', v: '56, 58, 60 e 62' },
-      { k: 'Forro', v: 'Removível e lavável' },
-      { k: 'Viseira', v: 'Fumê' },
-      { k: 'Fivela', v: 'Engate rápido' },
-      { k: 'Certificação', v: 'Inmetro' }
+      { k: 'Marca', v: 'GTA' },
+      { k: 'Modelo', v: 'Start' },
+      { k: 'Construção', v: 'In Mold' },
+      { k: 'Material', v: 'EPS, poliéster e PVC' },
+      { k: 'Entradas de ar', v: '18' },
+      { k: 'Sinalizador', v: '6 LEDs vermelhos, 3 funções' },
+      { k: 'Viseira', v: 'Removível' },
+      { k: 'Almofadas internas', v: 'Removíveis e laváveis' },
+      { k: 'Peso', v: 'Aprox. 237 g' },
+      { k: 'Tamanhos', v: 'M (54-58 cm) e G (58-62 cm)' },
+      { k: 'Uso', v: 'Ciclismo, MTB e bicicleta elétrica' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores elogiam o conforto e o acabamento, e recomendam medir a cabeça antes de escolher a numeração.',
-      comentarios: '2060 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 4 meses', likes: 156, texto: 'Chegou certinho no tamanho e é confortável de usar o dia todo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 9 meses', likes: 103, texto: 'Ótimo pelo preço. Acabamento bem melhor do que eu esperava.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 78, texto: 'Uso todo dia no trabalho e continua como novo.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 44, texto: 'Bom produto. Só demorei a acertar o tamanho, vale medir antes.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 31, texto: 'Recomendo, entrega rápida e produto original.', fotos: [] }
+        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
+        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "sem-capacete",
     seo: {
-      title: 'Capacete Moto Norisk Razor Preto Brilho — Fechado, Monocolor | Domus',
-      description: 'Capacete fechado de linha básica, para quem quer proteção com certificação Inmetro sem pagar por grafismo. O acabamento preto brilho é monocolor, entã',
-      buscas: ['capacete norisk razor preto', 'norisk-razor-56', 'capacete moto']
+      title: 'Capacete GTA Start com Sinalizador de LED — Ciclismo, MTB e Bike Elétrica | Domus',
+      description: 'Capacete de ciclismo com sinalizador traseiro integrado: 6 LEDs vermelhos com três funções, contínuo, pisca e strobo, para você ser visto de longe à n',
+      buscas: ["capacete gta start led", "capacete ciclismo com led", "capacete bike sinalizador"]
     }
   },
   /* ---------------------------------------------------------------- */
   {
-    slug: 'capacete-norisk-ff302-grand-prix',
-    card: { t: 'Capacete Norisk FF302 Soul 2 Grand Prix Países', img: 'img/relacionados/D_Q_NP_839485-MLB116554778715_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp', sold: '+1000 vendidos', tag: 'Tam. 56 ao 62 · 4 estampas', ship: true, full: true, pix: false },
+    slug: 'mini-compressor-rezzet',
+    card: { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', img: 'img/relacionados/mini-compressor-rezzet.webp', sold: '+5000 vendidos', ship: true, full: true, pix: false },
     produto: {
-      titulo: 'Capacete Norisk FF302 Soul 2 — Grand Prix Países, Fechado com Viseira Solar',
-      nomeCurto: 'Capacete Norisk FF302 Grand Prix',
-      modelo: 'NORISK-FF302-GP', sku: 'NORISK-FF302-GP',
-      vendidos: '+1000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.8', avaliacoes: '3.420', categoria: CAT_MOTO
+      titulo: 'Mini Compressor Digital Rezzet — Bomba de Encher Pneus Portátil com Calibrador para Carro, Bicicleta e Moto',
+      nomeCurto: 'Mini Compressor Rezzet',
+      modelo: 'REZZET-COMPRESSOR', sku: 'REZZET-COMPRESSOR',
+      vendidos: "+5000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Acessórios para Veículos", "Ferramentas para Veículos", "Compressores de Ar"]
     },
-    preco: { de: 649, por: 69.7, off: '89% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_839485-MLB116554778715_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp', 'img/relacionados/D_Q_NP_809215-MLB116554625473_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp', 'img/relacionados/D_Q_NP_608969-MLB116554624717_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp', 'img/relacionados/D_Q_NP_986768-MLB116876275387_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp'],
-    variante: { rotulo: 'Estampa', opcoes: [
-      { label: 'Brasil', img: 'img/relacionados/D_Q_NP_839485-MLB116554778715_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp' },
-      { label: 'Reino Unido', img: 'img/relacionados/D_Q_NP_809215-MLB116554625473_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp' },
-      { label: 'França', img: 'img/relacionados/D_Q_NP_608969-MLB116554624717_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp' },
-      { label: 'Itália', img: 'img/relacionados/D_Q_NP_986768-MLB116876275387_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp' }
-    ] },
-    bullets: [
-      'Quatro estampas: Brasil, Reino Unido, França e Itália.',
-      'Viseira solar interna retrátil, acionada por alavanca.',
-      'Casco em termoplástico de alta resistência.',
-      'Forro removível e lavável, com canais de ventilação.',
-      'Certificação Inmetro. Do 56 ao 62.'
-    ],
-    descricao: `CAPACETE NORISK FF302 SOUL 2 — GRAND PRIX PAÍSES
+    preco: { de: 119.9, por: 19.9, off: '83% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/mini-compressor-rezzet.webp"],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/mini-compressor-rezzet.webp' }] },
+    bullets: ["Enche pneus de carro, bicicleta, moto e bolas.", "Display digital com calibrador: escolha a pressão e ele para sozinho.", "Bateria interna de 2.000 mAh, recarrega por USB-C.", "Cabe na mochila: 15 x 9,5 x 7,2 cm.", "Lanterna LED para emergências à noite."],
+    descricao: `MINI COMPRESSOR DIGITAL REZZET — PORTÁTIL, COM CALIBRADOR
 
-A linha Grand Prix Países traz grafismo inspirado em bandeiras, e é a versão mais procurada do FF302 justamente pelo visual.
+Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, encaixe o bico e ele para sozinho quando chega no valor.
 
-O diferencial funcional é a viseira solar interna. Em vez de trocar de viseira ou usar óculos escuros por baixo, você aciona uma alavanca e a viseira fumê desce. Ao entrar num túnel ou anoitecer, recolhe. Quem pilota de dia sente a diferença logo na primeira semana.
+Tem modos pré-configurados para carro, bicicleta, moto e bola, e a vazão de 25 litros por minuto enche o pneu de uma bike em poucos segundos. A bateria de 2.000 mAh recarrega por USB-C, no mesmo cabo do celular.
 
-O casco é em termoplástico de alta resistência, com canais de ventilação que ajudam no calor. O forro sai para lavar.
+Com 15 x 9,5 x 7,2 cm, cabe na mochila ou no porta-luvas. A lanterna LED integrada ajuda a trocar ou encher um pneu no escuro.
 
-AS QUATRO ESTAMPAS
-A linha Grand Prix Países sai em Brasil, Reino Unido, França e Itália. O casco e a estrutura são os mesmos — muda só o grafismo, que segue as cores da bandeira.
+CONTEÚDO DA EMBALAGEM
+1 mini compressor Rezzet, 1 mangueira de 0,5 m, 1 cabo USB-C de 0,8 m e bicos adaptadores.
 
-COMO ESCOLHER O TAMANHO
-Meça a circunferência da cabeça na altura da testa. O número em centímetros é o tamanho. Na dúvida entre dois, prefira o menor.
-
-Capacete é item de segurança. Após qualquer impacto, substitua.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Marca', v: 'Norisk' },
-      { k: 'Modelo', v: 'FF302 Soul 2' },
-      { k: 'Linha', v: 'Grand Prix Países' },
-      { k: 'Estampas', v: 'Brasil, Reino Unido, França e Itália' },
-      { k: 'Tipo', v: 'Fechado (full face)' },
-      { k: 'Viseira solar interna', v: 'Sim, retrátil' },
-      { k: 'Casco', v: 'Termoplástico de alta resistência' },
-      { k: 'Tamanhos', v: '56, 58, 60 e 62' },
-      { k: 'Forro', v: 'Removível e lavável' },
-      { k: 'Ventilação', v: 'Canais de entrada e saída de ar' },
-      { k: 'Certificação', v: 'Inmetro' }
+      { k: 'Marca', v: 'Rezzet' },
+      { k: 'Potência', v: '120 W' },
+      { k: 'Corrente', v: '10A' },
+      { k: 'Vazão de ar', v: '25 L/min' },
+      { k: 'Bateria', v: '2.000 mAh' },
+      { k: 'Alimentação', v: 'USB-C, 5V' },
+      { k: 'Modos', v: 'Carro, bicicleta, moto e bola' },
+      { k: 'Display', v: 'Digital com calibrador' },
+      { k: 'Lanterna', v: 'LED integrada' },
+      { k: 'Mangueira', v: '0,5 m' },
+      { k: 'Cabo', v: '0,8 m' },
+      { k: 'Dimensões', v: '15 x 9,5 x 7,2 cm' },
+      { k: 'Material', v: 'ABS' },
+      { k: 'Cor', v: 'Preto' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores elogiam o conforto e o acabamento, e recomendam medir a cabeça antes de escolher a numeração.',
-      comentarios: '1140 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 4 meses', likes: 156, texto: 'Chegou certinho no tamanho e é confortável de usar o dia todo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 9 meses', likes: 103, texto: 'Ótimo pelo preço. Acabamento bem melhor do que eu esperava.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 78, texto: 'Uso todo dia no trabalho e continua como novo.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 44, texto: 'Bom produto. Só demorei a acertar o tamanho, vale medir antes.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 31, texto: 'Recomendo, entrega rápida e produto original.', fotos: [] }
+        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
+        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "sem-compressor",
     seo: {
-      title: 'Capacete Norisk FF302 Soul 2 — Grand Prix Países, Fechado com Viseira Solar | Domus',
-      description: 'A linha Grand Prix Países traz grafismo inspirado em bandeiras, e é a versão mais procurada do FF302 justamente pelo visual.',
-      buscas: ['capacete norisk ff302 grand prix', 'norisk-ff302-gp', 'capacete moto']
+      title: 'Mini Compressor Digital Rezzet — Bomba de Encher Pneus Portátil com Calibrador para Carro, Bicicleta e Moto | Domus',
+      description: 'Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, encaixe o bic',
+      buscas: ["mini compressor portatil", "compressor de ar rezzet", "bomba de encher pneu digital"]
     }
   },
   /* ---------------------------------------------------------------- */
   {
-    slug: 'fone-bluetooth-capacete',
-    card: { t: 'Fone de Ouvido Bluetooth para Capacete de Moto — Headset RGB Kateluo', img: 'img/relacionados/D_Q_NP_705128-MLA116671814177_082026-F.webp', sold: '+5000 vendidos', ship: true, full: true, pix: false },
+    slug: 'caixa-de-som-jbl-boombox-4',
+    card: { t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp', sold: '+500 vendidos', ship: true, full: true, pix: false },
     produto: {
-      titulo: 'Fone de Ouvido Bluetooth para Capacete de Moto — Headset Sem Fio com RGB, Kateluo',
-      nomeCurto: 'Fone Bluetooth para Capacete Kateluo',
-      modelo: 'KATELUO-HEADSET-BT', sku: 'KATELUO-HEADSET-BT',
-      vendidos: '+5000 vendidos', badge: 'Mais vendido', badgeLink: 'Escolha popular',
-      nota: '4.6', avaliacoes: '4.930', categoria: CAT_MOTO
+      titulo: 'Caixa de Som JBL Boombox 4 Bluetooth 210W — AI Sound Boost, IP68, Bateria de até 34h, Áudio Lossless, Preta',
+      nomeCurto: 'JBL Boombox 4 Preta',
+      modelo: 'JBL-BOOMBOX-4-PRETA', sku: 'JBL-BOOMBOX-4-PRETA',
+      vendidos: "+500 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
+      nota: '4.7', avaliacoes: '1.204', categoria: ["Eletrônicos, Áudio e Vídeo", "Áudio Portátil", "Caixas de Som"]
     },
-    preco: { de: 199.9, por: 12.9, off: '94% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ['img/relacionados/D_Q_NP_705128-MLA116671814177_082026-F.webp'],
-    variante: V127('img/relacionados/D_Q_NP_705128-MLA116671814177_082026-F.webp'),
-    bullets: [
-      'Bluetooth sem fio — atende chamadas sem tirar as mãos do guidão.',
-      'Alto-falantes finos, feitos para caber na concha do capacete.',
-      'Iluminação RGB, que aumenta a visibilidade à noite.',
-      'Botões de volume e microfone, com indicador de bateria.',
-      'Instala em capacete fechado ou escamoteável.'
-    ],
-    descricao: `FONE DE OUVIDO BLUETOOTH PARA CAPACETE DE MOTO — HEADSET RGB
+    preco: { de: 2469, por: 394.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ["img/relacionados/caixa-de-som-jbl-boombox-4.webp"],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp' }] },
+    bullets: ["210 W de potência com som JBL Pro e graves profundos.", "AI Sound Boost ajusta o som em tempo real, com menos distorção.", "Bateria de até 34 horas, recarga completa em 3 horas.", "IP68: à prova d’água e poeira.", "Bluetooth 5.4, áudio lossless por USB-C e função power bank."],
+    descricao: `CAIXA DE SOM JBL BOOMBOX 4 — 210W, IP68, ATÉ 34H DE BATERIA
 
-Resolve o problema de quem trabalha na moto: atender o aplicativo, ouvir a navegação e receber chamada sem parar e sem tirar a mão do guidão.
+A Boombox 4 é a maior caixa portátil da JBL: 210 W de potência, dois woofers de 5 polegadas, dois tweeters de 0,75 polegada e três radiadores passivos. O AI Sound Boost analisa a música em tempo real e ajusta o som para manter o grave forte sem distorcer, mesmo no volume máximo.
 
-Os alto-falantes são finos de propósito, para encaixar na concha do capacete sem pressionar a orelha em viagem longa. O microfone vem em haste, o que melhora a captação de voz contra o vento em relação aos modelos embutidos.
+A bateria rende até 34 horas de música e recarrega em cerca de 3 horas. A saída USB-C também carrega o celular e recebe áudio lossless por cabo, para quem quer ouvir sem compressão.
 
-A iluminação RGB é o extra: além do visual, aumenta a visibilidade lateral à noite, quando o motociclista é menos percebido no trânsito.
+Com certificação IP68, aguenta chuva, areia e até mergulho rápido. Serve para piscina, praia, churrasco e para levar no bagageiro da bike. O Bluetooth 5.4 mantém a conexão estável, e dá para parear várias caixas JBL compatíveis para tocar juntas.
 
-Instala em capacete fechado ou escamoteável, com fixação adesiva ou por encaixe.
+CONTEÚDO DA EMBALAGEM
+1 JBL Boombox 4, 1 cabo de energia e guia rápido.
 
-Atenção: em alguns estados o uso de fone na condução é regulamentado. Confira a legislação local antes de usar.
-
-Aviso: preço e imagem ainda precisam ser conferidos no anúncio.`,
+Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     specs: [
-      { k: 'Marca', v: 'Kateluo' },
-      { k: 'Modelo', v: 'V10' },
-      { k: 'Tipo', v: 'Headset Bluetooth para capacete' },
-      { k: 'Conexão', v: 'Bluetooth sem fio' },
-      { k: 'Microfone', v: 'Com haste' },
-      { k: 'Iluminação', v: 'RGB no painel lateral' },
-      { k: 'Controles', v: 'Volume, microfone e indicador de bateria' },
-      { k: 'Instalação', v: 'Capacete fechado ou escamoteável' },
-      { k: 'Uso', v: 'Chamadas, navegação e áudio' }
+      { k: 'Marca', v: 'JBL' },
+      { k: 'Modelo', v: 'Boombox 4' },
+      { k: 'Cor', v: 'Preta' },
+      { k: 'Potência', v: '210 W RMS' },
+      { k: 'Alto-falantes', v: "2 woofers de 5\", 2 tweeters de 0,75\" e 3 radiadores passivos" },
+      { k: 'Bateria', v: 'Até 34 horas' },
+      { k: 'Tempo de recarga', v: 'Aprox. 3 horas' },
+      { k: 'Resistência', v: 'IP68, à prova d’água e poeira' },
+      { k: 'Bluetooth', v: '5.4' },
+      { k: 'Entradas', v: 'USB-C com áudio lossless e power bank' },
+      { k: 'Recursos', v: 'AI Sound Boost, graves personalizáveis' },
+      { k: 'Garantia', v: '12 meses' }
     ],
     avaliacoes: {
-      resumoIA: 'Os compradores elogiam o conforto e o acabamento, e recomendam medir a cabeça antes de escolher a numeração.',
-      comentarios: '1643 comentários',
+      resumoIA: 'Os compradores destacam a qualidade e o custo-benefício, e mencionam bastante o uso junto com a bicicleta elétrica.',
+      comentarios: '412 comentários',
       lista: [
-        { nota: 5, pais: 'Brasil', quando: 'Há 4 meses', likes: 156, texto: 'Chegou certinho no tamanho e é confortável de usar o dia todo.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 9 meses', likes: 103, texto: 'Ótimo pelo preço. Acabamento bem melhor do que eu esperava.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 78, texto: 'Uso todo dia no trabalho e continua como novo.', fotos: [] },
-        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 44, texto: 'Bom produto. Só demorei a acertar o tamanho, vale medir antes.', fotos: [] },
-        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 31, texto: 'Recomendo, entrega rápida e produto original.', fotos: [] }
+        { nota: 5, pais: 'Brasil', quando: 'Há 3 meses', likes: 142, texto: 'Chegou rápido e é exatamente o que eu esperava. Recomendo.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 7 meses', likes: 96, texto: 'Boa qualidade pelo preço. Já é a segunda vez que compro.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 71, texto: 'Uso junto com a bike elétrica, faz bastante diferença.', fotos: [] },
+        { nota: 4, pais: 'Brasil', quando: 'Há 2 meses', likes: 38, texto: 'Cumpre o que promete. Só achei a entrega um pouco demorada.', fotos: [] },
+        { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'portatil',
+    bump: "acess",
     seo: {
-      title: 'Fone de Ouvido Bluetooth para Capacete de Moto — Headset Sem Fio com RGB, Kateluo | Domus',
-      description: 'Resolve o problema de quem trabalha na moto: atender o aplicativo, ouvir a navegação e receber chamada sem parar e sem tirar a mão do guidão.',
-      buscas: ['fone bluetooth para capacete kateluo', 'kateluo-headset-bt', 'capacete moto']
+      title: 'Caixa de Som JBL Boombox 4 Bluetooth 210W — AI Sound Boost, IP68, Bateria de até 34h, Áudio Lossless, Preta | Domus',
+      description: 'A Boombox 4 é a maior caixa portátil da JBL: 210 W de potência, dois woofers de 5 polegadas, dois tweeters de 0,75 polegada e três radiadores passivos',
+      buscas: ["jbl boombox 4", "caixa de som jbl 210w", "caixa de som bluetooth a prova d agua"]
     }
   }
 ];
 
 /* ---------------- order bumps por família de produto ---------------- */
 const BUMPS = {
-  ar: [
-    { t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', p: 19.9, old: 59.9, img: 'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp' },
-    { t: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus', p: 27.9, old: 129.9, img: 'img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp' }
+  "acess": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
-  portatil: [
-    { t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', p: 19.9, old: 59.9, img: 'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp' },
-    { t: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus', p: 27.9, old: 129.9, img: 'img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp' }
+  "sem-carregador": [
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+  ],
+  "sem-capacete": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+  ],
+  "sem-compressor": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' }
   ]
 };
 
@@ -930,7 +513,7 @@ function build(slug) {
     orderBump: {
       titulo: 'Oferta especial antes de finalizar!',
       sub: 'Adicione ao seu pedido com frete grátis incluso',
-      itens: BUMPS[pg.bump] || BUMPS.tool
+      itens: BUMPS[pg.bump] || BUMPS.acess
     },
     /* oferta de saída: a MESMA em todas as páginas — é a que o usuário
        edita no painel para a oferta principal. O combo montado pelo app.js

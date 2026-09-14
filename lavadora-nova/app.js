@@ -67,52 +67,37 @@
   /* Cards dos relacionados. Placeholders ate chegarem as fotos reais. */
   /* Cards dos relacionados. Placeholders ate chegarem as fotos. */
   const REL_IMGS = [
-    'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp',
-    'img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp',
-    'img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp',
-    'img/relacionados/D_Q_NP_930716-MLB103748074706_012026-F-mangueira-trama-de-aco-10-mts-wap-combate-turbo-2600.webp',
-    'img/relacionados/D_Q_NP_932088-MLA99464283910_112025-F.webp',
-    'img/relacionados/D_Q_NP_643511-MLA111285869538_052026-F.webp',
-    'img/relacionados/D_Q_NP_941321-MLA111648675325_052026-F.webp',
-    'img/relacionados/D_Q_NP_722524-MLA115953917796_092026-F.webp',
-    'img/relacionados/D_Q_NP_605349-MLA100018712599_122025-F.webp',
-    'img/relacionados/D_Q_NP_757497-MLA102161920445_122025-F.webp',
-    'img/relacionados/D_Q_NP_966956-MLA99335457028_112025-F.webp',
-    'img/relacionados/D_Q_NP_839485-MLB116554778715_082026-F-capacete-norisk-ff302-soul-2-grand-prix-paises.webp',
-    'img/relacionados/D_Q_NP_705128-MLA116671814177_082026-F.webp'
+    "img/relacionados/carregador-48v-2ah.webp",
+    "img/relacionados/patinete-eletrico-gm5-p1.webp",
+    "img/relacionados/bicicleta-eletrica-cavalletta-c2.webp",
+    "img/relacionados/capacete-gta-start-led.webp",
+    "img/relacionados/mini-compressor-rezzet.webp",
+    "img/relacionados/caixa-de-som-jbl-boombox-4.webp"
   ];
 
   const RELATED = [
-    { img: 1, t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', url: 'p/snow-foam-500ml/', p: '19,90', old: '59,90', off: '67% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 2, t: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus', url: 'p/kit-vonixx-vexus/', p: '27,90', old: '129,90', off: '79% OFF', sold: '+5000 vendidos', ship: 1 },
-    { img: 3, t: 'Kit Lavadora 1600 e Aspirador de Pó e Líquido APV1010 Vonder', url: 'p/kit-lavadora-aspirador-vonder/', p: '127,00', old: '1.099,00', off: '88% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
-    { img: 4, t: 'Mangueira Trama de Aço 10 m WAP Combate Turbo 2600', url: 'p/mangueira-trama-aco-wap/', p: '32,90', old: '279,00', off: '88% OFF', sold: '+500 vendidos', ship: 1 },
-    { img: 5, t: 'Mangueira Jardim Flexível Reforçada 30 m Tramontina Verde', url: 'p/mangueira-jardim-tramontina/', p: '29,90', old: '249,90', off: '88% OFF', sold: '+10mil vendidos', ship: 1, full: 1 },
-    { img: 6, t: 'Extensão Elétrica 10 m Reforçada 3 Tomadas 10A/20A Bivolt', url: 'p/extensao-eletrica-10m/', p: '79,90', old: '119,90', off: '33% OFF', sold: '+10mil vendidos', ship: 1 },
-    { img: 7, t: 'Kit Multi Ferramentas 4 em 1 48V Sem Fio com 2 Baterias e Maleta', url: 'p/kit-multi-ferramentas-48v/', p: '59,00', old: '799,00', off: '93% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 8, t: 'Kit Ferramentas 46 Peças com Soquetes e Chaves — VLX Vermelho', url: 'p/kit-ferramentas-46-pecas/', p: '39,90', old: '149,90', off: '73% OFF', sold: '+5000 vendidos', ship: 1 },
-    { img: 9, t: 'Serra Mármore 4-3/8" 4100NH3Z 1300W Makita', url: 'p/serra-marmore-makita/', p: '23,10', old: '749,00', off: '97% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
-    { img: 10, t: 'Máquina Inversora de Solda MIG sem Gás 130A 3 em 1 TIG Lift', url: 'p/inversora-solda-mig-130a/', p: '97,76', old: '899,00', off: '89% OFF', sold: '+1000 vendidos', ship: 1 },
-    { img: 11, t: 'Capacete Moto Norisk Razor Preto Brilho — Monocolor', url: 'p/capacete-norisk-razor/', tag: 'Tam. 56', p: '59,30', old: '349,00', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
-    { img: 12, t: 'Capacete Norisk FF302 Soul 2 Grand Prix Países', url: 'p/capacete-norisk-ff302-grand-prix/', tag: 'Tam. 56 ao 62 · 4 estampas', p: '69,70', old: '649,00', off: '89% OFF', sold: '+1000 vendidos', ship: 1 },
-    { img: 13, t: 'Fone de Ouvido Bluetooth para Capacete de Moto — Headset RGB Kateluo', url: 'p/fone-bluetooth-capacete/', p: '12,90', old: '199,90', off: '94% OFF', sold: '+5000 vendidos', ship: 1 }
+    { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 },
+    { img: 4, t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', url: 'p/capacete-gta-start-led/', tag: 'Tam. M e G', p: '22,90', old: '139,99', off: '84% OFF', sold: '+5000 vendidos', ship: 1 },
+    { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
+    { img: 6, t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', url: 'p/caixa-de-som-jbl-boombox-4/', p: '394,90', old: '2.469,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 }
   ];
   const STORE = [
-    { img: 3, t: 'Kit Lavadora 1600 e Aspirador de Pó e Líquido APV1010 Vonder', url: 'p/kit-lavadora-aspirador-vonder/', p: '127,00', old: '1.099,00', off: '88% OFF', sold: '+500 vendidos', ship: 1, pix: 1, full: 1 },
-    { img: 1, t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', url: 'p/snow-foam-500ml/', p: '19,90', old: '59,90', off: '67% OFF', sold: '+1000 vendidos', ship: 1 },
-    { img: 5, t: 'Mangueira Jardim Flexível Reforçada 30 m Tramontina Verde', url: 'p/mangueira-jardim-tramontina/', p: '29,90', old: '249,90', off: '88% OFF', sold: '+10mil vendidos', ship: 1, full: 1 },
-    { img: 6, t: 'Extensão Elétrica 10 m Reforçada 3 Tomadas 10A/20A Bivolt', url: 'p/extensao-eletrica-10m/', p: '79,90', old: '119,90', off: '33% OFF', sold: '+10mil vendidos', ship: 1 },
-    { img: 7, t: 'Kit Multi Ferramentas 4 em 1 48V Sem Fio com 2 Baterias e Maleta', url: 'p/kit-multi-ferramentas-48v/', p: '59,00', old: '799,00', off: '93% OFF', sold: '+1000 vendidos', ship: 1 },
-    { img: 8, t: 'Kit Ferramentas 46 Peças com Soquetes e Chaves — VLX Vermelho', url: 'p/kit-ferramentas-46-pecas/', p: '39,90', old: '149,90', off: '73% OFF', sold: '+5000 vendidos', ship: 1 }
+    { img: 4, t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', url: 'p/capacete-gta-start-led/', tag: 'Tam. M e G', p: '22,90', old: '139,99', off: '84% OFF', sold: '+5000 vendidos', ship: 1 },
+    { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
+    { img: 6, t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', url: 'p/caixa-de-som-jbl-boombox-4/', p: '394,90', old: '2.469,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 }
   ];
   const ASIDE = [
-    { img: 2, t: 'Kit Lavagem Automotiva Vonixx — V-Floc, Intense, Sintra Fast e Vexus', url: 'p/kit-vonixx-vexus/', p: '27,90', old: '129,90', off: '79% OFF', sold: '+5000 vendidos', ship: 1 },
-    { img: 4, t: 'Mangueira Trama de Aço 10 m WAP Combate Turbo 2600', url: 'p/mangueira-trama-aco-wap/', p: '32,90', old: '279,00', off: '88% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
-    { img: 6, t: 'Extensão Elétrica 10 m Reforçada 3 Tomadas 10A/20A Bivolt', url: 'p/extensao-eletrica-10m/', p: '79,90', old: '119,90', off: '33% OFF', sold: '+10mil vendidos', ship: 1 },
-    { img: 1, t: 'Aplicador Snow Foam para Lavadora de Pressão 500 ml', url: 'p/snow-foam-500ml/', p: '19,90', old: '59,90', off: '67% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 9, t: 'Serra Mármore 4-3/8" 4100NH3Z 1300W Makita', url: 'p/serra-marmore-makita/', p: '23,10', old: '749,00', off: '97% OFF', sold: '+500 vendidos', ship: 1 },
-    { img: 10, t: 'Máquina Inversora de Solda MIG sem Gás 130A 3 em 1 TIG Lift', url: 'p/inversora-solda-mig-130a/', p: '97,76', old: '899,00', off: '89% OFF', sold: '+1000 vendidos', ship: 1 },
-    { img: 11, t: 'Capacete Moto Norisk Razor Preto Brilho — Monocolor', url: 'p/capacete-norisk-razor/', tag: 'Tam. 56', p: '59,30', old: '349,00', off: '83% OFF', sold: '+5000 vendidos', ship: 1 }
+    { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 },
+    { img: 4, t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', url: 'p/capacete-gta-start-led/', tag: 'Tam. M e G', p: '22,90', old: '139,99', off: '84% OFF', sold: '+5000 vendidos', ship: 1 },
+    { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
+    { img: 6, t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', url: 'p/caixa-de-som-jbl-boombox-4/', p: '394,90', old: '2.469,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 }
   ];
   const REVIEWS = [
     { rate: 5, country: 'Brasil', when: "Há 3 semanas", ageDays: 21, likes: 19,
@@ -2255,13 +2240,13 @@
   /* ═══════════════════════════════════════════
      BACK-REDIRECT / EXIT-INTENT
      Trava o botão "voltar" (só no front): re-empurra o history e abre um
-     popup com o combo Lavadora LAV 1300 + 3 brindes.
+     popup com o combo V9 Max + 3 brindes.
      ═══════════════════════════════════════════ */
   const boModal   = document.getElementById('backOfferModal');
-  const GIFT_ITEM = { title: 'Kit Lavagem Automotiva Vonixx (Brinde)', price: 0, qty: 1, img: 'img/relacionados/D_Q_NP_742224-MLA111227614603_052026-F.webp', gift: true };
-  const BACK_FLIP = { title: 'Aplicador Snow Foam 500 ml (Brinde)', price: 0, qty: 1, img: 'img/relacionados/D_Q_NP_639170-MLA103346659433_012026-F-snow-foam-para-lavadora-de-pressao-500ml-e.webp', isBackFlip: true };
+  const GIFT_ITEM = { title: 'Capacete GTA Start LED (Brinde)', price: 0, qty: 1, img: 'img/relacionados/capacete-gta-start-led.webp', gift: true };
+  const BACK_FLIP = { title: 'Carregador 48V 2Ah MBE4015 (Brinde)', price: 0, qty: 1, img: 'img/relacionados/carregador-48v-2ah.webp', isBackFlip: true };
   /* 3º brinde da oferta de saída. Antes eram só dois. */
-  const BACK_GIFT_3 = { title: 'Kit Vonder — Lavadora 1600 + Aspirador APV1010 (Brinde)', price: 0, qty: 1, img: 'img/relacionados/D_Q_NP_904933-MLB100500046395_122025-F-kit-lavadora-1600-e-aspirador-de-po-e-liquido-apv1010-vonder.webp', gift: true };
+  const BACK_GIFT_3 = { title: 'Mini Compressor Rezzet (Brinde)', price: 0, qty: 1, img: 'img/relacionados/mini-compressor-rezzet.webp', gift: true };
   /* preco do back offer = o que esta no painel (Editor da oferta ->
      oferta de saida). Antes era fixo em 59,90 e ignorava o painel: a
      tela prometia um valor e o checkout cobrava outro. */
@@ -2306,7 +2291,7 @@
   /* Aceitou a oferta → monta o combo (2× a R$ 79,90) + brinde e vai DIRETO ao
      checkout (pula o order bump). */
   function acceptBackOffer() {
-    // Combo: a lavadora + snow foam, kit Vonder e kit Vonixx de brinde
+    // Combo: a bike + carregador, capacete e compressor de brinde
     backOffer = { unit: BACK_OFFER_TOTAL, qty: 1 };
     extraItems = extraItems.filter(i => !i.gift && !i.isBackFlip);
     extraItems.push(Object.assign({}, BACK_FLIP));

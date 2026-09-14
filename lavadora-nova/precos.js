@@ -22,19 +22,12 @@ const PRECOS = {
 
   // ---------- PRODUTOS RELACIONADOS ----------
   // a chave é o slug da página /p/<slug>/
-  'snow-foam-500ml':              { de:  59.90, por:  19.90 },
-  'kit-vonixx-vexus':             { de: 129.90, por:  27.90 },
-  'kit-lavadora-aspirador-vonder':{ de:1099.00, por: 127.00 },
-  'mangueira-trama-aco-wap':      { de: 279.00, por:  32.90 },
-  'mangueira-jardim-tramontina':  { de: 249.90, por:    29.90 },
-  'extensao-eletrica-10m':        { de: 119.90, por:  79.90 },
-  'kit-multi-ferramentas-48v':    { de: 799.00, por:    59.00 },
-  'kit-ferramentas-46-pecas':     { de: 149.90, por:     39.90 },
-  'serra-marmore-makita':         { de: 749.00, por:    23.10 },
-  'inversora-solda-mig-130a':     { de: 899.00, por:    97.76 },
-  'capacete-norisk-razor':        { de: 349.00, por:    59.30 },
-  'capacete-norisk-ff302-grand-prix': { de: 649.00, por:    69.70 },
-  'fone-bluetooth-capacete':      { de: 199.90, por:    12.90 },
+  "carregador-48v-2ah"                : { de:   149.90, por:    23.90 },
+  "patinete-eletrico-gm5-p1"          : { de:  1260.00, por:   199.90 },
+  "bicicleta-eletrica-cavalletta-c2"  : { de:  6097.00, por:   979.90 },
+  "capacete-gta-start-led"            : { de:   139.99, por:    22.90 },
+  "mini-compressor-rezzet"            : { de:   119.90, por:    19.90 },
+  "caixa-de-som-jbl-boombox-4"        : { de:  2469.00, por:   394.90 },
 
   // ---------- OFERTA DE SAÍDA ----------
   // popup de quem tenta fechar a página. Deve ser MENOR que o "por" principal.
@@ -43,7 +36,7 @@ const PRECOS = {
   ofertaSaida: {
     por: 229.90,
     // produtos que entram de brinde — o riscado é a soma de tudo
-    brindes: ['snow-foam-500ml', 'kit-lavadora-aspirador-vonder', 'kit-vonixx-vexus'],
+    brindes: ["carregador-48v-2ah", "capacete-gta-start-led", "mini-compressor-rezzet"],
   },
 };
 

@@ -87,7 +87,7 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   ok(headHome.indexOf('TikTok Pixel Code Start') > 0 && headHome.indexOf('window.__TTK_PRODUTO__') < headHome.indexOf('TikTok Pixel Code Start'),
      'home: produto injetado ANTES da base do pixel, dentro do <head>');
   const pp = await (await fetch(B + '/p/snow-foam-500ml')).text();
-  ok(/__TTK_PRODUTO__=\{"sku":"SNOWFOAM-500","nome":"[^"]+","preco":19\.9,"categoria":"Produtos de Limpeza"\}/.test(pp.split('</head>')[0]), '/p/snow-foam-500ml: produto daquela página (SNOWFOAM-500, R$ 19,90, sem marca inventada)');
+  ok(/__TTK_PRODUTO__=\{"sku":"CARREGADOR-48V-2A","nome":"[^"]+","preco":19\.9,"categoria":"Produtos de Limpeza"\}/.test(pp.split('</head>')[0]), '/p/snow-foam-500ml: produto daquela página (CARREGADOR-48V-2A, R$ 19,90, sem marca inventada)');
   ok(/product_brand: ""/.test(pp), '/p/snow-foam-500ml: página estática sem brand inventado');
 
   console.log('\n2) EVENTO DO NAVEGADOR CHEGA NA HORA');
@@ -139,11 +139,11 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   console.log('\n4) PIX GERADO -> PlaceAnOrder com os itens do pedido');
   const itens = [
     { content_id: 'V9MAX-1000W', content_name: 'Lavadora', price: 67.88, quantity: 1, brand: "Inow", content_category: 'Lavadoras de Alta Pressão' },
-    { content_id: 'SNOWFOAM-500',   content_name: 'Snow Foam', price: 19.9, quantity: 1 }
+    { content_id: 'CARREGADOR-48V-2A',   content_name: 'Carregador 48V', price: 19.9, quantity: 1 }
   ];
   const rc = await post('/api/pix/create', {
     value: 96.81, payerCpf: '12345678909', payerName: 'João', payerEmail: 'J@T.com', payerPhone: '(11) 99999-9999',
-    description: 'Lavadora + Snow Foam', product_id: 'V9MAX-1000W', ttkContents: itens, locale: 'pt-BR',
+    description: 'Bike + Carregador', product_id: 'V9MAX-1000W', ttkContents: itens, locale: 'pt-BR',
     customer_type: 'new', ad: { utm_source: 'tiktok', utm_campaign: 'lavadora-01', campaign_id: '1234567890', creative_id: '__CID__' },
     tiktokClickId: 'TTCLID_X', ttp: 'ttp_x', ttkExternalId: 'u1', landingPageUrl: 'https://loja/?ttclid=TTCLID_X'
   });
@@ -153,9 +153,9 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   ok(!!pao, 'PlaceAnOrder entregue');
   if (pao) {
     ok(pao.event_id === 'pao-venda-uuid-9', 'event_id = pao-<txid> (o mesmo do pixel)');
-    ok(pao.properties.contents.length === 2 && pao.properties.contents[1].content_id === 'SNOWFOAM-500', 'contents com os 2 SKUs do pedido');
+    ok(pao.properties.contents.length === 2 && pao.properties.contents[1].content_id === 'CARREGADOR-48V-2A', 'contents com os 2 SKUs do pedido');
     ok(pao.properties.contents[0].brand === 'Inow' && pao.properties.contents[0].content_category === 'Lavadoras de Alta Pressão', 'brand e content_category no item do catálogo');
-    ok(JSON.stringify(pao.properties.content_ids) === '["V9MAX-1000W","SNOWFOAM-500"]' && pao.properties.num_items === 2, 'content_ids no topo (VSA) e num_items');
+    ok(JSON.stringify(pao.properties.content_ids) === '["V9MAX-1000W","CARREGADOR-48V-2A"]' && pao.properties.num_items === 2, 'content_ids no topo (VSA) e num_items');
     ok(pao.properties.customer_type === 'new', 'customer_type = new na primeira compra');
     ok(pao.ad && pao.ad.utm_campaign === 'lavadora-01' && pao.ad.campaign_id === '1234567890' && pao.ad.creative_id === undefined, 'objeto ad: utm_campaign e campaign_id numerico; macro nao substituida ignorada');
     ok(typeof pao.page.url === 'string' && pao.page.url.startsWith('https://loja/'), 'page.url = URL da venda');

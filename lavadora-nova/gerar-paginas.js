@@ -83,9 +83,11 @@ function gerar(slug) {
     + '<base href="../../">');
 
   // 2) conteudo do produto embutido: dispensa /api/offer.json
-  html = html.replace('<script>\nwindow.OFFER = null;',
-    '<script>window.__OFFER_ESTATICO__ = ' + dados + ';</script>\n'
-    + ANCORA + '\n<script>\nwindow.OFFER = null;');
+  // o marcador pode estar indentado no index.html
+  html = html.replace(/<script>\s*\n(\s*)window\.OFFER = null;/,
+    (m, ind) => '<script>window.__OFFER_ESTATICO__ = ' + dados + ';</script>\n'
+    + ANCORA + '\n<script>\n' + ind + 'window.OFFER = null;');
+  if (html.indexOf('__OFFER_ESTATICO__ =') < 0) throw new Error('marcador window.OFFER = null nao encontrado no index.html');
 
   /* O index.html tem <img> com a foto do produto principal cravada no
      HTML (palco, miniaturas do checkout, seguro, combo da oferta de

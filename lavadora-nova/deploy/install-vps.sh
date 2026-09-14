@@ -110,10 +110,13 @@ if [[ $SO_IP == 0 ]]; then
   sudo -u loja bash -c "cd '$DIR' && SITE_URL=https://$DOMINIO node gerar-paginas.js >/dev/null" && echo "    metas absolutas em https://$DOMINIO"
 fi
 
-echo "==> 5/7 serviço systemd"
+echo "==> 5/7 serviço systemd (+ auto-atualização a cada 3 min)"
 cp "$DIR/deploy/lavadora.service" /etc/systemd/system/lavadora.service
+cp "$DIR/deploy/lavadora-update.service" /etc/systemd/system/lavadora-update.service
+cp "$DIR/deploy/lavadora-update.timer"   /etc/systemd/system/lavadora-update.timer
 systemctl daemon-reload
 systemctl enable -q lavadora
+systemctl enable -q --now lavadora-update.timer
 
 echo "==> 6/7 nginx"
 sed "s/SEU_DOMINIO/$DOMINIO/g" "$DIR/deploy/nginx.conf" > /etc/nginx/sites-available/lavadora
@@ -133,14 +136,13 @@ elif [[ ! -d "/etc/letsencrypt/live/$DOMINIO" ]]; then
 fi
 
 echo
+systemctl restart lavadora
 if [[ -n "$FALTA" ]]; then
   echo "#############################################################"
-  echo "  FALTA PREENCHER no nerva/.env:$FALTA"
-  echo "     sudo nano $DIR/nerva/.env"
-  echo "  Depois:  sudo systemctl restart lavadora"
+  echo "  A loja esta no ar, mas o PAGAMENTO fica desligado ate cadastrar:$FALTA"
+  echo "  Cadastre no painel (/admin > Rastreamento > Nerva) ou em:"
+  echo "     sudo nano $DIR/nerva/.env   e depois   sudo systemctl restart lavadora"
   echo "#############################################################"
-else
-  systemctl restart lavadora
 fi
 echo "  Token do painel (ADMIN_TOKEN): $(grep '^ADMIN_TOKEN=' "$DIR/nerva/.env" | cut -d= -f2)"
 sleep 2

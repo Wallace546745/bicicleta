@@ -14,6 +14,7 @@ GITHUB_TOKEN=""                       # só se o repositório for privado (token
 # segredos do backend (podem ser colocados depois em /var/www/bicicleta/lavadora-nova/nerva/.env)
 NERVA_API_KEY=""
 NERVA_WEBHOOK_SECRET=""
+ADMIN_TOKEN=""                        # senha do painel /admin (vazio = o instalador gera uma e imprime no log)
 TIKTOK_PIXEL_ID="DAJVT3RC77UES9752NLG"
 TIKTOK_ACCESS_TOKEN=""
 
@@ -28,5 +29,5 @@ else
 fi
 # Sem DNS apontado ainda o certbot falha e o script avisa; basta rodar de novo
 # (sudo bash /root/install-vps.sh SEU_DOMINIO) depois que o A record propagar.
-export EMAIL_CERT GITHUB_TOKEN NERVA_API_KEY NERVA_WEBHOOK_SECRET TIKTOK_PIXEL_ID TIKTOK_ACCESS_TOKEN
+export EMAIL_CERT GITHUB_TOKEN NERVA_API_KEY NERVA_WEBHOOK_SECRET ADMIN_TOKEN TIKTOK_PIXEL_ID TIKTOK_ACCESS_TOKEN
 bash /root/install-vps.sh "$DOMINIO" > /var/log/instalacao-loja.log 2>&1 || true

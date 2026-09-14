@@ -52,6 +52,7 @@ sed -e "s/^DOMINIO=\"SEU_DOMINIO\"/DOMINIO=\"$DOMINIO\"/" \
     -e "s/^GITHUB_TOKEN=\"\"/GITHUB_TOKEN=\"${GITHUB_TOKEN:-}\"/" \
     -e "s/^NERVA_API_KEY=\"\"/NERVA_API_KEY=\"${NERVA_API_KEY:-}\"/" \
     -e "s/^NERVA_WEBHOOK_SECRET=\"\"/NERVA_WEBHOOK_SECRET=\"${NERVA_WEBHOOK_SECRET:-}\"/" \
+    -e "s/^ADMIN_TOKEN=\"\"/ADMIN_TOKEN=\"${ADMIN_TOKEN:-}\"/" \
     -e "s/^TIKTOK_ACCESS_TOKEN=\"\"/TIKTOK_ACCESS_TOKEN=\"${TIKTOK_ACCESS_TOKEN:-}\"/" \
     "$AQUI/ec2-user-data.sh" > "$USERDATA"
 ID=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$NOME Name=instance-state-name,Values=running,pending \

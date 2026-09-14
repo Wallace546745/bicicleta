@@ -27,7 +27,10 @@ const FALLBACK = {
   /* app do TikTok for Business: liga a conta pelo botao Conectar (OAuth) */
   tiktokAppId:         process.env.TIKTOK_APP_ID         || '',
   tiktokAppSecret:     process.env.TIKTOK_APP_SECRET     || '',
-  postPaymentUrl:      process.env.POST_PAYMENT_URL || ''
+  postPaymentUrl:      process.env.POST_PAYMENT_URL || '',
+  /* gateway de pagamento: podem vir do .env ou ser cadastradas no painel */
+  nervaApiKey:         process.env.NERVA_API_KEY        || '',
+  nervaWebhookSecret:  process.env.NERVA_WEBHOOK_SECRET || ''
 };
 const KEYS = Object.keys(FALLBACK);
 
@@ -75,7 +78,10 @@ function adminView() {
     tiktokAdsTokenSet:     !!s.tiktokAdsToken,
     tiktokAdsTokenMask:    mask(s.tiktokAdsToken),
     tiktokAppId:           s.tiktokAppId,
-    tiktokAppSecretSet:    !!s.tiktokAppSecret
+    tiktokAppSecretSet:    !!s.tiktokAppSecret,
+    nervaApiKeySet:        !!s.nervaApiKey,
+    nervaApiKeyMask:       mask(s.nervaApiKey),
+    nervaWebhookSecretSet: !!s.nervaWebhookSecret
   };
 }
 
@@ -97,6 +103,9 @@ function save(patch) {
   if (typeof patch.tiktokAppSecret === 'string') {
     const t = patch.tiktokAppSecret.trim();
     if (t && !/^[•]/.test(t)) next.tiktokAppSecret = t;
+  }
+  for (const k of ['nervaApiKey', 'nervaWebhookSecret']) {
+    if (typeof patch[k] === 'string') { const t = patch[k].trim(); if (t && !/^[•]/.test(t)) next[k] = t; }
   }
   store = next;
   try { fs.writeFileSync(FILE, JSON.stringify(store, null, 2)); }

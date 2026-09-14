@@ -33,15 +33,19 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 const NERVA_BASE    = process.env.NERVA_BASE_URL || 'https://pixnerva.com.br/api';
-const NERVA_KEY     = process.env.NERVA_API_KEY;             // sk_live_...
-const WEBHOOK_SECRET= process.env.NERVA_WEBHOOK_SECRET;      // signing secret do painel
+/* Chave da API e secret do webhook vêm das configurações (nerva/.env OU o
+   painel admin > Rastreamento). Lidos a cada uso: cadastrar no painel vale
+   na hora, sem reiniciar. */
+const nervaKey      = () => (settings.get().nervaApiKey || '').trim();
+const webhookSecret = () => (settings.get().nervaWebhookSecret || '').trim();
 const PUBLIC_URL    = process.env.PUBLIC_URL || '';          // ex: https://api.suaoferta.com
 const ALLOWED_ORIGIN= process.env.ALLOWED_ORIGIN || '*';     // domínio da loja
 
-if (!NERVA_KEY) {
-  console.error('FALTA NERVA_API_KEY no ambiente. Abortando.');
-  process.exit(1);
-}
+/* Sem a chave o servidor SOBE mesmo assim: loja, pixels, painel e preços
+   funcionam; só a geração do Pix responde 503 até a chave ser cadastrada.
+   Antes ele abortava, e a loja inteira ficava fora do ar por falta de uma
+   linha no .env. */
+if (!nervaKey()) console.warn('[nerva] sem NERVA_API_KEY: pagamentos desligados até cadastrar a chave no painel (Rastreamento) ou no nerva/.env.');
 
 /* body raw preservado: a assinatura HMAC é sobre o corpo cru */
 app.use(express.json({
@@ -74,7 +78,9 @@ const clientIp = req =>
   req.socket.remoteAddress || '';
 
 async function nerva(path, { method = 'GET', body, idempotencyKey } = {}) {
-  const headers = { 'x-api-key': NERVA_KEY };
+  const key = nervaKey();
+  if (!key) { const e = new Error('Pagamento indisponível: falta a chave da Nerva no servidor.'); e.status = 503; throw e; }
+  const headers = { 'x-api-key': key };
   if (body) headers['Content-Type'] = 'application/json';
   if (idempotencyKey) headers['idempotency-key'] = idempotencyKey;
 
@@ -112,6 +118,9 @@ const novaChave = fp => `lav1300-${fp.slice(0, 8)}-${Date.now().toString(36)}`;
 /* ---------------- CRIAR PIX ---------------- */
 app.post('/api/pix/create', async (req, res) => {
   const b = req.body || {};
+  if (!nervaKey()) {
+    return res.status(503).json({ ok: false, error: 'Pagamento temporariamente indisponível. Tente de novo em alguns minutos.' });
+  }
   try {
     let amount = Number(b.value);
     /* O valor que o navegador manda não é a palavra final. Quando o pedido
@@ -432,6 +441,7 @@ app.post('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
 
 /* ---------------- WEBHOOK ---------------- */
 function verifySignature(req) {
+  const WEBHOOK_SECRET = webhookSecret();
   if (!WEBHOOK_SECRET) return false;
   const timestamp = req.headers['x-pixnerva-timestamp'];
   const signature = req.headers['x-pixnerva-signature'];
@@ -520,7 +530,7 @@ const LAV_RE = /v9\s?max|bicicleta|bike|patinete|cavalletta|capacete|compressor|
 const RECON_MAX_AGE = 3 * 86400e3;                 // só últimos 3 dias
 let reconciling = false;
 async function reconcileFromNerva() {
-  if (reconciling) return;
+  if (reconciling || !nervaKey()) return;
   reconciling = true;
   let added = 0, healed = 0, scanned = 0;
   try {

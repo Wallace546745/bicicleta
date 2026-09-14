@@ -468,6 +468,10 @@ tbody tr:hover{background:var(--surface-2)}
           <label>Pixel do TikTok<input id="pfTk" type="text" placeholder="ex.: DAJVT3RC77UES9752NLG" autocomplete="off"></label>
           <label>TikTok Access Token <span class="hint">(secreto — nunca volta para esta tela)</span><input id="pfTok" type="password" placeholder="colar novo token (em branco = manter)" autocomplete="off"></label>
           <div id="pfTokState" class="hint"></div>
+          <label>Chave da Nerva (API Key) <span class="hint">(pagamento Pix — secreta, nunca volta para esta tela)</span><input id="pfNerva" type="password" placeholder="sk_live_… (em branco = manter)" autocomplete="off"></label>
+          <div id="pfNervaState" class="hint"></div>
+          <label>Webhook secret da Nerva <span class="hint">(whsec_… — confirma o pagamento)</span><input id="pfNervaWh" type="password" placeholder="whsec_… (em branco = manter)" autocomplete="off"></label>
+          <div id="pfNervaWhState" class="hint"></div>
           <label>Test Event Code <span class="hint">(opcional — só para testar)</span><input id="pfTest" type="text" placeholder="em branco = produção" autocomplete="off"></label>
           <div><button id="pfSave" class="btn-primary">Salvar</button></div>
         </div>
@@ -1574,10 +1578,13 @@ async function loadPixCfg(){
   try{ const c=await api('/api/admin/pixel-config'); if(!c)return;
     $('#pfMeta').value=c.metaPixelId||''; $('#pfTk').value=c.tiktokPixelId||''; $('#pfTest').value=c.tiktokTestEventCode||''; $('#pfTok').value='';
     $('#pfTokState').textContent=c.tiktokAccessTokenSet?('Token atual: '+c.tiktokAccessTokenMask+' — em branco mantém.'):'Nenhum token salvo — Events API desligado até você colar um.';
+    $('#pfNerva').value=''; $('#pfNervaWh').value='';
+    $('#pfNervaState').textContent=c.nervaApiKeySet?('Chave atual: '+c.nervaApiKeyMask+' — em branco mantém.'):'SEM CHAVE — o Pix não é gerado até cadastrar.';
+    $('#pfNervaWhState').textContent=c.nervaWebhookSecretSet?'Secret cadastrado — em branco mantém.':'Sem secret — a confirmação automática do pagamento não funciona.';
   }catch(e){ if(e.auth) gate(true); }
 }
 async function savePixCfg(){
-  const msg=$('#pixMsg'); const body={metaPixelId:$('#pfMeta').value.trim(),tiktokPixelId:$('#pfTk').value.trim(),tiktokTestEventCode:$('#pfTest').value.trim(),tiktokAccessToken:$('#pfTok').value};
+  const msg=$('#pixMsg'); const body={metaPixelId:$('#pfMeta').value.trim(),tiktokPixelId:$('#pfTk').value.trim(),tiktokTestEventCode:$('#pfTest').value.trim(),tiktokAccessToken:$('#pfTok').value,nervaApiKey:$('#pfNerva').value,nervaWebhookSecret:$('#pfNervaWh').value};
   try{
     const r=await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(!r.ok) throw new Error('HTTP '+r.status); await r.json();

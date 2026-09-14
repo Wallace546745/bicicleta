@@ -1,0 +1,10 @@
+[Unit]
+Description=Checa o GitHub a cada 3 minutos e atualiza a loja se houver commit novo
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=3min
+Unit=lavadora-update.service
+
+[Install]
+WantedBy=timers.target

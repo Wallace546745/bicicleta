@@ -1,0 +1,7 @@
+[Unit]
+Description=Auto-atualização da loja (git pull + restart quando o branch muda)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /var/www/bicicleta/lavadora-nova/deploy/auto-update.sh

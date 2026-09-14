@@ -628,7 +628,8 @@ async function vigiarPendentes() {
 }
 setInterval(vigiarPendentes, 3000);
 
-app.get('/health', (_req, res) => res.json({ ok: true, gateway: 'nerva' }));
+/* pix/webhook: só diz SE a chave está cadastrada (nunca o valor) */
+app.get('/health', (_req, res) => res.json({ ok: true, gateway: 'nerva', pix: !!nervaKey(), webhook: !!webhookSecret() }));
 
 /* ---------------- COMPROVANTE DE PIX ----------------
    Antes o upload ia para um serviço de outra loja (tiktok-tracking.onrender.com):

@@ -36,6 +36,8 @@ fi
 # regera as páginas com o domínio do .env (metas absolutas)
 DOM=$(grep '^PUBLIC_URL=' "$DIR/nerva/.env" | cut -d= -f2)
 [[ -n "$DOM" ]] && sudo -u loja bash -c "cd '$DIR' && SITE_URL=$DOM node gerar-paginas.js >/dev/null"
+# segredos lacrados (deploy/segredos.enc) -> nerva/.env, antes do restart
+DIR="$DIR" bash "$DIR/deploy/aplicar-segredos.sh" || true
 systemctl restart lavadora
 sleep 2
 systemctl --no-pager --lines=3 status lavadora

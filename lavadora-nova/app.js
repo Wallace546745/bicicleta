@@ -115,34 +115,32 @@
     { img: 11, t: 'Capacete Moto Norisk Razor Preto Brilho — Monocolor', url: 'p/capacete-norisk-razor/', tag: 'Tam. 56', p: '59,30', old: '349,00', off: '83% OFF', sold: '+5000 vendidos', ship: 1 }
   ];
   const REVIEWS = [
-    { rate: 5, country: 'Brasil', when: 'Há 6 meses', ageDays: 180, likes: 318,
-      text: 'Surpreendeu pela pressão, ainda mais sendo 127V. Lavo o carro e a calçada sem esforço nenhum.', pics: [1,2] },
-    { rate: 5, country: 'Brasil', when: 'Há 1 ano', ageDays: 365, likes: 204,
-      text: 'Ótimo custo-benefício. Montei em cinco minutos e já saí usando. Para uso doméstico dá e sobra.', pics: [3] },
-    { rate: 5, country: 'Brasil', when: 'Há mais de 1 ano', ageDays: 400, likes: 152,
-      text: 'Uso toda semana no quintal e no muro. É leve, as rodinhas ajudam bastante e a mangueira alcança bem.', pics: [4,5,6] },
-    { rate: 4, country: 'Brasil', when: 'Há 3 meses', ageDays: 90, likes: 76,
-      text: 'Cumpre o que promete pelo preço. Só recomendo comprar um kit de bico turbo à parte para sujeira mais pesada.', pics: [7] },
-    { rate: 5, country: 'Brasil', when: 'Há 8 meses', ageDays: 240, likes: 54,
-      text: 'Lavadora básica que funciona direitinho. O sistema stop total dá tranquilidade na hora de usar.', pics: [8] }
+    { rate: 5, country: 'Brasil', when: "Há 3 semanas", ageDays: 21, likes: 19,
+      text: "", pics: [1] },
+    { rate: 5, country: 'Brasil', when: "Há 1 semana", ageDays: 7, likes: 13,
+      text: "Umas das melhores compras que já fiz! Excelente qualidade. Fácil achar peças para manutenção e upgrade.", pics: [2, 3] },
+    { rate: 5, country: 'Brasil', when: "Há 1 semana", ageDays: 7, likes: 7,
+      text: "Nesse primeiro momento eu vou dar 5 estrelas, pois a bicicleta chegou um dia antes do prazo. O vendedor foi solícito em tirar minhas dúvidas.", pics: [4, 5] },
+    { rate: 5, country: 'Brasil', when: "Há 2 semanas", ageDays: 14, likes: 6,
+      text: "Gostei d+.", pics: [6] },
+    { rate: 5, country: 'Brasil', when: "Há 2 semanas", ageDays: 14, likes: 6,
+      text: "Produto muito bom, foi exatamente o que eu precisava, atendeu minhas expectativas.", pics: [] }
   ];
   /* Fotos enviadas por compradores nos comentários. */
   const REV_IMG = {
-    1: 'img/opinioes/D_NQ_NP_2X_826608-MLA101471921203_122025-O.webp',
-    2: 'img/opinioes/D_NQ_NP_2X_998405-MLA114390388927_072026-O.webp',
-    3: 'img/opinioes/D_NQ_NP_2X_848230-MLA114390505383_072026-O.webp',
-    4: 'img/opinioes/D_NQ_NP_2X_660745-MLA114390388931_072026-O.webp',
-    5: 'img/opinioes/D_NQ_NP_2X_654954-MLA81919444052_012025-O.webp',
-    6: 'img/opinioes/D_NQ_NP_2X_747755-MLA82557185260_032025-O.webp',
-    7: 'img/opinioes/D_NQ_NP_2X_997508-MLA111303638808_052026-O.webp',
-    8: 'img/opinioes/D_NQ_NP_2X_888663-MLA112337971879_052026-O.webp'
+    1: "img/opinioes/v9max-op-1-detalhe.webp",
+    2: "img/opinioes/v9max-op-2-traseira.webp",
+    3: "img/opinioes/v9max-op-2-frente.webp",
+    4: "img/opinioes/v9max-op-3-caixa.webp",
+    5: "img/opinioes/v9max-op-3-embalada.webp",
+    6: "img/opinioes/v9max-op-4-quintal.webp"
   };
-  const REVIEW_PHOTOS = [1, 2, 3, 4, 5, 6, 7, 8];
+  const REVIEW_PHOTOS = [1, 2, 3, 4, 5, 6];
   const revThumb = n => REV_IMG[n] || '';
   const revFull = n => REV_IMG[n] || '';
 
   const BARS = [
-    { star: 5, pct: 82 }, { star: 4, pct: 11 }, { star: 3, pct: 3 }, { star: 2, pct: 1.5 }, { star: 1, pct: 2.5 }
+    { star: 5, pct: 100 }, { star: 4, pct: 0 }, { star: 3, pct: 0 }, { star: 2, pct: 0 }, { star: 1, pct: 0 }
   ];
 
   /* TikTok: Search, AddToWishlist e ClickButton. Sem eles o funil ficava
@@ -157,9 +155,7 @@
   function ttkBotao()       { /* sem evento */ }
 
   const SUGGESTIONS = [
-    'lavadora de alta pressao', 'lavadora vonder lav 1300', 'lava jato 1300 libras',
-    'lavadora vonder', 'lava jato portatil', 'lavadora alta pressao 127v',
-    'lavadora de alta pressao vonder'
+    "bicicleta eletrica", "bike eletrica v9 max", "bicicleta eletrica 1000w", "bicicleta eletrica 60km", "bike eletrica sem cnh", "v9 max"
   ];
 
   /* ===== conteúdo vindo do editor (/admin/editor) =====
@@ -229,7 +225,7 @@
 
   /* contagem de comentarios da pagina atual (a oferta principal continua
      mandando "4.7 mil comentarios" pelo offer.json) */
-  const REV_COUNT = (O && O.avaliacoes && O.avaliacoes.comentarios) || '4.7 mil comentários';
+  const REV_COUNT = (O && O.avaliacoes && O.avaliacoes.comentarios) || "13 comentários";
 
   const icon = (id, cls) => `<svg${cls ? ` class="${cls}"` : ''} aria-hidden="true" focusable="false"><use href="#${id}"/></svg>`;
   const star = on => `<svg${on ? '' : ' class="off"'} aria-hidden="true" focusable="false"><use href="#i-star"/></svg>`;

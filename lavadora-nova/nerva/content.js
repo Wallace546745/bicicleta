@@ -28,8 +28,8 @@ const DEFAULT = {
     vendidos: '+5 mil vendidos',
     badge: 'Mais vendido',
     badgeLink: "1º em Bicicletas Elétricas",
-    nota: '4.7',
-    avaliacoes: '1.312',
+    nota: "5.0",
+    avaliacoes: "18",
     categoria: ["Esportes e Fitness", "Ciclismo", "Bicicletas", "Bicicletas Elétricas"]
   },
   preco: {
@@ -124,14 +124,14 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     { k: "Garantia", v: "6 meses de garantia de fábrica" }
   ],
   avaliacoes: {
-    resumoIA: 'A lavadora é elogiada pela boa pressão para o tamanho e pelo custo-benefício. Os compradores destacam a facilidade de montar e usar, e mencionam que ela dá conta de carro, calçada e quintal sem dificuldade.',
-    comentarios: '598 comentários',
+    resumoIA: "Os compradores elogiam a qualidade da bicicleta e dizem que ela atendeu às expectativas. Destacam a entrega antes do prazo, o vendedor atencioso para tirar dúvidas e a facilidade de encontrar peças para manutenção e upgrade.",
+    comentarios: "13 comentários",
     lista: [
-      { nota: 5, pais: 'Brasil', quando: 'Há 6 meses', likes: 318, texto: 'Surpreendeu pela pressão, ainda mais sendo 127V. Lavo o carro e a calçada sem esforço nenhum.', fotos: ['img/opinioes/D_NQ_NP_2X_826608-MLA101471921203_122025-O.webp','img/opinioes/D_NQ_NP_2X_998405-MLA114390388927_072026-O.webp'] },
-      { nota: 5, pais: 'Brasil', quando: 'Há 1 ano', likes: 204, texto: 'Ótimo custo-benefício. Montei em cinco minutos e já saí usando. Para uso doméstico dá e sobra.', fotos: ['img/opinioes/D_NQ_NP_2X_848230-MLA114390505383_072026-O.webp'] },
-      { nota: 5, pais: 'Brasil', quando: 'Há mais de 1 ano', likes: 152, texto: 'Uso toda semana no quintal e no muro. É leve, as rodinhas ajudam bastante e a mangueira alcança bem.', fotos: ['img/opinioes/D_NQ_NP_2X_660745-MLA114390388931_072026-O.webp','img/opinioes/D_NQ_NP_2X_654954-MLA81919444052_012025-O.webp','img/opinioes/D_NQ_NP_2X_747755-MLA82557185260_032025-O.webp'] },
-      { nota: 4, pais: 'Brasil', quando: 'Há 3 meses', likes: 76, texto: 'Cumpre o que promete pelo preço. Só recomendo comprar um kit de bico turbo à parte para sujeira mais pesada.', fotos: ['img/opinioes/D_NQ_NP_2X_997508-MLA111303638808_052026-O.webp'] },
-      { nota: 5, pais: 'Brasil', quando: 'Há 8 meses', likes: 54, texto: 'Lavadora básica que funciona direitinho. O sistema stop total dá tranquilidade na hora de usar.', fotos: ['img/opinioes/D_NQ_NP_2X_888663-MLA112337971879_052026-O.webp'] }
+      { nota: 5, pais: 'Brasil', quando: "Há 3 semanas", likes: 19, texto: "", fotos: ["img/opinioes/v9max-op-1-detalhe.webp"] },
+      { nota: 5, pais: 'Brasil', quando: "Há 1 semana", likes: 13, texto: "Umas das melhores compras que já fiz! Excelente qualidade. Fácil achar peças para manutenção e upgrade.", fotos: ["img/opinioes/v9max-op-2-traseira.webp", "img/opinioes/v9max-op-2-frente.webp"] },
+      { nota: 5, pais: 'Brasil', quando: "Há 1 semana", likes: 7, texto: "Nesse primeiro momento eu vou dar 5 estrelas, pois a bicicleta chegou um dia antes do prazo. O vendedor foi solícito em tirar minhas dúvidas.", fotos: ["img/opinioes/v9max-op-3-caixa.webp", "img/opinioes/v9max-op-3-embalada.webp"] },
+      { nota: 5, pais: 'Brasil', quando: "Há 2 semanas", likes: 6, texto: "Gostei d+.", fotos: ["img/opinioes/v9max-op-4-quintal.webp"] },
+      { nota: 5, pais: 'Brasil', quando: "Há 2 semanas", likes: 6, texto: "Produto muito bom, foi exatamente o que eu precisava, atendeu minhas expectativas.", fotos: [] }
     ]
   },
   relacionados: [

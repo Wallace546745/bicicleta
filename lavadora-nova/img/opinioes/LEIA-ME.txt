@@ -1,28 +1,14 @@
-FOTOS DAS OPINIOES — enviadas por compradores
+FOTOS DAS OPINIOES — Bicicleta Eletrica V9 Max
 ==============================================
 
-8 fotos, servidas do proprio site. Foram enviadas 11, mas 3 eram
-duplicatas (arquivos com sufixo __1_).
+6 fotos enviadas por compradores no anuncio do Mercado Livre
+(recortadas das capturas de tela do anuncio).
 
-  826608-...  caixa fechada sobre a mesa
-  998405-...  caixa com a etiqueta de envio
-  848230-...  caixa aberta, cabos e acessorios
-  660745-...  embalagem plastica dos acessorios
-  654954-...  lavadora montada no quintal
-  747755-...  lavadora no piso, mangueira enrolada
-  997508-...  lanca lavando o piso
-  888663-...  lavadora ligada na mangueira amarela
+  v9max-op-1-detalhe.webp    opiniao 1 — detalhe da roda e banco
+  v9max-op-2-traseira.webp   opiniao 2 — traseira com lanterna acesa
+  v9max-op-2-frente.webp     opiniao 2 — frente com farol aceso
+  v9max-op-3-caixa.webp      opiniao 3 — caixa lacrada
+  v9max-op-3-embalada.webp   opiniao 3 — bicicleta embalada
+  v9max-op-4-quintal.webp    opiniao 4 — bicicleta no quintal
 
-DISTRIBUICAO NAS OPINIOES
-  opiniao 1 -> fotos 1 e 2
-  opiniao 2 -> foto 3
-  opiniao 3 -> fotos 4, 5 e 6
-  opiniao 4 -> foto 7
-  opiniao 5 -> foto 8
-
-Todas aparecem tambem na faixa "Opinioes com fotos", no topo da secao.
-
-PARA MUDAR
-  app.js            -> REV_IMG (arquivos) e REVIEWS[].pics (distribuicao)
-  nerva/content.js  -> avaliacoes.lista[].fotos
-Depois rode: node gerar-paginas.js
+Onde editar: app.js (REVIEWS / REV_IMG) e nerva/content.js (avaliacoes.lista).

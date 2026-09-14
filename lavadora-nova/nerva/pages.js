@@ -339,32 +339,42 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
       vendidos: "+5000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Acessórios para Veículos", "Ferramentas para Veículos", "Compressores de Ar"]
     },
-    preco: { de: 119.9, por: 19.9, off: '83% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    preco: { de: 119.9, por: 22.6, off: '81% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
     fotos: ["img/relacionados/mini-compressor-rezzet.webp"],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/mini-compressor-rezzet.webp' }] },
-    bullets: ["Enche pneus de carro, bicicleta, moto e bolas.", "Display digital com calibrador: escolha a pressão e ele para sozinho.", "Bateria interna de 2.000 mAh, recarrega por USB-C.", "Cabe na mochila: 15 x 9,5 x 7,2 cm.", "Lanterna LED para emergências à noite."],
-    descricao: `MINI COMPRESSOR DIGITAL REZZET — PORTÁTIL, COM CALIBRADOR
+    bullets: [
+      'Enche e calibra pneus de carro, moto, bicicleta, scooter e bolas.',
+      'Display digital em PSI ou BAR: escolha a pressão e ele desliga sozinho ao chegar nela.',
+      'Bateria interna de 2.000 mAh com recarga por USB-C, ou ligado na tomada 12V do carro.',
+      '6 modos: livre, bike, moto, carro, scooter e bola.',
+      'Inclui adaptadores para válvulas diferentes, agulha para bolas e bico para boias.',
+      'Cabe na mochila ou no porta-luvas: 15 x 9,5 x 7,2 cm, com lanterna LED.'
+    ],
+    descricao: `MINI COMPRESSOR DIGITAL REZZET — PORTÁTIL, COM CALIBRADOR DE PRECISÃO
 
-Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, encaixe o bico e ele para sozinho quando chega no valor.
+Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, em PSI ou BAR, encaixe o bico e ele para sozinho quando chega no valor: sem risco de encher demais e superaquecer o pneu.
 
-Tem modos pré-configurados para carro, bicicleta, moto e bola, e a vazão de 25 litros por minuto enche o pneu de uma bike em poucos segundos. A bateria de 2.000 mAh recarrega por USB-C, no mesmo cabo do celular.
+Tem 6 modos pré-configurados, livre, bike, moto, carro, scooter e bola, e a vazão de 25 litros por minuto enche o pneu de uma bike em poucos segundos. A bateria de 2.000 mAh recarrega por USB-C, no mesmo cabo do celular, e o aparelho também pode ser ligado na tomada 12V do carro, o acendedor de cigarro, para não depender da carga.
 
 Com 15 x 9,5 x 7,2 cm, cabe na mochila ou no porta-luvas. A lanterna LED integrada ajuda a trocar ou encher um pneu no escuro.
 
 CONTEÚDO DA EMBALAGEM
-1 mini compressor Rezzet, 1 mangueira de 0,5 m, 1 cabo USB-C de 0,8 m e bicos adaptadores.
+1 mini compressor Rezzet, 1 mangueira de 0,5 m, 1 cabo USB-C de 0,8 m, adaptadores para válvulas de carro e bike, agulha para bolas e bico para boias e infláveis.
 
-Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
+Aviso: preço ainda precisa ser conferido no anúncio.`,
     specs: [
       { k: 'Marca', v: 'Rezzet' },
       { k: 'Potência', v: '120 W' },
       { k: 'Corrente', v: '10A' },
       { k: 'Vazão de ar', v: '25 L/min' },
+      { k: 'Unidades de pressão', v: 'PSI e BAR' },
+      { k: 'Modos', v: 'Livre, bike, moto, carro, scooter e bola' },
+      { k: 'Desligamento automático', v: 'Sim, ao atingir a pressão escolhida' },
       { k: 'Bateria', v: '2.000 mAh' },
-      { k: 'Alimentação', v: 'USB-C, 5V' },
-      { k: 'Modos', v: 'Carro, bicicleta, moto e bola' },
+      { k: 'Alimentação', v: 'USB-C 5V ou tomada 12V do veículo' },
       { k: 'Display', v: 'Digital com calibrador' },
       { k: 'Lanterna', v: 'LED integrada' },
+      { k: 'Adaptadores', v: 'Válvulas de carro e bike, agulha para bolas e bico para infláveis' },
       { k: 'Mangueira', v: '0,5 m' },
       { k: 'Cabo', v: '0,8 m' },
       { k: 'Dimensões', v: '15 x 9,5 x 7,2 cm' },
@@ -385,7 +395,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     bump: "sem-compressor",
     seo: {
       title: 'Mini Compressor Digital Rezzet — Bomba de Encher Pneus Portátil com Calibrador para Carro, Bicicleta e Moto | Domus',
-      description: 'Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, encaixe o bic',
+      description: 'Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, em PSI ou BAR',
       buscas: ["mini compressor portatil", "compressor de ar rezzet", "bomba de encher pneu digital"]
     }
   },
@@ -455,15 +465,15 @@ const BUMPS = {
   "acess": [
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
     { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
-    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-carregador": [
     { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
-    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-capacete": [
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
-    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-compressor": [
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },

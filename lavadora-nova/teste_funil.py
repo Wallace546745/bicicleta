@@ -44,7 +44,7 @@ class H(http.server.SimpleHTTPRequestHandler):
                             'qrCode': '00020101021226580014br.gov.bcb.pix...',
                             'base64QrCode': 'https://exemplo/qr.png',
                             'purchaseEventId': EVENTID_SERVIDOR,
-                            'externalId': 'lav1300-abc', 'transactionId': 'gw_tx_1', 'status': 'pending'})
+                            'externalId': 'v9max-abc', 'transactionId': 'gw_tx_1', 'status': 'pending'})
         return self._j({'ok': True})
 
 socketserver.TCPServer.allow_reuse_address = True

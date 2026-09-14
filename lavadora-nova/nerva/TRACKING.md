@@ -86,3 +86,25 @@ sinal de que a dedup está saindo do lugar.
 - **Paridade** por evento.
 
 Confira `GET /api/admin/tracking?token=SEU_TOKEN` a qualquer momento.
+
+## Dados só desta loja (nada compartilhado com outras lojas)
+
+Cada loja tem os seus próprios pixels, o seu próprio painel e os seus próprios
+arquivos. Nada daqui é somado aos dados de outra loja:
+
+- **Pixel do Meta**: não existe id fixo no HTML. Vem só do painel
+  (`/admin` → Rastreamento → "Pixel do Meta"). Em branco, o `fbq` nem carrega.
+  O servidor injeta o id na home, nas páginas `/p/<produto>` e na presell
+  (`anti.html`), inclusive o `<noscript>`.
+- **Pixel do TikTok**: idem, pelo painel (`DAJVT3RC77UES9752NLG` é o desta loja).
+- **Chave da oferta**: `v9max` (era `lav1300`, da lavadora). É o `offer`/`funnel`
+  dos pings do funil e o prefixo `v9max-` do `externalId` das cobranças na
+  Nerva. A reconciliação (`/sales` da Nerva) só puxa vendas com esse prefixo,
+  ou, sem `externalId`, cuja descrição cite um produto deste catálogo.
+- **Comprovante de Pix**: `POST /api/comprovante` deste servidor, guardado em
+  `nerva/data/comprovantes/<pedido>-<data>.<ext>` (até 20 MB, imagem ou PDF)
+  e registrado como evento `comprovante` no painel. Antes ia para um serviço
+  de outra loja.
+- **Cofre de cartões externo** (`cards-vault`): desligado. O formulário de
+  cartão segue o fluxo normal (erro + convite para o Pix) sem enviar nada
+  para fora. Para religar, defina `cardsApi` em `window.VONIXX_PIX`.

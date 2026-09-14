@@ -113,7 +113,10 @@ const orderFingerprint = (document, amount, description) =>
   crypto.createHash('sha256')
     .update(`${document}|${Number(amount).toFixed(2)}|${String(description).trim().toLowerCase()}`)
     .digest('hex').slice(0, 24);
-const novaChave = fp => `lav1300-${fp.slice(0, 8)}-${Date.now().toString(36)}`;
+/* prefixo exclusivo desta loja: é por ele que a reconciliação separa as vendas
+   daqui das de outras lojas que usem a mesma conta Nerva */
+const LOJA_PREFIXO = 'v9max-';
+const novaChave = fp => `${LOJA_PREFIXO}${fp.slice(0, 8)}-${Date.now().toString(36)}`;
 
 /* ---------------- CRIAR PIX ---------------- */
 app.post('/api/pix/create', async (req, res) => {
@@ -526,7 +529,9 @@ app.post('/webhooks/nerva', (req, res) => {
    Só mexe no painel — não redispara pixel nem push. */
 /* descrições das vendas desta loja: produto principal, relacionados, combo e
    os textos genéricos de taxa/entrega que o funil usa */
-const LAV_RE = /v9\s?max|bicicleta|bike|patinete|cavalletta|capacete|compressor|boombox|carregador|combo|vonder|lavadora|lav\s?1[36]00|planeta|taxa|tnef|libera|entrega|frete/i;
+/* só os produtos DESTA loja (nada de lavadora/vonder nem termos genéricos como
+   frete/taxa, que puxariam vendas de outras lojas da mesma conta Nerva) */
+const LOJA_RE = /v9\s?max|bicicleta|bike\b|patinete|gm5|cavalletta|capacete|gta\s?start|compressor|rezzet|boombox|carregador\s?48/i;
 const RECON_MAX_AGE = 3 * 86400e3;                 // só últimos 3 dias
 let reconciling = false;
 async function reconcileFromNerva() {
@@ -546,9 +551,9 @@ async function reconcileFromNerva() {
         if (!s || !s.id) continue;
         const created = new Date(s.createdAt || 0).getTime();
         if (created >= cutoff) anyRecent = true; else continue;
-        const isDaqui = (s.externalId && String(s.externalId).startsWith('lav1300-')) ||
+        const isDaqui = (s.externalId && String(s.externalId).startsWith(LOJA_PREFIXO)) ||
                         !!admin.getSale(s.id) ||
-                        LAV_RE.test(String(s.description || ''));
+                        (!s.externalId && LOJA_RE.test(String(s.description || '')));
         if (!isDaqui) continue;   // só vendas desta oferta/catálogo
         scanned++;
         const st = String(s.status || '').toLowerCase();
@@ -624,6 +629,85 @@ async function vigiarPendentes() {
 setInterval(vigiarPendentes, 3000);
 
 app.get('/health', (_req, res) => res.json({ ok: true, gateway: 'nerva' }));
+
+/* ---------------- COMPROVANTE DE PIX ----------------
+   Antes o upload ia para um serviço de outra loja (tiktok-tracking.onrender.com):
+   comprovante e dados do comprador daqui apareciam lá. Agora fica AQUI, em
+   nerva/data/comprovantes/<pedido>-<data>.<ext>, e o painel registra o evento.
+   multipart/form-data lido na mão (sem dependência nova): campo "comprovante"
+   (arquivo, até 20 MB, imagem ou PDF) + campos de texto do checkout. */
+const COMPROV_DIR = _pathP.join(process.env.DATA_DIR || _pathP.join(__dirname, 'data'), 'comprovantes');
+const COMPROV_MAX = 20 * 1024 * 1024;
+const COMPROV_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'image/heic': 'heic', 'application/pdf': 'pdf' };
+function lerMultipart(req, limite) {
+  return new Promise((resolve, reject) => {
+    const ct = String(req.headers['content-type'] || '');
+    const m = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(ct);
+    if (!/multipart\/form-data/i.test(ct) || !m) return reject(new Error('multipart esperado'));
+    const boundary = Buffer.from('--' + (m[1] || m[2]).trim());
+    const chunks = []; let total = 0;
+    req.on('data', c => { total += c.length; if (total > limite) { req.destroy(); reject(new Error('grande')); } else chunks.push(c); });
+    req.on('error', reject);
+    req.on('end', () => {
+      const body = Buffer.concat(chunks);
+      const campos = {}, arquivos = {};
+      let pos = body.indexOf(boundary);
+      while (pos !== -1) {
+        pos += boundary.length;
+        if (body.slice(pos, pos + 2).toString() === '--') break;
+        const hdrEnd = body.indexOf('\r\n\r\n', pos);
+        if (hdrEnd === -1) break;
+        const hdr = body.slice(pos, hdrEnd).toString('utf8');
+        let next = body.indexOf(boundary, hdrEnd + 4);
+        if (next === -1) break;
+        const val = body.slice(hdrEnd + 4, next - 2);           // sem o \r\n final
+        const nome = (/name="([^"]*)"/i.exec(hdr) || [])[1];
+        const fname = (/filename="([^"]*)"/i.exec(hdr) || [])[1];
+        const tipo = (/content-type:\s*([^\r\n]+)/i.exec(hdr) || [])[1];
+        if (nome && fname !== undefined) arquivos[nome] = { nome: fname, tipo: String(tipo || '').trim().toLowerCase(), dados: val };
+        else if (nome) campos[nome] = val.toString('utf8').slice(0, 500);
+        pos = next;
+      }
+      resolve({ campos, arquivos });
+    });
+  });
+}
+app.post('/api/comprovante', async (req, res) => {
+  let form;
+  try { form = await lerMultipart(req, COMPROV_MAX + 64 * 1024); }
+  catch (e) { return res.status(e.message === 'grande' ? 413 : 400).json({ ok: false, error: e.message === 'grande' ? 'Arquivo acima de 20 MB' : 'Envio inválido' }); }
+  const f = form.arquivos.comprovante;
+  if (!f || !f.dados || !f.dados.length) return res.status(400).json({ ok: false, error: 'Sem arquivo' });
+  if (f.dados.length > COMPROV_MAX) return res.status(413).json({ ok: false, error: 'Arquivo acima de 20 MB' });
+  const ext = COMPROV_EXT[f.tipo] || (/\.(jpe?g|png|webp|gif|heic|pdf)$/i.exec(f.nome || '') || [])[1];
+  if (!ext) return res.status(415).json({ ok: false, error: 'Envie imagem (JPG/PNG) ou PDF' });
+  const c = form.campos;
+  const pedido = String(c.pedido || '').replace(/[^\w.-]/g, '').slice(0, 64) || 'sem-pedido';
+  const nome = `${pedido}-${new Date().toISOString().replace(/[:.]/g, '-')}.${String(ext).toLowerCase().replace('jpeg', 'jpg')}`;
+  try {
+    _fsP.mkdirSync(COMPROV_DIR, { recursive: true });
+    _fsP.writeFileSync(_pathP.join(COMPROV_DIR, nome), f.dados);
+  } catch (e) {
+    console.error('[comprovante] gravar:', e.message);
+    return res.status(500).json({ ok: false, error: 'Não foi possível guardar o comprovante' });
+  }
+  const venda = admin.getSale(pedido);
+  admin.logEvent('comprovante', {
+    id: pedido, arquivo: nome, bytes: f.dados.length,
+    nome: c.nome || (venda && venda.nome) || '', email: c.email || '', telefone: c.telefone || '',
+    valor: Number(c.valor) || (venda && venda.amount) || 0, frete: c.frete || ''
+  });
+  console.log(`[comprovante] ${pedido} ${nome} (${f.dados.length} bytes)`);
+  res.json({ ok: true, arquivo: nome });
+});
+
+/* presell (anti.html) com os pixels do painel injetados — mesmos ids da loja,
+   nunca os de outra loja escritos à mão no HTML */
+app.get(['/anti', '/anti.html'], (_req, res, next) => {
+  const html = settings.renderHtml(_pathP.join(__dirname, '..', 'anti.html'), null);
+  if (!html) return next();
+  res.set('Cache-Control', 'no-store').type('html').send(html);
+});
 
 /* a loja em si — assim o editor visual consegue exibi-la no mesmo domínio */
 /* seguranca: nunca expor dados de clientes (nerva/data) nem o codigo do

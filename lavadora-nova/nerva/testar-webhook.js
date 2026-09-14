@@ -83,7 +83,7 @@ function venda(evento, extra = {}) {
       payerDocument: '12345678909',
       paymentMethod: 'PIX',
       transactionId: 'gw_tx_teste',
-      externalId: 'lav1300-teste',
+      externalId: 'v9max-teste',
       endToEndId: 'E00000000202603231000teste',
       createdAt: new Date().toISOString(),
       paidAt: new Date().toISOString()

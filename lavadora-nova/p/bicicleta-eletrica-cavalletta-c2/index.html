@@ -14,7 +14,8 @@
   <meta name="theme-color" content="#FFE600">
   <!-- canonical e og:url são relativos aqui e viram absolutos no build
        (gerar-paginas.js com SITE_URL=https://seu-dominio) e no navegador -->
-  <link rel="canonical" href="/p/bicicleta-eletrica-cavalletta-c2/">
+  <meta property="og:url" content="https://v9maxoficial.com/p/bicicleta-eletrica-cavalletta-c2/">
+  <link rel="canonical" href="https://v9maxoficial.com/p/bicicleta-eletrica-cavalletta-c2/">
   <script>
     (function () {
       var abs = function (u) { return /^https?:/.test(u) ? u : location.origin + '/' + String(u).replace(/^\//, ''); };
@@ -2668,16 +2669,11 @@
   <meta name="twitter:image"
     content="img/produto/bicicleta-eletrica-v9-max-1.webp">
 
-  <!-- CDN do vídeo: resolve o DNS cedo, mas sem abrir conexão à toa
-     (o vídeo só é baixado se a pessoa apertar play) -->
-  <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="preconnect" href="https://http2.mlstatic.com" crossorigin>
   <link rel="preload" as="image"
     href="img/produto/bicicleta-eletrica-v9-max-1.webp"
     fetchpriority="high">
   <!-- ?v= força o navegador a baixar a versão nova: incremente ao publicar alterações -->
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-  <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="stylesheet" href="styles.css?v=20">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -2687,11 +2683,11 @@
   "@type": "Product",
   "name": "Bicicleta Elétrica Cavalletta C2 750W — Bateria de Lítio Removível 48V 20Ah, até 65 km",
   "image": [
-    "/img/relacionados/bicicleta-eletrica-cavalletta-c2.webp",
-    "/img/relacionados/bicicleta-eletrica-cavalletta-c2-2.webp",
-    "/img/relacionados/bicicleta-eletrica-cavalletta-c2-3.webp",
-    "/img/relacionados/bicicleta-eletrica-cavalletta-c2-4.webp",
-    "/img/relacionados/bicicleta-eletrica-cavalletta-c2-5.webp"
+    "https://v9maxoficial.com/img/relacionados/bicicleta-eletrica-cavalletta-c2.webp",
+    "https://v9maxoficial.com/img/relacionados/bicicleta-eletrica-cavalletta-c2-2.webp",
+    "https://v9maxoficial.com/img/relacionados/bicicleta-eletrica-cavalletta-c2-3.webp",
+    "https://v9maxoficial.com/img/relacionados/bicicleta-eletrica-cavalletta-c2-4.webp",
+    "https://v9maxoficial.com/img/relacionados/bicicleta-eletrica-cavalletta-c2-5.webp"
   ],
   "description": "A Cavalletta C2 é uma bicicleta elétrica urbana no estilo scooter, com motor de 750 W e bateria de lítio 48V 20Ah que rende até 65 km por carga. A vel",
   "sku": "CAVALLETTA-C2-750W",
@@ -2708,7 +2704,7 @@
   },
   "offers": {
     "@type": "Offer",
-    "url": "/p/bicicleta-eletrica-cavalletta-c2/",
+    "url": "https://v9maxoficial.com/p/bicicleta-eletrica-cavalletta-c2/",
     "priceCurrency": "BRL",
     "price": "127.65",
     "availability": "https://schema.org/InStock",
@@ -2769,7 +2765,7 @@
     (function () {
       // mesmo servidor do gateway Nerva — presença e vendas no mesmo painel
       var SERVIDOR = location.origin;
-      var OFERTA = 'lav1300';
+      var OFERTA = 'v9max';
       var ETAPA = 'page_view';
 
       // presença é medida em TODOS os canais (o painel separa por utm_source)
@@ -2871,9 +2867,12 @@
       // A API Key fica SÓ no servidor — nunca aqui no front.
       api: location.origin,   // mesmo servidor onde a pagina esta (IP agora, dominio depois)
       gateway: "nerva",
-      offer: "lav1300",
-      funnel: "lav1300",
-      pixelId: (window.__PIXELS__ && window.__PIXELS__.meta) || "1593228632374084",   // Pixel Meta desta oferta (usado pelo fbq e pelo CAPI via offer)
+      offer: "v9max",
+      funnel: "v9max",
+      // Pixel do Meta SÓ desta loja: vem do painel (/admin > Rastreamento). Em
+      // branco = o fbq nem carrega. Nunca deixe aqui o id de outra loja, senão
+      // as compras daqui aparecem nos dados da outra.
+      pixelId: (window.__PIXELS__ && window.__PIXELS__.meta) || "",
       thankYouUrl: "",
       pollMs: 2000,
       expiresInDays: 1
@@ -2897,7 +2896,7 @@
       fbq('track', 'PageView');
     }
   </script>
-  <!-- End Meta Pixel Code (se trocar o pixelId no config acima, atualize também o id do noscript) -->
+  <!-- End Meta Pixel Code (o id vem do painel; sem <noscript> fixo para não marcar pixel de outra loja) -->
 
   <!-- TikTok Pixel Code Start
      A base do pixel fica AQUI, no <head>: o events.js começa a baixar em
@@ -4944,10 +4943,8 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
   <!-- ================== CONFIG DA API DE PIX / TRACKING ==================
      window.VONIXX_PIX, a detecção de canal (_CHANNEL), a base do Meta Pixel, a
      base do TikTok Pixel e a ponte TTK_CONFIG/ttkTrack estão no <head> — o
-     pixel precisa começar a carregar antes do conteúdo. Só o <noscript> do Meta
-     segue aqui, porque <img> não é permitido dentro do <head>. -->
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1593228632374084&ev=PageView&noscript=1" /></noscript>
+     pixel precisa começar a carregar antes do conteúdo. O <noscript> do Meta
+     é injetado pelo servidor com o id do painel (settings.js). -->
 
   <!-- hls.js (vídeo HLS) só é baixado se a galeria tiver vídeo: ver carregarHls() no app.js -->
   <!-- ============== CONTEÚDO DA OFERTA (editável em /admin/editor) ==============
@@ -5009,7 +5006,7 @@ document.addEventListener('click', function (e) {
 
       function carregarApp() {
         var s = document.createElement('script');
-        s.src = 'app.js?v=62';
+        s.src = 'app.js?v=63';
         if (EDITOR) s.onload = function () {
           // o modo edição entra depois que o app montou reviews, cards etc.
           setTimeout(function () {

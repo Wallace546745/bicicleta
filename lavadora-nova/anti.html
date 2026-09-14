@@ -6,24 +6,24 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Cupom liberado</title>
 
-<!-- ═══════════ PIXELS (mesmos da loja JBL: Meta + TikTok) ═══════════
+<!-- ═══════════ PIXELS (os MESMOS da loja V9 Max: Meta + TikTok) ═══════════
      A presell dispara PageView no MESMO pixel da LP, para o anúncio otimizar
-     sobre o funil inteiro (presell → loja → compra). -->
+     sobre o funil inteiro (presell → loja → compra). Os ids vêm do painel
+     (window.__PIXELS__, injetado pelo servidor): nada de pixel de outra loja. -->
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1593228632374084');   // pixel da loja JBL
-fbq('init','1676043856783119');   // pixel do chuveiro (mantido a pedido)
-fbq('track','PageView');
+if (window.__PIXELS__ && window.__PIXELS__.meta) {
+  fbq('init', window.__PIXELS__.meta);
+  fbq('track','PageView');
+}
 </script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1593228632374084&ev=PageView&noscript=1"/>
-<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1676043856783119&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
 <!-- TikTok Pixel -->
 <script>
 !function (w, d, t) {
   w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-  ttq.load('DAJVT3RC77UES9752NLG');   // mesmo pixel da loja
+  ttq.load((window.__PIXELS__ && window.__PIXELS__.tiktok) || 'DAJVT3RC77UES9752NLG');   // mesmo pixel da loja (painel)
   /* mesmo external_id persistente da loja: o Pageview da presell e o
      CompletePayment de depois viram a MESMA pessoa para o TikTok */
   try {
@@ -51,7 +51,7 @@ window.PRESELL_CONFIG = {
   // tanto no domínio raiz quanto dentro de uma subpasta. Mover a presell
   // para outra pasta? troque por '/index.html'.
   destino: 'index.html',
-  oferta:  'lav1300',
+  oferta:  'v9max',
 };
 </script>
 

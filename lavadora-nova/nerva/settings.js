@@ -17,7 +17,9 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 /* fallback: mantém o comportamento de hoje até o admin salvar algo */
 const FALLBACK = {
-  metaPixelId:         process.env.META_PIXEL_ID         || '1593228632374084',
+  /* SEM fallback: cada loja tem o seu pixel. Em branco o Meta Pixel fica
+     desligado até cadastrar o id desta loja no painel (Rastreamento). */
+  metaPixelId:         process.env.META_PIXEL_ID         || '',
   tiktokPixelId:       process.env.TIKTOK_PIXEL_ID       || '',
   tiktokAccessToken:   process.env.TIKTOK_ACCESS_TOKEN   || '',
   tiktokTestEventCode: process.env.TIKTOK_TEST_EVENT_CODE || '',
@@ -136,21 +138,26 @@ function produtoPixel(offer) {
 const jsInline = o => JSON.stringify(o).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 function pixelTag(produto) {
   const p = getPublic();
+  const meta = String(p.metaPixelId || '').replace(/\D/g, '');
   return '<script>window.__PIXELS__=' + jsInline({
-    meta:     p.metaPixelId || '',
+    meta:     meta,
     tiktok:   p.tiktokPixelId || '',
     testCode: p.tiktokTestEventCode || ''
   }) + ';window.__POSTPAY__=' + jsInline(p.postPaymentUrl || '')
-    + (produto ? ';window.__TTK_PRODUTO__=' + jsInline(produto) : '') + ';</script>';
+    + (produto ? ';window.__TTK_PRODUTO__=' + jsInline(produto) : '') + ';</script>'
+    /* <noscript> do Meta com o id do painel (antes era fixo no HTML, com o id de outra loja) */
+    + (meta ? '<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=' + meta + '&ev=PageView&noscript=1"></noscript>' : '');
 }
 
 /* index.html da loja com os Pixel IDs e o link de pos-venda injetados.
    Usado pela home E pelas paginas /p/<produto> (pages.js) — sem isso, trocar
    o pixel no painel nao chegava nas paginas de produto. */
 const INDEX_FILE = path.join(__dirname, '..', 'index.html');
-function renderIndex(produto) {
+function renderIndex(produto) { return renderHtml(INDEX_FILE, produto); }
+/* qualquer página da loja (index, presell) com os pixels do painel injetados */
+function renderHtml(file, produto) {
   let html;
-  try { html = fs.readFileSync(INDEX_FILE, 'utf8'); } catch (_) { return null; }
+  try { html = fs.readFileSync(file, 'utf8'); } catch (_) { return null; }
   const tag = pixelTag(produto);
   return html.replace(/<head(\s[^>]*)?>/i, m => m + '\n' + tag);
 }
@@ -171,4 +178,4 @@ function mount(app, auth) {
   });
 }
 
-module.exports = { get, getPublic, save, adminView, mount, renderIndex, pixelTag, produtoPixel };
+module.exports = { get, getPublic, save, adminView, mount, renderIndex, renderHtml, pixelTag, produtoPixel };

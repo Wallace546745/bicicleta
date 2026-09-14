@@ -49,7 +49,7 @@ for (let d = 29; d >= 0; d--) {
       fee: taxa(valor), netAmount: +(valor - taxa(valor)).toFixed(2),
       description: PRODUTO + (extras.length ? ' + ' + extras.join(' + ') : ''),
       payerName: rnd(NOMES),
-      externalId: 'lav1300-' + id.slice(-4),
+      externalId: 'v9max-' + id.slice(-4),
       transactionId: 'gw_tx_' + Math.random().toString(36).slice(2, 10),
       utmSource: 'tiktok', utmMedium: 'cpc',
       utmCampaign: rnd(CAMPANHAS), utmContent: rnd(CRIATIVOS), utmTerm: '',

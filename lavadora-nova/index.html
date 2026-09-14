@@ -12,7 +12,8 @@
   <meta name="theme-color" content="#FFE600">
   <!-- canonical e og:url são relativos aqui e viram absolutos no build
        (gerar-paginas.js com SITE_URL=https://seu-dominio) e no navegador -->
-  <link rel="canonical" href="/">
+  <meta property="og:url" content="https://v9maxoficial.com/">
+  <link rel="canonical" href="https://v9maxoficial.com/">
   <script>
     (function () {
       var abs = function (u) { return /^https?:/.test(u) ? u : location.origin + '/' + String(u).replace(/^\//, ''); };
@@ -2657,25 +2658,20 @@
   <meta property="og:title" content="Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h">
   <meta property="og:description" content="Motor 1.000 W, bateria 48V 15.6Ah, até 60 km de autonomia e 32 km/h sem CNH. Frete grátis.">
   <meta property="og:image"
-    content="img/produto/bicicleta-eletrica-v9-max-1.webp">
+    content="https://v9maxoficial.com/img/produto/bicicleta-eletrica-v9-max-1.webp">
   <meta property="og:image:width" content="1000">
   <meta property="og:image:height" content="1000">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h">
   <meta name="twitter:description" content="Motor 1.000 W, até 60 km de autonomia, 32 km/h sem CNH. Frete grátis.">
   <meta name="twitter:image"
-    content="img/produto/bicicleta-eletrica-v9-max-1.webp">
+    content="https://v9maxoficial.com/img/produto/bicicleta-eletrica-v9-max-1.webp">
 
-  <!-- CDN do vídeo: resolve o DNS cedo, mas sem abrir conexão à toa
-     (o vídeo só é baixado se a pessoa apertar play) -->
-  <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="preconnect" href="https://http2.mlstatic.com" crossorigin>
   <link rel="preload" as="image"
     href="img/produto/bicicleta-eletrica-v9-max-1.webp"
     fetchpriority="high">
   <!-- ?v= força o navegador a baixar a versão nova: incremente ao publicar alterações -->
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-  <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="stylesheet" href="styles.css?v=20">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -2684,14 +2680,14 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h",
-  "image": ["/img/produto/bicicleta-eletrica-v9-max-1.webp"],
+  "image": ["https://v9maxoficial.com/img/produto/bicicleta-eletrica-v9-max-1.webp"],
   "description": "Bicicleta Elétrica V9 Max: motor 1.000 W, bateria 48V 15.6Ah, até 60 km de autonomia, 32 km/h sem CNH, freios hidráulicos, alarme e cartão NFC. Frete grátis.",
   "sku": "V9MAX-1000W",
   "brand": { "@type": "Brand", "name": "Inow" },
   "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "18", "bestRating": "5", "worstRating": "1" },
   "offers": {
     "@type": "Offer",
-    "url": "/",
+    "url": "https://v9maxoficial.com/",
     "priceCurrency": "BRL",
     "price": "189.75",
     "availability": "https://schema.org/InStock",
@@ -2760,7 +2756,7 @@
     (function () {
       // mesmo servidor do gateway Nerva — presença e vendas no mesmo painel
       var SERVIDOR = location.origin;
-      var OFERTA = 'lav1300';
+      var OFERTA = 'v9max';
       var ETAPA = 'page_view';
 
       // presença é medida em TODOS os canais (o painel separa por utm_source)
@@ -2862,9 +2858,12 @@
       // A API Key fica SÓ no servidor — nunca aqui no front.
       api: location.origin,   // mesmo servidor onde a pagina esta (IP agora, dominio depois)
       gateway: "nerva",
-      offer: "lav1300",
-      funnel: "lav1300",
-      pixelId: (window.__PIXELS__ && window.__PIXELS__.meta) || "1593228632374084",   // Pixel Meta desta oferta (usado pelo fbq e pelo CAPI via offer)
+      offer: "v9max",
+      funnel: "v9max",
+      // Pixel do Meta SÓ desta loja: vem do painel (/admin > Rastreamento). Em
+      // branco = o fbq nem carrega. Nunca deixe aqui o id de outra loja, senão
+      // as compras daqui aparecem nos dados da outra.
+      pixelId: (window.__PIXELS__ && window.__PIXELS__.meta) || "",
       thankYouUrl: "",
       pollMs: 2000,
       expiresInDays: 1
@@ -2888,7 +2887,7 @@
       fbq('track', 'PageView');
     }
   </script>
-  <!-- End Meta Pixel Code (se trocar o pixelId no config acima, atualize também o id do noscript) -->
+  <!-- End Meta Pixel Code (o id vem do painel; sem <noscript> fixo para não marcar pixel de outra loja) -->
 
   <!-- TikTok Pixel Code Start
      A base do pixel fica AQUI, no <head>: o events.js começa a baixar em
@@ -4935,10 +4934,8 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
   <!-- ================== CONFIG DA API DE PIX / TRACKING ==================
      window.VONIXX_PIX, a detecção de canal (_CHANNEL), a base do Meta Pixel, a
      base do TikTok Pixel e a ponte TTK_CONFIG/ttkTrack estão no <head> — o
-     pixel precisa começar a carregar antes do conteúdo. Só o <noscript> do Meta
-     segue aqui, porque <img> não é permitido dentro do <head>. -->
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1593228632374084&ev=PageView&noscript=1" /></noscript>
+     pixel precisa começar a carregar antes do conteúdo. O <noscript> do Meta
+     é injetado pelo servidor com o id do painel (settings.js). -->
 
   <!-- hls.js (vídeo HLS) só é baixado se a galeria tiver vídeo: ver carregarHls() no app.js -->
   <!-- ============== CONTEÚDO DA OFERTA (editável em /admin/editor) ==============
@@ -4981,7 +4978,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
 
       function carregarApp() {
         var s = document.createElement('script');
-        s.src = 'app.js?v=62';
+        s.src = 'app.js?v=63';
         if (EDITOR) s.onload = function () {
           // o modo edição entra depois que o app montou reviews, cards etc.
           setTimeout(function () {

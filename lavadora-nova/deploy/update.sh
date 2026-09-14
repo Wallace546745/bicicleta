@@ -26,6 +26,13 @@ if [[ -n "$DOM_REPO" && "$DOM_REPO" != "$DOM_ENV" ]]; then
     echo "domínio $DOM_REPO ainda não aponta para este IP; aguardando o DNS"
   fi
 fi
+# limite de upload do nginx acompanha o deploy/nginx.conf (o certbot reescreve o
+# arquivo instalado, então só o valor é copiado, não o arquivo inteiro)
+NGX=/etc/nginx/sites-available/lavadora
+LIM=$(grep -o 'client_max_body_size [0-9]*[mk]' "$DIR/deploy/nginx.conf" | head -1 || true)
+if [[ -n "$LIM" && -f "$NGX" ]] && ! grep -q "$LIM;" "$NGX"; then
+  sed -i "s/client_max_body_size [0-9]*[mk];/$LIM;/" "$NGX" && nginx -t -q && systemctl reload nginx && echo "nginx: $LIM"
+fi
 # regera as páginas com o domínio do .env (metas absolutas)
 DOM=$(grep '^PUBLIC_URL=' "$DIR/nerva/.env" | cut -d= -f2)
 [[ -n "$DOM" ]] && sudo -u loja bash -c "cd '$DIR' && SITE_URL=$DOM node gerar-paginas.js >/dev/null"

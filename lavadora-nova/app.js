@@ -811,7 +811,7 @@
   // build: v16
 
   /* Pixel Meta (fbq) — eventos client-side, deduplicados com o CAPI via eventID */
-  const PRODUCT_ID = PRODUCT_ID_OVERRIDE || 'VONDER-LAV1300';
+  const PRODUCT_ID = PRODUCT_ID_OVERRIDE || 'V9MAX-1000W';
   /* Os eventos são disparados apenas no canal que trouxe a visita — ver a
      detecção de window._CHANNEL no index.html. Sem esse recorte, tráfego de
      um canal contaria conversão no pixel do outro e sujaria a otimização. */

@@ -19,18 +19,18 @@ const DEFAULT = {
   produto: {
     titulo: 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h',
     nomeCurto: 'Bicicleta Elétrica V9 Max',
-    marca: 'Vonder',
-    modelo: 'LAV 1300',
-    sku: 'VONDER-LAV1300',
+    marca: "Inow",
+    modelo: "V9 Max",
+    sku: "V9MAX-1000W",
     vendedor: 'Domus',
     vendedorVendas: '+250 mil vendas',
     condicao: 'Novo',
     vendidos: '+5 mil vendidos',
     badge: 'Mais vendido',
-    badgeLink: '2º em Lavadoras de Alta Pressão',
+    badgeLink: "1º em Bicicletas Elétricas",
     nota: '4.7',
     avaliacoes: '1.312',
-    categoria: ['Ferramentas', 'Ferramentas Elétricas', 'Lavadoras e Acessórios', 'Lavadoras de Alta Pressão']
+    categoria: ["Esportes e Fitness", "Ciclismo", "Bicicletas", "Bicicletas Elétricas"]
   },
   preco: {
     de: 416.3,
@@ -49,53 +49,79 @@ const DEFAULT = {
     'img/produto/bicicleta-eletrica-v9-max-5.webp'
   ],
   variante: {
-    rotulo: 'Voltagem',
+    rotulo: 'Cor',
     opcoes: [
-      { label: '127V', img: 'img/produto/bicicleta-eletrica-v9-max-1.webp' },
-      { label: '220V', img: 'img/produto/bicicleta-eletrica-v9-max-1.webp' }
+      { label: 'Preto', img: 'img/produto/bicicleta-eletrica-v9-max-1.webp' }
     ]
   },
   bullets: [
-    'Pressão máxima de 1.300 lbf/pol².',
-    'Potência de 1.200 W.',
-    'Mangueira de alta pressão de 3 metros.',
-    'Alça e rodas para transporte.'
+    "Motor de 1.000 W limitado a 32 km/h: não exige CNH nem emplacamento.",
+    "Bateria de lítio 48V 15.6Ah com até 60 km de autonomia por carga.",
+    "Freios hidráulicos a disco e suspensão dupla.",
+    "Alarme com controle remoto, cartão NFC e trava da roda dianteira."
   ],
-  descricao: `LAVADORA DE ALTA PRESSÃO VONDER LAV 1300 — 1.300 LIBRAS
+  descricao: `BICICLETA ELÉTRICA V9 MAX — ATÉ 60 KM DE AUTONOMIA, 32 KM/H, SEM CNH E SEM PLACA
 
-Indicada para limpezas domésticas em geral: automóveis, motos, calçadas, muros, fachadas e áreas externas. O sistema gera mais pressão liberando menos água, o que remove a sujeira pesada com economia.
+A V9 Max é uma bicicleta elétrica feita para o deslocamento urbano: ir ao trabalho, à faculdade, fazer entregas ou resolver o dia a dia sem gastar com combustível, estacionamento ou transporte por aplicativo. O motor de 1.000 W responde com força nas subidas e mantém velocidade constante mesmo com carga. A velocidade é limitada eletronicamente a 32 km/h, o que enquadra o modelo como veículo autopropelido: não exige CNH, emplacamento nem IPVA (Resolução CONTRAN 996/2023).
 
-Uma torneira aberta consome cerca de 1.800 litros por hora. Com a lavadora, esse consumo cai para perto de 390 litros por hora.
+A bateria de lítio 48V 15.6Ah entrega até 60 km por carga no modo elétrico. Pedalando com assistência, a autonomia aumenta. A recarga é feita em qualquer tomada comum, bivolt, e leva de 6 a 8 horas: carregue durante a noite e saia com carga cheia. A autonomia real varia com o peso do condutor, o relevo, a calibragem dos pneus e o modo de condução.
 
-O bico da lança é ajustável — jato leque para superfícies amplas, concentrado para sujeira encrustada. O sistema stop total desliga a bomba quando o gatilho é solto.
+O conforto vem da suspensão dupla, com garfo amortecido na frente e amortecedores duplos na traseira, e dos pneus largos de 20 x 4 polegadas, que absorvem buracos, guias e piso irregular. O banco alongado com pedaleiras leva garupa, e o conjunto suporta até 150 kg.
+
+Segurança em cada trajeto: freios hidráulicos a disco nas duas rodas, farol de LED de alta intensidade, alarme integrado com controle remoto, desbloqueio por cartão NFC e trava da roda dianteira contra furto. O câmbio Shimano de 7 marchas ajuda a pedalar quando quiser economizar bateria.
 
 CONTEÚDO DA EMBALAGEM
-1 lavadora, 1 pistola com gatilho, 1 lança com bico ajustável, 1 mangueira de 3 m, 1 cordão elétrico de 5 m, 1 conector de 1/2" e 1 acessório para detergente.`,
+1 bicicleta elétrica V9 Max, 1 carregador bivolt, 1 kit de ferramentas para montagem, 1 manual de instruções, 1 controle do alarme, 1 retrovisor (lado esquerdo), 1 cartão NFC e 1 bolsa porta-celular para o guidão. A bicicleta chega parcialmente montada: guidão, pedais e retrovisor são fixados com o kit incluso.
+
+ESPECIFICAÇÕES TÉCNICAS
+• Motor: 1.000 W
+• Bateria: Lítio 48V 15.6Ah, com chave
+• Autonomia: Até 60 km por carga
+• Velocidade máxima: 32 km/h (limitada eletronicamente)
+• Tempo de recarga: 6 a 8 horas
+• Carregador: Bivolt 110/220V
+• Aro: 20"
+• Pneus: 20 x 4 polegadas (fat)
+• Marchas: 7 velocidades Shimano
+• Freios: Hidráulicos a disco, dianteiro e traseiro
+• Suspensão: Dupla: garfo dianteiro e amortecedores traseiros
+• Carga máxima: 150 kg
+• Peso: aprox. 42 kg
+• Farol: LED
+• Segurança: alarme com controle, cartão NFC e trava da roda dianteira
+• Garantia: 6 meses
+
+Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velocidade tira o modelo dessa categoria e passa a exigir CNH e emplacamento.`,
   specs: [
-    { k: 'Marca', v: 'Vonder' },
-    { k: 'Linha', v: 'Leve' },
-    { k: 'Modelo', v: 'LAV 1300' },
-    { k: 'Referência', v: '6864130001' },
-    { k: 'Potência', v: '1.200 W (1,3 cv)' },
-    { k: 'Pressão máxima', v: '1.300 lbf/pol² — 90 bar — 9 MPa' },
-    { k: 'Pressão mínima', v: '870 lbf/pol² — 60 bar — 6 MPa' },
-    { k: 'Vazão máxima', v: '6,5 litros/min — 390 litros/hora' },
-    { k: 'Vazão mínima', v: '5 litros/min — 300 litros/hora' },
-    { k: 'Voltagens disponíveis', v: '127V e 220V' },
-    { k: 'Frequência', v: '60 Hz' },
-    { k: 'Tipo de motor', v: 'Universal' },
-    { k: 'Material dos pistões da bomba', v: 'Aço inox' },
-    { k: 'Comprimento da mangueira', v: '3 m' },
-    { k: 'Comprimento do cordão elétrico', v: '5 m' },
-    { k: 'Bico da lança', v: 'Ajustável (leque ou concentrado)' },
-    { k: 'Dispositivo para detergente', v: 'Reservatório externo' },
-    { k: 'Sistema stop total', v: 'Sim' },
-    { k: 'Alça e rodas para transporte', v: 'Sim' },
-    { k: 'Uso indicado', v: 'Doméstico' },
-    { k: 'Segue norma', v: 'ABNT NBR NM 60335-1 e IEC 60335-2-79' },
-    { k: 'Peso com embalagem', v: '4,68 kg' },
-    { k: 'Dimensões da embalagem (A x L x C)', v: '38 x 23 x 27 cm' },
-    { k: 'Garantia', v: '6 meses de garantia de fábrica' }
+    { k: "Marca", v: "Inow" },
+    { k: "Modelo", v: "V9 Max" },
+    { k: "Edição", v: "2026" },
+    { k: "Tipo", v: "Bicicleta elétrica urbana (autopropelida)" },
+    { k: "Cor", v: "Preto" },
+    { k: "Motor", v: "1.000 W" },
+    { k: "Bateria", v: "Lítio 48V 15.6Ah, com chave" },
+    { k: "Autonomia", v: "Até 60 km por carga" },
+    { k: "Velocidade máxima", v: "32 km/h (limitada eletronicamente)" },
+    { k: "Tempo de recarga", v: "6 a 8 horas" },
+    { k: "Carregador", v: "Bivolt 110/220V" },
+    { k: "Aro", v: "20\"" },
+    { k: "Pneus", v: "20 x 4 polegadas (fat)" },
+    { k: "Marchas", v: "7 velocidades Shimano" },
+    { k: "Freios", v: "Hidráulicos a disco, dianteiro e traseiro" },
+    { k: "Suspensão", v: "Dupla: garfo dianteiro e amortecedores traseiros" },
+    { k: "Farol", v: "LED de alta intensidade" },
+    { k: "Painel", v: "Display digital no guidão" },
+    { k: "Alarme", v: "Integrado, com controle remoto" },
+    { k: "Desbloqueio", v: "Cartão NFC" },
+    { k: "Trava antifurto", v: "Trava da roda dianteira" },
+    { k: "Retrovisor", v: "Lado esquerdo" },
+    { k: "Banco", v: "Alongado, com pedaleiras para garupa" },
+    { k: "Capacidade de carga", v: "Até 150 kg" },
+    { k: "Peso da bicicleta", v: "Aprox. 42 kg" },
+    { k: "Quadro", v: "Aço reforçado, não dobrável" },
+    { k: "Exige CNH ou placa", v: "Não (Resolução CONTRAN 996/2023)" },
+    { k: "Itens inclusos", v: "Carregador, kit de ferramentas, manual, controle do alarme, retrovisor esquerdo, cartão NFC e bolsa porta-celular" },
+    { k: "Garantia", v: "6 meses de garantia de fábrica" }
   ],
   avaliacoes: {
     resumoIA: 'A lavadora é elogiada pela boa pressão para o tamanho e pelo custo-benefício. Os compradores destacam a facilidade de montar e usar, e mencionam que ela dá conta de carro, calçada e quintal sem dificuldade.',
@@ -149,8 +175,8 @@ CONTEÚDO DA EMBALAGEM
   },
   seo: {
     title: 'Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h | Domus',
-    description: 'Bicicleta Elétrica V9 Max: 1.300 lbf/pol², 1.200 W, mangueira de 3 m e bico ajustável. 22% OFF, frete grátis.',
-    buscas: ['lavadora de alta pressao','lavadora vonder lav 1300','lava jato 1300 libras','lavadora vonder','lava jato portatil','lavadora alta pressao 127v']
+    description: "Bicicleta Elétrica V9 Max: motor 1.000 W, bateria 48V 15.6Ah, até 60 km de autonomia, 32 km/h sem CNH, freios hidráulicos, alarme e cartão NFC. Frete grátis.",
+    buscas: ["bicicleta eletrica", "bike eletrica v9 max", "bicicleta eletrica 1000w", "bicicleta eletrica 60km", "bike eletrica sem cnh", "v9 max"]
   }
 };
 

@@ -82,7 +82,7 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   console.log('\n1) HTML COM O PRODUTO INJETADO (ViewContent do <head> certo)');
   const home = await (await fetch(B + '/')).text();
   const headHome = home.split('</head>')[0];
-  ok(/window\.__TTK_PRODUTO__=\{"sku":"VONDER-LAV1300","nome":"[^"]+","preco":67\.88,"marca":"Vonder","categoria":"Lavadoras de Alta Press/.test(headHome), 'home: __TTK_PRODUTO__ com SKU, preço, marca e categoria da oferta principal');
+  ok(/window\.__TTK_PRODUTO__=\{"sku":"V9MAX-1000W","nome":"[^"]+","preco":67\.88,"marca":"Inow","categoria":"Bicicletas Elétricas/.test(headHome), 'home: __TTK_PRODUTO__ com SKU, preço, marca e categoria da oferta principal');
   ok(/window\.__PIXELS__=\{"meta":"[^"]*","tiktok":"PIXEL_TESTE"/.test(headHome), 'home: Pixel ID do painel injetado');
   ok(headHome.indexOf('TikTok Pixel Code Start') > 0 && headHome.indexOf('window.__TTK_PRODUTO__') < headHome.indexOf('TikTok Pixel Code Start'),
      'home: produto injetado ANTES da base do pixel, dentro do <head>');
@@ -131,19 +131,19 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   ok(st2.falhas === 1 && st2.fila === 0, 'so o invalido foi descartado (falhas=' + st2.falhas + ', fila=' + st2.fila + ')');
 
   console.log('\n3) DEDUP POR event_id');
-  await post('/api/track', { event: 'AddToCart', event_id: 'atc-1', value: 67.88, contents: [{ content_id: 'VONDER-LAV1300', price: 67.88, quantity: 1 }] });
+  await post('/api/track', { event: 'AddToCart', event_id: 'atc-1', value: 67.88, contents: [{ content_id: 'V9MAX-1000W', price: 67.88, quantity: 1 }] });
   await post('/api/track', { event: 'AddToCart', event_id: 'atc-1', value: 67.88 });
   await esperar('AddToCart'); await dormir(300);
   ok(eventos().filter(e => e.event === 'AddToCart').length === 1, 'mesmo event_id 2x -> 1 evento entregue');
 
   console.log('\n4) PIX GERADO -> PlaceAnOrder com os itens do pedido');
   const itens = [
-    { content_id: 'VONDER-LAV1300', content_name: 'Lavadora', price: 67.88, quantity: 1, brand: 'Vonder', content_category: 'Lavadoras de Alta Pressão' },
+    { content_id: 'V9MAX-1000W', content_name: 'Lavadora', price: 67.88, quantity: 1, brand: "Inow", content_category: 'Lavadoras de Alta Pressão' },
     { content_id: 'SNOWFOAM-500',   content_name: 'Snow Foam', price: 19.9, quantity: 1 }
   ];
   const rc = await post('/api/pix/create', {
     value: 96.81, payerCpf: '12345678909', payerName: 'João', payerEmail: 'J@T.com', payerPhone: '(11) 99999-9999',
-    description: 'Lavadora + Snow Foam', product_id: 'VONDER-LAV1300', ttkContents: itens, locale: 'pt-BR',
+    description: 'Lavadora + Snow Foam', product_id: 'V9MAX-1000W', ttkContents: itens, locale: 'pt-BR',
     customer_type: 'new', ad: { utm_source: 'tiktok', utm_campaign: 'lavadora-01', campaign_id: '1234567890', creative_id: '__CID__' },
     tiktokClickId: 'TTCLID_X', ttp: 'ttp_x', ttkExternalId: 'u1', landingPageUrl: 'https://loja/?ttclid=TTCLID_X'
   });
@@ -154,8 +154,8 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   if (pao) {
     ok(pao.event_id === 'pao-venda-uuid-9', 'event_id = pao-<txid> (o mesmo do pixel)');
     ok(pao.properties.contents.length === 2 && pao.properties.contents[1].content_id === 'SNOWFOAM-500', 'contents com os 2 SKUs do pedido');
-    ok(pao.properties.contents[0].brand === 'Vonder' && pao.properties.contents[0].content_category === 'Lavadoras de Alta Pressão', 'brand e content_category no item do catálogo');
-    ok(JSON.stringify(pao.properties.content_ids) === '["VONDER-LAV1300","SNOWFOAM-500"]' && pao.properties.num_items === 2, 'content_ids no topo (VSA) e num_items');
+    ok(pao.properties.contents[0].brand === 'Inow' && pao.properties.contents[0].content_category === 'Lavadoras de Alta Pressão', 'brand e content_category no item do catálogo');
+    ok(JSON.stringify(pao.properties.content_ids) === '["V9MAX-1000W","SNOWFOAM-500"]' && pao.properties.num_items === 2, 'content_ids no topo (VSA) e num_items');
     ok(pao.properties.customer_type === 'new', 'customer_type = new na primeira compra');
     ok(pao.ad && pao.ad.utm_campaign === 'lavadora-01' && pao.ad.campaign_id === '1234567890' && pao.ad.creative_id === undefined, 'objeto ad: utm_campaign e campaign_id numerico; macro nao substituida ignorada');
     ok(typeof pao.page.url === 'string' && pao.page.url.startsWith('https://loja/'), 'page.url = URL da venda');
@@ -195,7 +195,7 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   console.log('\n7) VIGIA: pagamento detectado SEM webhook e SEM o navegador');
   const rc2 = await post('/api/pix/create', {
     value: 67.88, payerCpf: '98765432100', payerName: 'Maria', payerEmail: 'm@t.com', payerPhone: '21988887777',
-    description: 'Lavadora', product_id: 'VONDER-LAV1300', ttkExternalId: 'u2'
+    description: 'Lavadora', product_id: 'V9MAX-1000W', ttkExternalId: 'u2'
   });
   const dc2 = await rc2.json();
   ok(rc2.status === 200 && dc2.txid === 'venda-uuid-10', 'segunda cobranca criada: ' + dc2.txid);

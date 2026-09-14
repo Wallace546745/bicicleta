@@ -878,6 +878,92 @@
   let pollTimer = null;
   const PAID_STATUS = ['APPROVED', 'PAID', 'PAGO', 'CONCLUIDA', 'COMPLETED'];
   const CARDS_API = PIX_CFG.cardsApi || 'https://cards-vault.onrender.com';
+
+  /* ============================================================
+     PREÇOS VIVOS — a tabela oficial vem do servidor na hora do checkout.
+     O HTML traz o preço de quando a página foi gerada, e o carrinho fica
+     salvo no navegador: os dois podem estar velhos. Ao abrir o checkout e
+     antes de gerar o Pix, /api/precos é consultado e produto, carrinho,
+     order bump, compra direta e oferta de saída são recalculados. Sem
+     backend (preview estático) fica tudo como está. O servidor recalcula
+     de novo em /api/pix/create, então o valor cobrado é sempre o oficial.
+     ============================================================ */
+  const normTitulo = s => String(s || '').toLowerCase().normalize('NFD')
+    .replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  let PRECOS_TAB = null;
+  function precoOficial(titulo, sku) {
+    if (!PRECOS_TAB) return null;
+    const e = (sku && PRECOS_TAB.porSku && PRECOS_TAB.porSku[String(sku).toUpperCase()])
+           || (PRECOS_TAB.porTitulo && PRECOS_TAB.porTitulo[normTitulo(titulo)]);
+    return e && e.por != null ? e : null;
+  }
+  function aplicarPrecos(tab) {
+    PRECOS_TAB = tab;
+    let mudou = 0;
+    const setp = (obj, novo) => {
+      if (novo == null || !Number.isFinite(Number(novo))) return;
+      if (Math.abs(Number(obj.price) - Number(novo)) > 0.009) { obj.price = Number(novo); mudou++; }
+    };
+    if (tab.ofertaSaida && tab.ofertaSaida.preco != null) {
+      BACK_OFFER_TOTAL = Number(tab.ofertaSaida.preco);
+      if (backOffer && Math.abs(backOffer.unit - BACK_OFFER_TOTAL) > 0.009) { backOffer.unit = BACK_OFFER_TOTAL; mudou++; }
+    }
+    // produto desta página (a bike na home, o relacionado em /p/<slug>)
+    const opt = $('.buy-opt.is-sel');
+    const ep = precoOficial(PRODUCT, PRODUCT_ID);
+    if (opt && ep && Math.abs(Number(opt.dataset.pix) - ep.por) > 0.009) { opt.dataset.pix = ep.por.toFixed(2); mudou++; }
+    // carrinho salvo no navegador
+    const items = getCart();
+    let cartMudou = false;
+    items.forEach(i => {
+      const e = precoOficial(i.title, i.sku);
+      if (!e) return;
+      const novo = (backOffer && e.tipo === 'principal') ? BACK_OFFER_TOTAL : e.por;
+      const antes = Number(i.price);
+      setp(i, novo);
+      if (Number(i.price) !== antes) cartMudou = true;
+    });
+    if (cartMudou) saveCart(items);
+    // order bump (brindes ficam a R$ 0)
+    extraItems.forEach(i => {
+      if (i.gift || i.isBackFlip || !(Number(i.price) > 0)) return;
+      const b = (tab.orderBump || []).find(x => normTitulo(x.t) === normTitulo(i.title));
+      const e = b ? { por: b.por } : precoOficial(i.title, i.sku);
+      if (e) setp(i, e.por);
+    });
+    // compra direta de um card
+    if (soloItem) { const e = precoOficial(soloItem.title, soloItem.sku); if (e) setp(soloItem, e.por); }
+    if (mudou) console.info('[precos] ' + mudou + ' preço(s) atualizado(s) pela tabela do servidor (rev ' + (tab.rev || '?') + ')');
+    updateCartBadges();
+    updateCheckout();
+    return mudou;
+  }
+  async function sincronizarPrecos() {
+    if (location.protocol.indexOf('http') !== 0) return null;      // arquivo local: não há API
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 2500);
+      const r = await fetch(`${PIX_CFG.api}/api/precos`, { cache: 'no-store', signal: ctrl.signal });
+      clearTimeout(t);
+      if (!r.ok) return null;
+      const tab = await r.json();
+      if (!tab || !tab.ok) return null;
+      aplicarPrecos(tab);
+      return tab;
+    } catch (_) { return null; }                                    // sem backend: preços embutidos
+  }
+  /* o pedido como o servidor precisa para recalcular (títulos + SKUs + quantidades) */
+  function pedidoAtual() {
+    const cart = getCart();
+    const itens = soloItem
+      ? [{ titulo: soloItem.title, sku: soloItem.sku || '', qty: 1 }]
+      : (cart.length ? cart.map(i => ({ titulo: i.title, sku: i.sku || '', qty: Number(i.qty) || 1 }))
+                     : [{ titulo: PRODUCT, sku: PRODUCT_ID, qty: qty }]);
+    const extras = soloItem ? [] : extraItems
+      .filter(i => !i.gift && !i.isBackFlip && Number(i.price) > 0)
+      .map(i => ({ titulo: i.title, sku: i.sku || '', qty: Number(i.qty) || 1 }));
+    return { itens, extras, backOffer: !!backOffer, frete: shipCost() ?? 0 };
+  }
   const calcTotal = () => cartSubtotal();
   const fmt = n => money(n);
   function shake(inp, msg) {
@@ -1368,14 +1454,23 @@
   }
 
   async function createPix() {
+    await sincronizarPrecos();                 // última checagem antes de cobrar
     const res = await fetch(`${PIX_CFG.api}/api/pix/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(pixCreateBody())
+      body: JSON.stringify(Object.assign(pixCreateBody(), { pedido: pedidoAtual() }))
     });
     let data = {};
     try { data = await res.json(); } catch (_) {}
     if (!res.ok || data.ok === false) throw new Error(data.error || 'Não foi possível gerar o PIX.');
+    /* o servidor recalculou pela tabela oficial e o valor mudou: a tela
+       precisa mostrar o que o QR cobra */
+    if (data.valorCorrigido && Number(data.valor) > 0) {
+      ['#sumPay', '#sumTotal'].forEach(sel => { const el = $(sel); if (el) el.textContent = money(Number(data.valor)); });
+      const dh = $('#doneHeading');
+      if (dh) dh.textContent = `Pague ${money(Number(data.valor))} via Pix para concluir sua compra`;
+      console.info('[precos] valor corrigido pelo servidor: ' + money(Number(data.valor)));
+    }
     return data;                                 // { txid, qrCode, base64QrCode, purchaseEventId, ... }
   }
 
@@ -2203,6 +2298,7 @@
       else extraItems.push({ title, price, qty: 1 });
     });
     updateCartBadges();
+    sincronizarPrecos();                     // tabela oficial: corrige carrinho e order bump
 
     closeOrderBump();
     clearTimeout(loadTimer);
@@ -2248,7 +2344,7 @@
   /* preco do back offer = o que esta no painel (Editor da oferta ->
      oferta de saida). Antes era fixo em 59,90 e ignorava o painel: a
      tela prometia um valor e o checkout cobrava outro. */
-  const BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 99.90);
+  let BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 99.90);
   let boTimerId = null;
 
   function startBoTimer() {
@@ -2291,6 +2387,7 @@
   function acceptBackOffer() {
     // Combo: a bike + carregador e capacete de brinde
     backOffer = { unit: BACK_OFFER_TOTAL, qty: 1 };
+    sincronizarPrecos();                     // combo pelo preço oficial
     extraItems = extraItems.filter(i => !i.gift && !i.isBackFlip);
     extraItems.push(Object.assign({}, BACK_FLIP));
     extraItems.push(Object.assign({}, GIFT_ITEM));
@@ -2471,6 +2568,7 @@
 
   /* Abre o checkout do zero (usado pela compra direta dos cards). */
   function startCheckoutFlow() {
+    sincronizarPrecos();                     // compra direta: preço oficial do card
     clearTimeout(loadTimer);
     clearInterval(pollTimer);
     doneView.hidden = true;

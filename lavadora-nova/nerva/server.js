@@ -27,6 +27,7 @@ const settings = require('./settings');
 const push = require('./push');
 const ads  = require('./ads');
 const geo  = require('./geo');
+const precos = require('./precos');   // tabela oficial de preços (checkout e /api/pix/create)
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -65,6 +66,7 @@ settings.mount(app, adm.auth);
 ads.mount(app, adm.auth);      // relatorio das campanhas do TikTok no painel
 geo.mount(app, adm.auth);      // localizacao dos clientes (IP -> estado/cidade)
 push.mount(app, adm.auth);
+precos.mount(app);             // GET /api/precos e POST /api/precos/cotar
 
 const onlyDigits = s => String(s || '').replace(/\D/g, '');
 const clientIp = req =>
@@ -111,7 +113,26 @@ const novaChave = fp => `lav1300-${fp.slice(0, 8)}-${Date.now().toString(36)}`;
 app.post('/api/pix/create', async (req, res) => {
   const b = req.body || {};
   try {
-    const amount = Number(b.value);
+    let amount = Number(b.value);
+    /* O valor que o navegador manda não é a palavra final. Quando o pedido
+       vem junto (itens, extras, oferta de saída, frete), o total é
+       recalculado pela tabela oficial (nerva/precos.js) e é ESSE que vai
+       para a cobrança. Item fora do catálogo não gera Pix. Sem pedido
+       (cliente antigo), vale o valor enviado, como antes. */
+    let valorCorrigido = false;
+    if (b.pedido && typeof b.pedido === 'object') {
+      const cot = precos.cotar(b.pedido);
+      if (!cot.ok) {
+        return res.status(400).json({ ok: false, error: 'Produto fora do catálogo: ' + cot.naoEncontrados.join(', ') });
+      }
+      if (cot.itens.length) {
+        if (Math.abs(cot.total - amount) > 0.009) {
+          valorCorrigido = true;
+          admin.logEvent('pix_valor_corrigido', { enviado: amount, oficial: cot.total, rev: cot.rev });
+        }
+        amount = cot.total;
+      }
+    }
     // A doc diz mínimo R$ 0,01, mas a API de produção rejeita abaixo de R$ 1,00.
     if (!Number.isFinite(amount) || amount < 1) {
       return res.status(400).json({ ok: false, error: 'Valor mínimo da venda é R$ 1,00.' });
@@ -238,6 +259,7 @@ app.post('/api/pix/create', async (req, res) => {
 
     // contrato que o front já espera
     return res.json({
+      valor: amount, valorCorrigido,          // total oficial cobrado (pode diferir do enviado)
       ok: true,
       txid: sale.id,
       qrCode: sale.pixCode,

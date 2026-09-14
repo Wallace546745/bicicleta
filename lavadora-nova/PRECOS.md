@@ -53,3 +53,29 @@ Os dois caminhos convivem: o `precos.js` mexe no conteúdo embutido (o que
 aparece antes da hidratação e quando o backend está fora), o editor mexe no
 publicado. Se você usa o editor, rode o `precos.js` também — senão a página
 pisca com o preço antigo antes de corrigir.
+
+## API de preços: o checkout puxa o valor certo do servidor
+
+O HTML traz o preço de quando a página foi gerada, e o carrinho fica salvo no
+navegador. Os dois podem estar velhos. Por isso o preço cobrado nunca é o que
+o navegador manda: ele vem da tabela oficial em `nerva/precos.js`.
+
+| Rota | O que faz |
+|---|---|
+| `GET /api/precos` | Tabela oficial: produto principal, os relacionados (com os ajustes do painel), itens do order bump, oferta de saída e índices por título e por SKU. |
+| `POST /api/precos/cotar` | Recebe `{ itens, extras, backOffer, frete }` e devolve o total oficial, item a item. Item fora do catálogo responde 422. |
+
+Como a loja usa:
+
+1. Ao abrir o checkout (comprar agora, carrinho, compra direta de um card ou
+   oferta de saída), `app.js` chama `GET /api/precos` e corrige o produto da
+   página, o carrinho salvo, o order bump e o combo de saída. O resumo é
+   redesenhado com os valores oficiais.
+2. Antes de gerar o Pix, sincroniza de novo e manda o pedido junto
+   (`pedido: { itens, extras, backOffer, frete }`).
+3. `POST /api/pix/create` recalcula o total pela mesma tabela e cobra ESSE
+   valor. Se diferir do enviado, responde `valorCorrigido: true` e a tela
+   mostra o valor que o QR cobra. Produto fora do catálogo não gera Pix.
+
+Sem backend (preview estático), a loja segue com os preços embutidos.
+Teste sem subir servidor: `node teste_precos.js`.

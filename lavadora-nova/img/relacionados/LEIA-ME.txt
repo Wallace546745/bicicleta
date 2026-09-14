@@ -10,5 +10,3 @@ Uma foto por produto, com o nome do slug da pagina /p/<slug>/:
   mini-compressor-rezzet            .webp   Mini Compressor Rezzet
   caixa-de-som-jbl-boombox-4        .webp   JBL Boombox 4 Preta
 
-As fotos atuais sao PROVISORIAS (placeholder com o nome do produto).
-Troque pelo arquivo real com o mesmo nome e nada mais precisa mudar.

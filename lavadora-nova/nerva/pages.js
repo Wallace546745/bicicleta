@@ -340,7 +340,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
       nota: '4.7', avaliacoes: '1.204', categoria: ["Acessórios para Veículos", "Ferramentas para Veículos", "Compressores de Ar"]
     },
     preco: { de: 119.9, por: 22.6, off: '81% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ["img/relacionados/mini-compressor-rezzet.webp"],
+    fotos: ['img/relacionados/mini-compressor-rezzet.webp', 'img/relacionados/mini-compressor-rezzet-2.webp', 'img/relacionados/mini-compressor-rezzet-3.webp', 'img/relacionados/mini-compressor-rezzet-4.webp', 'img/relacionados/mini-compressor-rezzet-5.webp'],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/mini-compressor-rezzet.webp' }] },
     bullets: [
       'Enche e calibra pneus de carro, moto, bicicleta, scooter e bolas.',

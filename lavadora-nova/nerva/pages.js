@@ -62,7 +62,7 @@ const CATALOGO = [
       vendidos: "+1000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Peças para Bicicletas", "Baterias e Carregadores"]
     },
-    preco: { de: 149.9, por: 23.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    preco: { de: 149.9, por: 14.9, off: '90% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
     fotos: ['img/relacionados/carregador-48v-2ah.webp', 'img/relacionados/carregador-48v-2ah-2.webp', 'img/relacionados/carregador-48v-2ah-3.webp', 'img/relacionados/carregador-48v-2ah-4.webp', 'img/relacionados/carregador-48v-2ah-5.webp'],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/carregador-48v-2ah.webp' }] },
     bullets: ["Carregador para baterias de lítio 48V: saída de 54,6V e 2A.", "Serve para bicicletas e scooters elétricas 48V, como a V9 Max.", "Entrada bivolt automática, de 100V a 240V.", "LED indica carregando (vermelho) e carga completa (verde).", "Proteção contra sobrecarga, curto-circuito e superaquecimento.", "Confira o conector da sua bateria antes de comprar."],
@@ -434,7 +434,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
 /* ---------------- order bumps por família de produto ---------------- */
 const BUMPS = {
   "acess": [
-    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
     { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
@@ -443,11 +443,11 @@ const BUMPS = {
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-capacete": [
-    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-compressor": [
-    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 23.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
     { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' }
   ]
 };

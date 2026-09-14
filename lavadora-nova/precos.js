@@ -22,7 +22,7 @@ const PRECOS = {
 
   // ---------- PRODUTOS RELACIONADOS ----------
   // a chave é o slug da página /p/<slug>/
-  "carregador-48v-2ah"                : { de:   149.90, por:    23.90 },
+  "carregador-48v-2ah"                : { de:   149.90, por:     14.90 },
   "patinete-eletrico-gm5-p1"          : { de:  1260.00, por:    87.67 },
   "bicicleta-eletrica-cavalletta-c2"  : { de:  6097.00, por:   979.90 },
   "capacete-gta-start-led"            : { de:   139.99, por:    22.90 },

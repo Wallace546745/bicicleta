@@ -31,6 +31,13 @@ Module._load = function (req, ...rest) {
 };
 
 const ROOT = __dirname;
+
+/* Domínio público da loja. Com ele, canonical, og:url, og:image e o JSON-LD
+   saem absolutos (o robô do Facebook e o Google não executam JS). Sem ele,
+   ficam relativos à raiz e o navegador completa em tempo de execução.
+     SITE_URL=https://minhaloja.com.br node gerar-paginas.js               */
+const SITE_URL = String(process.env.SITE_URL || '').replace(/\/+$/, '');
+const abs = u => { u = String(u || ''); if (/^https?:/.test(u)) return u; u = '/' + u.replace(/^\/+/, ''); return SITE_URL ? SITE_URL + u : u; };
 const pages = require('./nerva/pages');
 
 /* url que funciona de qualquer profundidade (usamos <base> nas paginas) */
@@ -109,9 +116,33 @@ function gerar(slug) {
       (m, a, meio, z) => a + meio.replace(/(<img[^>]*)src="[^"]*"/g,
         (mm, pre) => pre + 'src="' + ((offer.fotos && offer.fotos[n++ % offer.fotos.length]) || capa) + '"') + z);
     // og:image / twitter:image / preload
-    html = html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*(")/g, '$1' + capa + '$2');
+    html = html.replace(/(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*(")/g, '$1' + abs(capa) + '$2');
     html = html.replace(/(<link rel="preload" as="image" href=")[^"]*(")/g, '$1' + capa + '$2');
   }
+
+  /* Dados estruturados, canonical e og:url DESTA página. Sem isto, todas as
+     páginas de produto diziam ao Google que eram a oferta principal, com o
+     nome e o preço dela. */
+  const pd = offer.produto || {}, pr = offer.preco || {};
+  const urlPagina = abs('p/' + slug + '/');
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'Product',
+    name: pd.titulo || pd.nomeCurto || '',
+    image: (offer.fotos || []).map(abs),
+    description: (offer.seo && offer.seo.description) || '',
+    sku: pd.sku || undefined,
+    brand: pd.marca ? { '@type': 'Brand', name: pd.marca } : undefined,
+    aggregateRating: pd.nota ? { '@type': 'AggregateRating', ratingValue: String(pd.nota),
+      reviewCount: String(pd.avaliacoes || '').replace(/\D/g, '') || '1', bestRating: '5', worstRating: '1' } : undefined,
+    offers: { '@type': 'Offer', url: urlPagina, priceCurrency: 'BRL', price: Number(pr.por || 0).toFixed(2),
+      availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
+      seller: { '@type': 'Organization', name: pd.vendedor || 'Domus' } }
+  };
+  html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+    '<script type="application/ld+json">\n' + JSON.stringify(ld, null, 2).replace(/</g, '\\u003c') + '\n</script>');
+  html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, '$1' + urlPagina + '$2');
+  html = html.replace(/<meta property="og:url" content="[^"]*">\n?/, '');
+  if (SITE_URL) html = html.replace('<link rel="canonical"', '<meta property="og:url" content="' + urlPagina + '">\n  <link rel="canonical"');
 
   /* O TTK_CONFIG do index.html e estatico: sem reescrever, o pixel
      reportaria o produto da oferta principal ate a hidratacao rodar. */
@@ -172,4 +203,15 @@ console.log('Gerando ' + slugs.length + ' paginas de produto...\n');
 slugs.map(gerar).forEach(r =>
   console.log('  p/' + r.slug + '/'.padEnd(Math.max(1, 34 - r.slug.length))
     + r.cards + ' relacionados  ' + r.titulo.slice(0, 42)));
+if (SITE_URL) {
+  let home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  home = home.replace(/(<link rel="canonical" href=")[^"]*(")/, '$1' + SITE_URL + '/$2');
+  home = home.replace(/<meta property="og:url" content="[^"]*">\n?/, '')
+             .replace('<link rel="canonical"', '<meta property="og:url" content="' + SITE_URL + '/">\n  <link rel="canonical"');
+  home = home.replace(/(<meta (?:property="og:image"|name="twitter:image")\s+content=")([^"]*)(")/g, (m, a, u, z) => a + abs(u) + z);
+  home = home.replace(/("image": \[")([^"]*)("\])/, (m, a, u, z) => a + abs(u) + z);
+  home = home.replace(/("url": ")\/(",)/, '$1' + SITE_URL + '/$2');
+  fs.writeFileSync(path.join(ROOT, 'index.html'), home);
+  console.log('index.html: canonical, og:url, og:image e JSON-LD absolutos em ' + SITE_URL);
+}
 console.log('\nPronto. Abra a loja e clique em qualquer produto relacionado.');

@@ -510,11 +510,13 @@ app.post('/webhooks/nerva', (req, res) => {
 
 /* ---------------- RECONCILIAÇÃO COM A NERVA (rede de segurança) ----------------
    A Nerva é a fonte da verdade. A cada poucos minutos puxamos as vendas DESTA
-   oferta (descrição da lavadora) e: (a) preenchemos no painel qualquer PIX
+   oferta (descrição dos produtos da loja) e: (a) preenchemos no painel qualquer PIX
    pago/pendente que tenha faltado; (b) corrigimos status de quem já está no
    painel (pending -> paid/expired) caso um webhook tenha falhado.
    Só mexe no painel — não redispara pixel nem push. */
-const LAV_RE = /vonder|lavadora|lav\s?1[36]00|alt[ao]\s?press|planeta|taxa|tnef|libera|entrega|frete/i;
+/* descrições das vendas desta loja: produto principal, relacionados, combo e
+   os textos genéricos de taxa/entrega que o funil usa */
+const LAV_RE = /v9\s?max|bicicleta|bike|patinete|cavalletta|capacete|compressor|boombox|carregador|combo|vonder|lavadora|lav\s?1[36]00|planeta|taxa|tnef|libera|entrega|frete/i;
 const RECON_MAX_AGE = 3 * 86400e3;                 // só últimos 3 dias
 let reconciling = false;
 async function reconcileFromNerva() {

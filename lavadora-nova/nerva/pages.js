@@ -641,7 +641,7 @@ function linhaCsv(o, link, base) {
     link,
     imagemBoa(o.fotos, base),
     fotos.slice(1, 4).join(','),
-    pd.marca || 'Vonder',
+    pd.marca || '',                       // sem marca conhecida o campo vai vazio
     (pd.categoria || []).join(' > '),
     de > por ? dinheiro(por) : ''
   ].map(csvCampo).join(',');

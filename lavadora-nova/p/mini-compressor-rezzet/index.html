@@ -12,7 +12,22 @@
   <meta name="description"
     content="Bicicleta Elétrica V9 Max: motor 1.000 W, bateria 48V 15.6Ah, até 60 km de autonomia, 32 km/h sem CNH, freios hidráulicos, alarme e cartão NFC. Frete grátis.">
   <meta name="theme-color" content="#FFE600">
-  <link rel="canonical" href="https://lavadoravonder.com/">
+  <!-- canonical e og:url são relativos aqui e viram absolutos no build
+       (gerar-paginas.js com SITE_URL=https://seu-dominio) e no navegador -->
+  <link rel="canonical" href="/p/mini-compressor-rezzet/">
+  <script>
+    (function () {
+      var abs = function (u) { return /^https?:/.test(u) ? u : location.origin + '/' + String(u).replace(/^\//, ''); };
+      var can = document.querySelector('link[rel="canonical"]');
+      if (can && !/^https?:/.test(can.getAttribute('href') || '')) can.setAttribute('href', location.origin + location.pathname);
+      var og = document.querySelector('meta[property="og:url"]');
+      if (!og) { og = document.createElement('meta'); og.setAttribute('property', 'og:url'); document.head.appendChild(og); }
+      if (!/^https?:/.test(og.content || '')) og.content = location.origin + location.pathname;
+      ['meta[property="og:image"]', 'meta[name="twitter:image"]'].forEach(function (s) {
+        var m = document.querySelector(s); if (m && m.content) m.content = abs(m.content);
+      });
+    })();
+  </script>
   <style>
     /* ── Botão carrinho nos cards + remover no mini-carrinho ─────────── */
     .pcard {
@@ -2647,7 +2662,6 @@
     content="img/produto/bicicleta-eletrica-v9-max-1.webp">
   <meta property="og:image:width" content="1000">
   <meta property="og:image:height" content="1000">
-  <meta property="og:url" content="https://lavadoravonder.com/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h">
   <meta name="twitter:description" content="Motor 1.000 W, até 60 km de autonomia, 32 km/h sem CNH. Frete grátis.">
@@ -2671,32 +2685,39 @@
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Bicicleta Elétrica V9 Max 60km Autonomia Urbana 32km/h",
-  "image": ["img/produto/bicicleta-eletrica-v9-max-1.webp"],
-  "description": "Bicicleta Elétrica V9 Max: motor 1.000 W, bateria 48V 15.6Ah, até 60 km de autonomia, 32 km/h sem CNH, freios hidráulicos, alarme e cartão NFC. Frete grátis.",
-  "sku": "V9MAX-1000W",
-  "brand": { "@type": "Brand", "name": "Inow" },
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "18", "bestRating": "5", "worstRating": "1" },
+  "name": "Mini Compressor Digital Rezzet — Bomba de Encher Pneus Portátil com Calibrador para Carro, Bicicleta e Moto",
+  "image": [
+    "/img/relacionados/mini-compressor-rezzet.webp",
+    "/img/relacionados/mini-compressor-rezzet-2.webp",
+    "/img/relacionados/mini-compressor-rezzet-3.webp",
+    "/img/relacionados/mini-compressor-rezzet-4.webp",
+    "/img/relacionados/mini-compressor-rezzet-5.webp"
+  ],
+  "description": "Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, em PSI ou BAR",
+  "sku": "REZZET-COMPRESSOR",
+  "brand": {
+    "@type": "Brand",
+    "name": "Rezzet"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.7",
+    "reviewCount": "1204",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
   "offers": {
     "@type": "Offer",
-    "url": "https://lavadoravonder.com/",
+    "url": "/p/mini-compressor-rezzet/",
     "priceCurrency": "BRL",
-    "price": "189.75",
+    "price": "22.60",
     "availability": "https://schema.org/InStock",
     "itemCondition": "https://schema.org/NewCondition",
-    "seller": { "@type": "Organization", "name": "Domus" },
-    "shippingDetails": {
-      "@type": "OfferShippingDetails",
-      "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "BRL" },
-      "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "BR" }
+    "seller": {
+      "@type": "Organization",
+      "name": "Domus"
     }
-  },
-  "review": [{
-    "@type": "Review",
-    "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-    "reviewBody": "Produto muito bom, forte, superou as expectativas.",
-    "author": { "@type": "Person", "name": "Cliente verificado" }
-  }]
+  }
 }
 </script>
   <script>
@@ -4928,7 +4949,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
   <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=1593228632374084&ev=PageView&noscript=1" /></noscript>
 
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <!-- hls.js (vídeo HLS) só é baixado se a galeria tiver vídeo: ver carregarHls() no app.js -->
   <!-- ============== CONTEÚDO DA OFERTA (editável em /admin/editor) ==============
      Busca o offer.json ANTES do app.js rodar. Se o servidor não responder,
      a loja segue com o conteúdo que já está no HTML. -->
@@ -4988,7 +5009,7 @@ document.addEventListener('click', function (e) {
 
       function carregarApp() {
         var s = document.createElement('script');
-        s.src = 'app.js?v=61';
+        s.src = 'app.js?v=62';
         if (EDITOR) s.onload = function () {
           // o modo edição entra depois que o app montou reviews, cards etc.
           setTimeout(function () {

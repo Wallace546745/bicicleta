@@ -297,6 +297,16 @@
       </div>`;
     const video = $('#stageVid', stage);
     const src = g.src;
+    /* hls.js saiu do <head>: era baixado em toda visita mesmo sem vídeo na
+       galeria. Agora só entra quando um vídeo HLS é tocado. */
+    if (src.includes('.m3u8') && typeof Hls === 'undefined' && !video.canPlayType('application/vnd.apple.mpegurl')) {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1';
+      s.onload = () => playVideo(g);
+      s.onerror = () => toast('Não foi possível carregar o vídeo.');
+      document.head.appendChild(s);
+      return;
+    }
     if (src.includes('.m3u8') && typeof Hls !== 'undefined' && Hls.isSupported()) {
       const hls = new Hls({ enableWorker: false });
       hls.loadSource(src);

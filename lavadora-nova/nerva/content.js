@@ -146,9 +146,9 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     titulo: 'Oferta especial antes de finalizar!',
     sub: 'Adicione ao seu pedido com frete grátis incluso',
     itens: [
-      { t: 'Suporte de Celular para Moto e Bicicleta com Carregador USB no Guidão', p: 14.9, old: 89.9, img: 'img/bump/suporte-celular-guidao.webp' },
-      { t: 'Kit 2 Garrafas Dobráveis 500 ml para Colete de Corrida e Ciclismo', p: 9.9, old: 59.9, img: 'img/bump/garrafas-dobraveis-500ml.webp' },
-      { t: 'Bateria de Lítio Trapézio 48V 15.6Ah com Carregador', p: 149.9, old: 1499, img: 'img/bump/bateria-litio-48v-156ah.webp' }
+      { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+      { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+      { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
     ]
   },
   ofertaSaida: {

@@ -104,7 +104,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "sem-carregador",
     seo: {
       title: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica — MBE4015, Bivolt | Domus',
       description: 'Carregador de reposição para baterias de lítio 48V de bicicletas e scooters elétricas. A saída de 54,6V é a tensão de carga completa de um pack de lít',
@@ -182,7 +182,7 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "acess",
     seo: {
       title: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth — 25 km/h e Autonomia de 22 km | Domus',
       description: 'O GM5 P1 é um patinete elétrico para o trajeto curto do dia a dia: até o metrô, até o trabalho, até a padaria. O motor de 400 W leva a 25 km/h e sobe ',
@@ -260,7 +260,7 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "acess",
     seo: {
       title: 'Bicicleta Elétrica Cavalletta C2 750W — Bateria de Lítio Removível 48V 20Ah, até 65 km | Domus',
       description: 'A Cavalletta C2 é uma bicicleta elétrica urbana no estilo scooter, com motor de 750 W e bateria de lítio 48V 20Ah que rende até 65 km por carga. A vel',
@@ -321,7 +321,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "sem-capacete",
     seo: {
       title: 'Capacete GTA Start com Sinalizador de LED — Ciclismo, MTB e Bike Elétrica | Domus',
       description: 'Capacete de ciclismo com sinalizador traseiro integrado: 6 LEDs vermelhos com três funções, contínuo, pisca e strobo, para você ser visto de longe à n',
@@ -392,7 +392,7 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "sem-compressor",
     seo: {
       title: 'Mini Compressor Digital Rezzet — Bomba de Encher Pneus Portátil com Calibrador para Carro, Bicicleta e Moto | Domus',
       description: 'Compressor de ar portátil com bateria interna, para encher e calibrar pneus sem depender de posto. Escolha a pressão no display digital, em PSI ou BAR',
@@ -451,7 +451,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
         { nota: 5, pais: 'Brasil', quando: 'Há 5 meses', likes: 24, texto: 'Atendeu certinho o que eu precisava.', fotos: [] }
       ]
     },
-    bump: 'acess',
+    bump: "acess",
     seo: {
       title: 'Caixa de Som JBL Boombox 4 Bluetooth 210W — AI Sound Boost, IP68, Bateria de até 34h, Áudio Lossless, Preta | Domus',
       description: 'A Boombox 4 é a maior caixa portátil da JBL: 210 W de potência, dois woofers de 5 polegadas, dois tweeters de 0,75 polegada e três radiadores passivos',
@@ -462,10 +462,22 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
 
 /* ---------------- order bumps por família de produto ---------------- */
 const BUMPS = {
-  acess: [
-    { t: 'Suporte de Celular para Moto e Bicicleta com Carregador USB no Guidão', p: 14.9, old: 89.9, img: 'img/bump/suporte-celular-guidao.webp' },
-    { t: 'Kit 2 Garrafas Dobráveis 500 ml para Colete de Corrida e Ciclismo', p: 9.9, old: 59.9, img: 'img/bump/garrafas-dobraveis-500ml.webp' },
-    { t: 'Bateria de Lítio Trapézio 48V 15.6Ah com Carregador', p: 149.9, old: 1499, img: 'img/bump/bateria-litio-48v-156ah.webp' }
+  "acess": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+  ],
+  "sem-carregador": [
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+  ],
+  "sem-capacete": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 22.6, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
+  ],
+  "sem-compressor": [
+    { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' }
   ]
 };
 

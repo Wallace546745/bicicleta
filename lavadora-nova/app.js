@@ -548,7 +548,7 @@
     const key = (item.id || item.title) + '___' + (item.variant || '');
     const existing = items.find(i => ((i.id || i.title) + '___' + (i.variant || '')) === key);
     if (existing) {
-      existing.qty = (Number(existing.qty) || 1) + (Number(item.qty) || 229.90);
+      existing.qty = (Number(existing.qty) || 1) + (Number(item.qty) || 1);
       if (item.price) existing.price = Number(item.price);
       if (item.img && !existing.img) existing.img = item.img;
     } else {
@@ -2240,17 +2240,15 @@
   /* ═══════════════════════════════════════════
      BACK-REDIRECT / EXIT-INTENT
      Trava o botão "voltar" (só no front): re-empurra o history e abre um
-     popup com o combo V9 Max + 3 brindes.
+     popup com o combo V9 Max + 2 brindes.
      ═══════════════════════════════════════════ */
   const boModal   = document.getElementById('backOfferModal');
   const GIFT_ITEM = { title: 'Capacete GTA Start LED (Brinde)', price: 0, qty: 1, img: 'img/relacionados/capacete-gta-start-led.webp', gift: true };
   const BACK_FLIP = { title: 'Carregador 48V 2Ah MBE4015 (Brinde)', price: 0, qty: 1, img: 'img/relacionados/carregador-48v-2ah.webp', isBackFlip: true };
-  /* 3º brinde da oferta de saída. Antes eram só dois. */
-  const BACK_GIFT_3 = { title: 'Mini Compressor Rezzet (Brinde)', price: 0, qty: 1, img: 'img/relacionados/mini-compressor-rezzet.webp', gift: true };
   /* preco do back offer = o que esta no painel (Editor da oferta ->
      oferta de saida). Antes era fixo em 59,90 e ignorava o painel: a
      tela prometia um valor e o checkout cobrava outro. */
-  const BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 229.90);
+  const BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 99.90);
   let boTimerId = null;
 
   function startBoTimer() {
@@ -2291,12 +2289,11 @@
   /* Aceitou a oferta → monta o combo (2× a R$ 79,90) + brinde e vai DIRETO ao
      checkout (pula o order bump). */
   function acceptBackOffer() {
-    // Combo: a bike + carregador, capacete e compressor de brinde
+    // Combo: a bike + carregador e capacete de brinde
     backOffer = { unit: BACK_OFFER_TOTAL, qty: 1 };
     extraItems = extraItems.filter(i => !i.gift && !i.isBackFlip);
     extraItems.push(Object.assign({}, BACK_FLIP));
     extraItems.push(Object.assign({}, GIFT_ITEM));
-    extraItems.push(Object.assign({}, BACK_GIFT_3));
     closeBackOffer();
     clearTimeout(loadTimer);
     clearInterval(pollTimer);
@@ -2309,7 +2306,7 @@
     showLoading('Preparando sua oferta<br>especial…');
     openModal(cho);
     fbTrack('InitiateCheckout', { value: BACK_OFFER_TOTAL, currency: 'BRL', content_ids: [PRODUCT_ID], content_type: 'product', num_items: 3 });
-    ttkTrack('InitiateCheckout', { value: BACK_OFFER_TOTAL, quantity: 4 });
+    ttkTrack('InitiateCheckout', { value: BACK_OFFER_TOTAL, quantity: 3 });
     hideLoadingAfter(1400, () => $('#fCep').focus());
   }
 
@@ -2337,6 +2334,17 @@
     try { history.pushState({ lrz: 'keep' }, '', location.href); } catch (_) {}
     if (openModalEl() || obModal.classList.contains('is-open')) { closeOrderBump(); closeModals(); return; }
     if (boModal.classList.contains('is-open')) return;
+    openBackOffer();
+  });
+
+  /* Intenção de saída no desktop: o mouse sobe para fora da janela (fechar a
+     aba, digitar outra URL, trocar de aba). Dispara uma vez por visita. No
+     celular não existe esse evento, então lá vale só a armadilha do "voltar". */
+  let boExitShown = false;
+  document.addEventListener('mouseout', function (e) {
+    if (boExitShown || e.relatedTarget || e.clientY > 0) return;
+    if (openModalEl() || obModal.classList.contains('is-open') || boModal.classList.contains('is-open')) return;
+    boExitShown = true;
     openBackOffer();
   });
   }

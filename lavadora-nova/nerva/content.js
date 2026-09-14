@@ -154,16 +154,15 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
   ofertaSaida: {
     titulo: 'ESPERA! Não vá embora…',
     sub: 'Liberamos uma condição exclusiva só pra você agora',
-    chamada: 'Leve a Bicicleta Elétrica V9 Max + Carregador 48V 2Ah MBE4015 + Capacete GTA Start LED + Mini Compressor Rezzet de brinde',
-    preco: 229.9,
-    brindeTitulo: 'GRÁTIS: Carregador 48V 2Ah MBE4015 + Capacete GTA Start LED + Mini Compressor Rezzet',
-    brindeTexto: 'Os 3 brindes já entram separados no seu pedido — sem custo nenhum.',
+    chamada: 'Leve a Bicicleta Elétrica V9 Max + Carregador 48V 2Ah + Capacete GTA Start LED, tudo por R$ 99,90',
+    preco: 99.9,
+    brindeTitulo: 'GRÁTIS: Carregador 48V 2Ah + Capacete GTA Start LED',
+    brindeTexto: 'Os 2 brindes já entram separados no seu pedido — sem custo nenhum.',
     imgProduto: ['img/produto/bicicleta-eletrica-v9-max-1.webp'],
-    imgBrindes: ["img/relacionados/carregador-48v-2ah.webp", "img/relacionados/capacete-gta-start-led.webp", "img/relacionados/mini-compressor-rezzet.webp"],
+    imgBrindes: ['img/relacionados/carregador-48v-2ah.webp', 'img/relacionados/capacete-gta-start-led.webp'],
     brindes: [
       { t: 'Carregador 48V 2Ah MBE4015 (Brinde)', img: 'img/relacionados/carregador-48v-2ah.webp' },
-      { t: 'Capacete GTA Start LED (Brinde)', img: 'img/relacionados/capacete-gta-start-led.webp' },
-      { t: 'Mini Compressor Rezzet (Brinde)', img: 'img/relacionados/mini-compressor-rezzet.webp' }
+      { t: 'Capacete GTA Start LED (Brinde)', img: 'img/relacionados/capacete-gta-start-led.webp' }
     ]
   },
   seo: {

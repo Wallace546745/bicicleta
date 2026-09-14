@@ -34,9 +34,9 @@ const PRECOS = {
   /* Oferta de saída. Pode ser MENOR que o preço principal (desconto) ou
      MAIOR (combo com brindes, como está agora: 3 brindes por R$ 99,70). */
   ofertaSaida: {
-    por: 229.90,
+    por: 99.90,
     // produtos que entram de brinde — o riscado é a soma de tudo
-    brindes: ["carregador-48v-2ah", "capacete-gta-start-led", "mini-compressor-rezzet"],
+    brindes: ['carregador-48v-2ah', 'capacete-gta-start-led'],
   },
 };
 
@@ -138,7 +138,7 @@ gravar('index.html', h);
 // ================= app.js =================
 let a = ler('app.js');
 a = sub(a, /(const OLD_UNIT = )[\d.]+/, `$1${P.de.toFixed(2)}`, 'app: OLD_UNIT');
-a = sub(a, /(\|\| )[\d.]+(\);\s*\/\/ preco final|\);)/, `$1${PRECOS.ofertaSaida.por.toFixed(2)}$2`, 'app: oferta de saída');
+a = sub(a, /(const BACK_OFFER_TOTAL = Number\(\(O && O\.ofertaSaida && O\.ofertaSaida\.preco\) \|\| )[\d.]+/, `$1${PRECOS.ofertaSaida.por.toFixed(2)}`, 'app: oferta de saída');
 Object.entries(PRECOS).forEach(([slug, v]) => {
   if (slug === 'principal' || slug === 'ofertaSaida') return;
   const re = new RegExp(`(url: '${esc('p/' + slug + '/')}'[^}]*?p: ')[\\d.,]+(', old: ')[\\d.,]+(', off: ')[^']+`, 'g');

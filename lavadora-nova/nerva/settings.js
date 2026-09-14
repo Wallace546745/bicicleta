@@ -39,6 +39,17 @@ const KEYS = Object.keys(FALLBACK);
 function load() { try { return JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch (_) { return {}; } }
 let store = load();
 
+/* Migração: o pixel do Meta da LAVADORA ficou gravado no settings.json de
+   instalações antigas (o painel reenviava o valor padrão ao salvar qualquer
+   campo). Esse id é de outra loja: é descartado e o campo volta a vazio até o
+   dono cadastrar o pixel desta loja. */
+const PIXEL_META_OUTRA_LOJA = new Set(['1593228632374084', '1676043856783119']);
+if (PIXEL_META_OUTRA_LOJA.has(String(store.metaPixelId || '').replace(/\D/g, ''))) {
+  delete store.metaPixelId;
+  try { fs.writeFileSync(FILE, JSON.stringify(store, null, 2)); } catch (_) {}
+  console.warn('[settings] pixel do Meta de outra loja removido; cadastre o pixel desta loja no painel (Rastreamento).');
+}
+
 /* valores efetivos: o que o admin salvou tem prioridade; vazio cai no fallback */
 function get() {
   const out = {};

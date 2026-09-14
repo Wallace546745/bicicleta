@@ -25,7 +25,7 @@ const PRECOS = {
   "carregador-48v-2ah"                : { de:   149.90, por:     14.90 },
   "patinete-eletrico-gm5-p1"          : { de:  1260.00, por:    87.67 },
   "bicicleta-eletrica-cavalletta-c2"  : { de:  6097.00, por:   127.65 },
-  "capacete-gta-start-led"            : { de:   139.99, por:    22.90 },
+  "capacete-gta-start-led"            : { de:   139.99, por:     19.90 },
   "mini-compressor-rezzet"            : { de:   119.90, por:    19.90 },
   "caixa-de-som-jbl-boombox-4"        : { de:  2469.00, por:   394.90 },
 

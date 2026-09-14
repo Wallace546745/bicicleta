@@ -278,8 +278,8 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
       vendidos: "+5000 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Vestuário e Proteção", "Capacetes"]
     },
-    preco: { de: 139.99, por: 22.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ["img/relacionados/capacete-gta-start-led.webp"],
+    preco: { de: 139.99, por: 19.9, off: '86% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ['img/relacionados/capacete-gta-start-led.webp', 'img/relacionados/capacete-gta-start-led-2.webp', 'img/relacionados/capacete-gta-start-led-3.webp', 'img/relacionados/capacete-gta-start-led-4.webp', 'img/relacionados/capacete-gta-start-led-5.webp'],
     variante: { rotulo: 'Tamanho', opcoes: [{ label: 'M (54-58 cm)', img: 'img/relacionados/capacete-gta-start-led.webp' }, { label: 'G (58-62 cm)', img: 'img/relacionados/capacete-gta-start-led.webp' }] },
     bullets: ["Sinalizador traseiro com 6 LEDs vermelhos: contínuo, pisca e strobo.", "Construção In Mold, leve: cerca de 237 g.", "18 entradas de ar para ventilação.", "Viseira e almofadas internas removíveis para lavar.", "Tamanhos M (54 a 58 cm) e G (58 a 62 cm)."],
     descricao: `CAPACETE GTA START COM SINALIZADOR DE LED
@@ -454,11 +454,11 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
 const BUMPS = {
   "acess": [
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
-    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-carregador": [
-    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
   ],
   "sem-capacete": [
@@ -467,7 +467,7 @@ const BUMPS = {
   ],
   "sem-compressor": [
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
-    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' }
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' }
   ]
 };
 

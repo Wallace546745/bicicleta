@@ -138,7 +138,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, off: '90% OFF', sold: '+1000 vendidos', img: 'img/relacionados/carregador-48v-2ah.webp', ship: true, full: true, pix: false },
     { t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', p: 87.67, old: 1260, off: '93% OFF', sold: '+500 vendidos', img: 'img/relacionados/patinete-eletrico-gm5-p1.webp', ship: true, full: true, pix: false },
     { t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', p: 127.65, old: 6097, off: '98% OFF', sold: '+100 vendidos', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp', ship: true, full: true, pix: false },
-    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, off: '84% OFF', sold: '+5000 vendidos', tag: 'Tam. M e G', img: 'img/relacionados/capacete-gta-start-led.webp', ship: true, full: false, pix: false },
+    { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, off: '86% OFF', sold: '+5000 vendidos', tag: 'Tam. M e G', img: 'img/relacionados/capacete-gta-start-led.webp', ship: true, full: false, pix: false },
     { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, off: '83% OFF', sold: '+5000 vendidos', img: 'img/relacionados/mini-compressor-rezzet.webp', ship: true, full: true, pix: false },
     { t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', p: 394.9, old: 2469, off: '84% OFF', sold: '+500 vendidos', img: 'img/relacionados/caixa-de-som-jbl-boombox-4.webp', ship: true, full: true, pix: false }
   ],
@@ -147,7 +147,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     sub: 'Adicione ao seu pedido com frete grátis incluso',
     itens: [
       { t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', p: 14.9, old: 149.9, img: 'img/relacionados/carregador-48v-2ah.webp' },
-      { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 22.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
+      { t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', p: 19.9, old: 139.99, img: 'img/relacionados/capacete-gta-start-led.webp' },
       { t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', p: 19.9, old: 119.9, img: 'img/relacionados/mini-compressor-rezzet.webp' }
     ]
   },

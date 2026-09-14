@@ -63,7 +63,7 @@ const CATALOGO = [
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Peças para Bicicletas", "Baterias e Carregadores"]
     },
     preco: { de: 149.9, por: 23.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ["img/relacionados/carregador-48v-2ah.webp"],
+    fotos: ['img/relacionados/carregador-48v-2ah.webp', 'img/relacionados/carregador-48v-2ah-2.webp', 'img/relacionados/carregador-48v-2ah-3.webp', 'img/relacionados/carregador-48v-2ah-4.webp', 'img/relacionados/carregador-48v-2ah-5.webp'],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/carregador-48v-2ah.webp' }] },
     bullets: ["Carregador para baterias de lítio 48V: saída de 54,6V e 2A.", "Serve para bicicletas e scooters elétricas 48V, como a V9 Max.", "Entrada bivolt automática, de 100V a 240V.", "LED indica carregando (vermelho) e carga completa (verde).", "Proteção contra sobrecarga, curto-circuito e superaquecimento.", "Confira o conector da sua bateria antes de comprar."],
     descricao: `CARREGADOR 48V 54,6V 2AH — MBE4015

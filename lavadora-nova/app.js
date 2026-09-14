@@ -77,7 +77,7 @@
 
   const RELATED = [
     { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '87,67', old: '1.260,00', off: '93% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
     { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 },
     { img: 4, t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', url: 'p/capacete-gta-start-led/', tag: 'Tam. M e G', p: '22,90', old: '139,99', off: '84% OFF', sold: '+5000 vendidos', ship: 1 },
     { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
@@ -88,12 +88,12 @@
     { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },
     { img: 6, t: 'Caixa de Som JBL Boombox 4 Bluetooth 210W IP68 até 34h de Bateria Preta', url: 'p/caixa-de-som-jbl-boombox-4/', p: '394,90', old: '2.469,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
     { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '87,67', old: '1.260,00', off: '93% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
     { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 }
   ];
   const ASIDE = [
     { img: 1, t: 'Carregador 48V 54,6V 2Ah para Bicicleta e Scooter Elétrica MBE4015', url: 'p/carregador-48v-2ah/', p: '23,90', old: '149,90', off: '84% OFF', sold: '+1000 vendidos', ship: 1, full: 1 },
-    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '199,90', old: '1.260,00', off: '84% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
+    { img: 2, t: 'Patinete Elétrico GM5 P1 Preto Dobrável com Bluetooth 25 km/h e 22 km de Autonomia', url: 'p/patinete-eletrico-gm5-p1/', p: '87,67', old: '1.260,00', off: '93% OFF', sold: '+500 vendidos', ship: 1, full: 1 },
     { img: 3, t: 'Bicicleta Elétrica Cavalletta C2 750W Bateria Removível 48V 20Ah 65 km', url: 'p/bicicleta-eletrica-cavalletta-c2/', p: '979,90', old: '6.097,00', off: '84% OFF', sold: '+100 vendidos', ship: 1, full: 1 },
     { img: 4, t: 'Capacete GTA Start com Pisca LED Sinalizador para Ciclismo e MTB', url: 'p/capacete-gta-start-led/', tag: 'Tam. M e G', p: '22,90', old: '139,99', off: '84% OFF', sold: '+5000 vendidos', ship: 1 },
     { img: 5, t: 'Mini Compressor Digital Rezzet Portátil com Calibrador para Carro, Bicicleta e Moto', url: 'p/mini-compressor-rezzet/', p: '19,90', old: '119,90', off: '83% OFF', sold: '+5000 vendidos', ship: 1, full: 1 },

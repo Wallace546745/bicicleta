@@ -122,7 +122,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
       vendidos: "+500 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Mobilidade Elétrica", "Patinetes Elétricos"]
     },
-    preco: { de: 1260, por: 199.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    preco: { de: 1260, por: 87.67, off: '93% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
     fotos: ['img/relacionados/patinete-eletrico-gm5-p1.webp', 'img/relacionados/patinete-eletrico-gm5-p1-2.webp', 'img/relacionados/patinete-eletrico-gm5-p1-3.webp', 'img/relacionados/patinete-eletrico-gm5-p1-4.webp', 'img/relacionados/patinete-eletrico-gm5-p1-5.webp'],
     variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/patinete-eletrico-gm5-p1.webp' }] },
     bullets: [

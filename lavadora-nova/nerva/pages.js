@@ -200,32 +200,51 @@ Aviso: preço ainda precisa ser conferido no anúncio.`,
       vendidos: "+100 vendidos", badge: 'Mais vendido', badgeLink: 'Escolha popular',
       nota: '4.7', avaliacoes: '1.204', categoria: ["Esportes e Fitness", "Ciclismo", "Bicicletas", "Bicicletas Elétricas"]
     },
-    preco: { de: 6097, por: 979.9, off: '84% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
-    fotos: ["img/relacionados/bicicleta-eletrica-cavalletta-c2.webp"],
-    variante: { rotulo: 'Cor', opcoes: [{ label: 'Preto', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp' }] },
-    bullets: ["Motor de 750 W e velocidade limitada a 32 km/h: sem CNH e sem placa.", "Bateria de lítio 48V 20Ah removível, com até 65 km de autonomia.", "Sobe rampas de até 15°.", "Bateria sai da bike para carregar em casa ou no escritório.", "Ideal para trajetos urbanos curtos e médios."],
-    descricao: `BICICLETA ELÉTRICA CAVALLETTA C2 — 750W, BATERIA REMOVÍVEL 48V 20AH
+    preco: { de: 6097, por: 127.65, off: '98% OFF', parcelas: 12, cupom: 'Frete grátis acima de R$ 79', freteGratis: true },
+    fotos: ['img/relacionados/bicicleta-eletrica-cavalletta-c2.webp', 'img/relacionados/bicicleta-eletrica-cavalletta-c2-2.webp', 'img/relacionados/bicicleta-eletrica-cavalletta-c2-3.webp', 'img/relacionados/bicicleta-eletrica-cavalletta-c2-4.webp', 'img/relacionados/bicicleta-eletrica-cavalletta-c2-5.webp'],
+    variante: { rotulo: 'Cor', opcoes: [{ label: 'Vermelho', img: 'img/relacionados/bicicleta-eletrica-cavalletta-c2.webp' }] },
+    bullets: [
+      'Motor de 750 W e velocidade limitada a 32 km/h: sem CNH e sem placa.',
+      'Bateria de lítio 48V 20Ah removível, com até 65 km de autonomia; recarga em 7 horas.',
+      'Tela inteligente com velocidade, carga restante e distância em tempo real.',
+      'Faróis de LED, retrovisores e cesto dianteiro.',
+      'Banco traseiro com encosto, altura do banco de 73 cm e amortecedor traseiro com mola.',
+      'Pneus 14 x 2,50 antifuro, para asfalto, paralelepípedo e terra.'
+    ],
+    descricao: `BICICLETA ELÉTRICA CAVALLETTA C2 — 750W, BATERIA REMOVÍVEL 48V 20AH, ATÉ 65 KM
 
-A Cavalletta C2 é uma bicicleta elétrica urbana com motor de 750 W e bateria de lítio de 48V 20Ah, que rende até 65 km por carga. A velocidade é limitada a 32 km/h, o que enquadra o modelo como veículo autopropelido: não exige CNH nem emplacamento (Resolução CONTRAN 996/2023).
+A Cavalletta C2 é uma bicicleta elétrica urbana no estilo scooter, com motor de 750 W e bateria de lítio 48V 20Ah que rende até 65 km por carga. A velocidade é limitada a 32 km/h, o que enquadra o modelo como veículo autopropelido: não exige CNH nem emplacamento (Resolução CONTRAN 996/2023).
 
-A bateria é removível: sai da bike com uma chave e carrega em qualquer tomada, em casa ou no trabalho, sem precisar levar a bicicleta até a tomada. O motor de 750 W vence subidas de até 15° com carga.
+A bateria é removível: sai da bike para carregar em qualquer tomada, em casa ou no trabalho, em cerca de 7 horas. A tela inteligente no guidão mostra velocidade, carga restante, distância percorrida e marcha em tempo real.
 
-A proposta é o deslocamento urbano de curta e média distância. Não é indicada para vias expressas nem viagens longas.
+O conforto vem do banco a 73 cm do chão, do banco traseiro com encosto para o garupa e do amortecedor traseiro com mola. Os pneus 14 x 2,50 são antifuro e aguentam asfalto, paralelepípedo, terra e cascalho, com pressão de 280 a 360 kPa.
+
+Segurança e praticidade: faróis de LED para andar à noite, retrovisores nos dois lados, freio a tambor e cesto dianteiro para compras e mochila.
 
 A autonomia real varia com o peso do condutor, o relevo, a calibragem dos pneus e o modo de condução.
 
 CONTEÚDO DA EMBALAGEM
 1 bicicleta elétrica Cavalletta C2, 1 bateria 48V 20Ah, 1 carregador, chaves e manual.
 
-Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
+Aviso: preço ainda precisa ser conferido no anúncio.`,
     specs: [
       { k: 'Marca', v: 'Cavalletta' },
       { k: 'Modelo', v: 'C2' },
+      { k: 'Cor', v: 'Vermelho' },
       { k: 'Motor', v: '750 W' },
       { k: 'Bateria', v: 'Lítio 48V 20Ah, removível' },
       { k: 'Autonomia', v: 'Até 65 km por carga' },
       { k: 'Velocidade máxima', v: '32 km/h (limitada)' },
-      { k: 'Inclinação máxima', v: '15°' },
+      { k: 'Tempo de recarga', v: 'Aprox. 7 horas' },
+      { k: 'Painel', v: 'Tela inteligente com velocidade, carga e distância' },
+      { k: 'Iluminação', v: 'Faróis de LED' },
+      { k: 'Freios', v: 'A tambor' },
+      { k: 'Suspensão', v: 'Amortecedor traseiro com mola' },
+      { k: 'Pneus', v: '14 x 2,50, antifuro' },
+      { k: 'Pressão dos pneus', v: '280 a 360 kPa' },
+      { k: 'Altura do banco', v: '73 cm' },
+      { k: 'Banco traseiro', v: 'Com encosto' },
+      { k: 'Acessórios', v: 'Cesto dianteiro e retrovisores' },
       { k: 'Exige CNH ou placa', v: 'Não (Resolução CONTRAN 996/2023)' },
       { k: 'Uso', v: 'Urbano, curta e média distância' },
       { k: 'Garantia', v: '6 meses' }
@@ -244,7 +263,7 @@ Aviso: preço, foto e ficha ainda precisam ser conferidos no anúncio.`,
     bump: "acess",
     seo: {
       title: 'Bicicleta Elétrica Cavalletta C2 750W — Bateria de Lítio Removível 48V 20Ah, até 65 km | Domus',
-      description: 'A Cavalletta C2 é uma bicicleta elétrica urbana com motor de 750 W e bateria de lítio de 48V 20Ah, que rende até 65 km por carga. A velocidade é limit',
+      description: 'A Cavalletta C2 é uma bicicleta elétrica urbana no estilo scooter, com motor de 750 W e bateria de lítio 48V 20Ah que rende até 65 km por carga. A vel',
       buscas: ["bicicleta eletrica cavalletta c2", "bicicleta eletrica 750w", "bike eletrica bateria removivel"]
     }
   },

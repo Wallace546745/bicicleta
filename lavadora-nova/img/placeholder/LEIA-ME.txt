@@ -1,0 +1,23 @@
+PLACEHOLDER
+===========
+
+Sobrou um arquivo so.
+
+  produto.svg   fallback: entra se alguma imagem falhar ao carregar.
+                Nao precisa trocar, e a rede de seguranca.
+
+Todo o site usa fotos reais: produto principal (5), opinioes (8),
+os 13 relacionados, order bump, brindes da oferta de saida e a
+identidade da loja.
+
+RECURSOS DO CARD
+  tag          pilha cinza abaixo do titulo. Hoje nos capacetes:
+               "Tam. 56" e "Tam. 56 ao 62 - 4 estampas"
+  variante     quando as opcoes tem imagens DIFERENTES, escolher a
+               opcao troca a foto do palco (FF302: 4 bandeiras).
+               Quando compartilham a mesma foto, a galeria completa
+               do produto e preservada (lavadora: 127V e 220V).
+
+Para acrescentar em outro produto, edite app.js (RELATED/STORE/ASIDE),
+nerva/content.js (relacionados) e nerva/pages.js (CATALOGO).
+Depois rode: node gerar-paginas.js

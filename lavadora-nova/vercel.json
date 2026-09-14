@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/api/:path*",      "destination": "https://BACKEND_DA_VPS/api/:path*" },
+    { "source": "/webhooks/:path*", "destination": "https://BACKEND_DA_VPS/webhooks/:path*" },
+    { "source": "/admin",           "destination": "https://BACKEND_DA_VPS/admin" },
+    { "source": "/admin/:path*",    "destination": "https://BACKEND_DA_VPS/admin/:path*" },
+    { "source": "/nerva/:path*",    "destination": "https://BACKEND_DA_VPS/nerva/:path*" },
+    { "source": "/catalog.csv",     "destination": "https://BACKEND_DA_VPS/catalog.csv" },
+    { "source": "/health",          "destination": "https://BACKEND_DA_VPS/health" }
+  ],
+  "headers": [
+    { "source": "/img/(.*)",   "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/(.*)\\.css", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
+    { "source": "/(.*)\\.js",  "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] },
+    { "source": "/(.*)\\.html","headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] },
+    { "source": "/",           "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] }
+  ]
+}

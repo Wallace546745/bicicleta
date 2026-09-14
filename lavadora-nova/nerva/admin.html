@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="/nerva/manifest.json">
+<link rel="apple-touch-icon" href="/nerva/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="⠀">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080b14">
+<title>⠀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b14; --surface:#0e1420; --surface-2:#141b2a; --raise:#1a2234;
+  --line:#222b3f; --line-soft:#18202f;
+  --gold:#38bdf8; --gold-ink:#05131f; --gold-dim:#0c2536;
+  --green:#22c993; --green-bg:#0c2b22; --red:#f2555a; --red-bg:#2c1420;
+  --blue:#4f8cff; --blue-bg:#0e2140; --amber:#f7b955; --amber-bg:#2c2411;
+  --violet:#b57bff; --violet-bg:#1d1740; --cyan:#22d3ee; --pink:#ec6ffb;
+  --text:#eaf0fa; --mute:#8a94ab; --faint:#586378;
+  --r:14px; --r-sm:10px; --r-xs:8px;
+  --sb:248px;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.5);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+html,body{margin:0;color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;font-size:14px}
+body{background:radial-gradient(1100px 560px at 86% -8%, rgba(56,189,248,.10), transparent 60%),radial-gradient(900px 520px at -6% -2%, rgba(139,92,246,.11), transparent 55%),var(--bg);background-attachment:fixed;min-height:100vh}
+body{overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;border:2px solid var(--bg)}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ============ GATE (login) ============ */
+#gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 50% -10%,#1a1e29,var(--bg));z-index:100;padding:20px}
+.gate-card{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:34px 30px;box-shadow:var(--shadow);text-align:center}
+.gate-logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-weight:800;color:#fff;font-size:20px;box-shadow:0 8px 24px -8px rgba(59,130,246,.6)}
+.gate-card h1{font-size:19px;margin:0 0 4px}
+.gate-card p{color:var(--mute);font-size:13px;margin:0 0 22px}
+.gate-card input{width:100%;padding:12px 14px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px;margin-bottom:12px}
+.gate-card input:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+.gate-card button{width:100%;padding:12px;border-radius:var(--r-sm);border:0;background:var(--gold);color:var(--gold-ink);font-weight:700;font-size:14px;cursor:pointer;transition:filter .15s}
+.gate-card button:hover{filter:brightness(1.06)}
+.gate-warn{color:var(--red);font-size:12.5px;margin-top:12px}
+
+/* ============ SHELL ============ */
+#app{display:grid;grid-template-columns:var(--sb) 1fr;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sb);background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 14px;z-index:40}
+.sb-brand{display:flex;align-items:center;gap:11px;padding:6px 8px 18px;border-bottom:1px solid var(--line-soft);margin-bottom:14px}
+.sb-brand .mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a855f7,#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px;box-shadow:0 6px 18px -8px rgba(59,130,246,.7)}
+.sb-brand b{font-size:14.5px;display:block;line-height:1.2}
+.sb-brand span{font-size:11.5px;color:var(--faint)}
+.nav{display:flex;flex-direction:column;gap:3px;flex:1}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:var(--r-sm);color:var(--mute);cursor:pointer;font-size:13.5px;font-weight:500;border:0;background:none;width:100%;text-align:left;transition:background .14s,color .14s}
+.nav-item svg{width:18px;height:18px;flex:none;stroke-width:1.9}
+.nav-item:hover{background:var(--surface-2);color:var(--text)}
+.nav-item.is-on{background:linear-gradient(180deg,#f4f7fc,#e7eef8);color:#0b1220;font-weight:650}
+.nav-item.is-on svg{stroke:#2563eb}
+.nav-item .tag{margin-left:auto;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;background:var(--green-bg);color:var(--green)}
+.sb-foot{border-top:1px solid var(--line-soft);padding-top:12px;margin-top:8px}
+.online-pill{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(--r-sm);background:var(--surface-2)}
+.online-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(49,192,122,.5);animation:pulse 2s infinite}
+.online-pill b{font-size:15px}.online-pill span{font-size:11.5px;color:var(--faint);display:block;line-height:1.1}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(49,192,122,.5)}70%{box-shadow:0 0 0 7px rgba(49,192,122,0)}100%{box-shadow:0 0 0 0 rgba(49,192,122,0)}}
+
+.main{grid-column:2;min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;padding:15px 26px;background:rgba(14,16,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+.topbar h2{font-size:18px;margin:0;font-weight:650}
+.topbar .sub{font-size:12.5px;color:var(--faint)}
+.spacer{flex:1}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:3px;gap:2px}
+.seg button{border:0;background:none;color:var(--mute);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:7px;cursor:pointer;transition:all .14s}
+.seg button:hover{color:var(--text)}
+.seg button.is-on{background:var(--gold);color:var(--gold-ink)}
+.icon-btn{width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);color:var(--mute);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .14s}
+.icon-btn:hover{color:var(--text);border-color:var(--faint)}
+.icon-btn svg{width:17px;height:17px;stroke-width:1.9}
+.icon-btn.spin svg{animation:spin .7s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+.content{padding:24px 26px 60px;max-width:1440px;width:100%}
+
+/* ============ CARDS / KPI ============ */
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(auto-fill,minmax(212px,1fr));margin-bottom:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.kpi{position:relative;overflow:hidden;transition:border-color .16s,transform .16s}
+.kpi:hover{border-color:var(--faint);transform:translateY(-2px)}
+.kpi::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:linear-gradient(90deg,var(--cyan),var(--violet));opacity:.95}
+.kpi.gold::after{background:linear-gradient(90deg,#22d3ee,#3b82f6)}
+.kpi.green::after{background:linear-gradient(90deg,#22c993,#22d3ee)}
+.kpi.blue::after{background:linear-gradient(90deg,#4f8cff,#22d3ee)}
+.kpi.amber::after{background:linear-gradient(90deg,#f7b955,#ec6ffb)}
+.kpi.violet::after{background:linear-gradient(90deg,#b57bff,#ec6ffb)}
+.kpi.red::after{background:linear-gradient(90deg,#f2555a,#f7b955)}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.kpi-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+.kpi-ico svg{width:19px;height:19px;stroke-width:1.9}
+.kpi-ico.gold{background:var(--gold-dim);color:var(--gold)} .kpi-ico.green{background:var(--green-bg);color:var(--green)}
+.kpi-ico.blue{background:var(--blue-bg);color:var(--blue)} .kpi-ico.amber{background:var(--amber-bg);color:var(--amber)}
+.kpi-ico.red{background:var(--red-bg);color:var(--red)} .kpi-ico.violet{background:var(--violet-bg);color:var(--violet)}
+.kpi-label{font-size:12.5px;color:var(--mute);font-weight:500}
+.kpi-val{font-size:26px;font-weight:750;letter-spacing:-.5px;line-height:1.1;margin:2px 0 3px}
+.kpi-sub{font-size:12px;color:var(--faint)}
+.kpi-sub b{color:var(--green);font-weight:600}
+.flash{animation:flash 1s ease}
+@keyframes flash{0%{color:var(--gold)}100%{color:var(--text)}}
+
+/* section head */
+.sec{margin-top:26px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-head h3{font-size:15px;margin:0;font-weight:650}
+.sec-head p{font-size:12.5px;color:var(--faint);margin:0}
+.sec-head .spacer{flex:1}
+
+/* windows mini cards */
+.wins{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.win{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.win h4{font-size:12px;color:var(--mute);margin:0 0 12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.win-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:13px}
+.win-row span{color:var(--mute)} .win-row b{font-weight:650}
+
+/* charts */
+.charts{grid-template-columns:2fr 1fr}
+.chart-box{min-height:150px}
+.chart-legend{display:flex;gap:16px;font-size:12px;color:var(--mute);margin-top:6px}
+.chart-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg.chart{width:100%;display:block;overflow:visible}
+.bar-row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:12.5px}
+.bar-row .bl{width:96px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+.bar-track{flex:1;height:8px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.bar-row .bv{width:64px;text-align:right;color:var(--text);font-weight:600;flex:none}
+.bar-row .bv-wide{width:92px}
+.bar-row .bv-low{color:#f87171}
+
+/* live */
+.live-grid{grid-template-columns:1fr 1.3fr}
+.live-hero{text-align:center;padding:20px 0 8px}
+.live-hero .n{font-size:44px;font-weight:800;line-height:1}
+.live-hero .c{color:var(--mute);font-size:12.5px;margin-top:2px}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11.5px;padding:4px 10px;border-radius:20px;background:var(--surface-2);color:var(--mute);border:1px solid var(--line)}
+.flow-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:12.5px}
+.flow-row .fl{flex:1;color:var(--mute)} .flow-row .fn{font-weight:650}
+.flow-track{width:120px;height:6px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.flow-fill{height:100%;background:var(--blue);border-radius:5px}
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--green)}
+.live-badge i{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.stage-row{display:flex;align-items:center;gap:11px;padding:7px 0;font-size:12.5px}
+.stage-dot{width:8px;height:8px;border-radius:50%;background:var(--line);flex:none;transition:all .3s}
+.stage-row.active .stage-dot{background:var(--green);box-shadow:0 0 9px var(--green)}
+.stage-label{flex:1;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-row.active .stage-label{color:var(--text);font-weight:500}
+.stage-track{width:96px;height:6px;background:var(--surface-2);border-radius:5px;overflow:hidden;flex:none}
+.stage-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:5px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.stage-n{width:26px;text-align:right;font-weight:700;flex:none;color:var(--faint)}
+.stage-row.active .stage-n{color:var(--green)}
+
+/* ============ TABLE ============ */
+.table-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+thead th{text-align:left;padding:12px 14px;font-size:11px;font-weight:600;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
+tbody td{padding:12px 14px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--surface-2)}
+.tid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:var(--mute)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge.paid{background:var(--green-bg);color:var(--green)}
+.badge.pending{background:var(--amber-bg);color:var(--amber)}
+.badge.expired,.badge.failed{background:var(--red-bg);color:var(--red)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
+.chip-btn{border:1px solid var(--line);background:var(--surface);color:var(--mute);font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;transition:all .14s}
+.chip-btn:hover{color:var(--text)} .chip-btn.is-on{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
+.filters .div{width:1px;height:20px;background:var(--line);margin:0 4px}
+
+/* ============ SKELETON / EMPTY ============ */
+.sk{background:linear-gradient(90deg,var(--surface-2) 25%,var(--raise) 37%,var(--surface-2) 63%);background-size:400% 100%;animation:shimmer 1.4s infinite;border-radius:6px}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.empty{text-align:center;padding:46px 20px;color:var(--faint)}
+.empty svg{width:40px;height:40px;stroke-width:1.5;opacity:.5;margin-bottom:12px}
+.empty h4{margin:0 0 4px;color:var(--mute);font-size:15px;font-weight:600}
+.empty p{margin:0;font-size:13px}
+
+/* ============ TRACKING / PIXEL ============ */
+.trk-status{display:flex;align-items:center;gap:12px;padding:16px 18px}
+.trk-dot{width:12px;height:12px;border-radius:50%;flex:none}
+.trk-dot.ok{background:var(--green)} .trk-dot.off{background:var(--faint)} .trk-dot.erro,.trk-dot.travado{background:var(--red)} .trk-dot.teste{background:var(--amber)}
+.pixform{display:flex;flex-direction:column;gap:16px;max-width:560px}
+.pixform label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:500}
+.pixform input,.pixform select{font:inherit;font-size:14px;padding:11px 13px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--bg);color:var(--text)}
+.pixform input:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+.hint{font-size:12px;font-weight:400;color:var(--mute)}
+.btn-primary{font:inherit;font-weight:700;background:var(--gold);color:var(--gold-ink);border:0;border-radius:var(--r-sm);padding:11px 22px;cursor:pointer}
+.btn-primary:hover{filter:brightness(1.06)}
+.msg{padding:11px 13px;border-radius:var(--r-sm);font-size:13px;max-width:560px}
+.msg.ok{background:var(--green-bg);color:var(--green)} .msg.err{background:var(--red-bg);color:var(--red)}
+/* ---- páginas dos produtos relacionados ---- */
+.pg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:11px}
+.pg-item{display:flex;gap:11px;align-items:center;text-align:left;padding:10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg);cursor:pointer;font:inherit;color:var(--text);transition:border-color .14s,background .14s}
+.pg-item:hover{border-color:var(--gold);background:var(--surface-2)}
+.pg-item--main{border-color:var(--gold);background:linear-gradient(180deg,rgba(247,185,85,.07),transparent)}
+.geo-live{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:16px}
+.geo-live__head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.geo-live__dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(34,201,147,.6);animation:geopulse 1.8s infinite}
+@keyframes geopulse{0%{box-shadow:0 0 0 0 rgba(34,201,147,.55)}70%{box-shadow:0 0 0 8px rgba(34,201,147,0)}100%{box-shadow:0 0 0 0 rgba(34,201,147,0)}}
+.geo-live__n{font-size:20px;font-weight:700}
+.geo-live__lbl{color:var(--mute);font-size:13px}
+.geo-ufs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.geo-uf{font-size:12px;font-weight:600;background:var(--surface-2);border:1px solid var(--line);border-radius:20px;padding:3px 11px;white-space:nowrap}
+.geo-uf b{color:var(--cyan);margin-left:5px}
+.geo-now{display:grid;gap:0;max-height:340px;overflow-y:auto}
+.geo-now__row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:9px 2px;border-bottom:1px solid var(--line-soft);font-size:13px}
+.geo-now__row:last-child{border-bottom:0}
+.geo-now__loc{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.geo-now__loc small{color:var(--faint);font-weight:400;margin-left:5px}
+.geo-now__stage{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--surface-2);color:var(--mute);white-space:nowrap}
+.geo-now__stage.hot{background:var(--green-bg);color:var(--green)}
+.geo-now__stage.pay{background:var(--gold);color:var(--gold-ink)}
+.geo-now__dev{font-size:11px;color:var(--faint);width:52px;text-align:right}
+.pg-item img{width:46px;height:46px;object-fit:contain;flex:none;background:#fff;border-radius:6px;padding:3px}
+.pg-item b{font-size:12.5px;font-weight:600;line-height:1.32;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pg-item small{font-size:11.5px;color:var(--mute);display:block}
+.pg-item .tag{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:20px;background:var(--gold);color:var(--gold-ink);margin-left:5px;white-space:nowrap}
+.pg-sec{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.pg-sec h4{font-size:13px;margin:0 0 12px;font-weight:650}
+.pgform{display:flex;flex-direction:column;gap:0;max-width:760px}
+.pgform label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500}
+.pgform input,.pgform textarea{font:inherit;font-size:13.5px;padding:9px 11px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--bg);color:var(--text);width:100%;box-sizing:border-box}
+.pgform textarea{resize:vertical;line-height:1.55;font-family:inherit}
+.pgform input:focus,.pgform textarea:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+.pg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:11px}
+.pg-chks{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px}
+.pg-chks label{flex-direction:row;align-items:center;gap:6px;font-weight:500}
+.pg-chks input{width:auto}
+.pg-fotos{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.pg-foto{position:relative;width:72px;height:72px;border:1px solid var(--line);border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pg-foto img{max-width:100%;max-height:100%;object-fit:contain}
+.pg-foto button{position:absolute;top:2px;right:2px;width:19px;height:19px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:12px;line-height:1;cursor:pointer;padding:0}
+.pg-add{width:72px;height:72px;border:1px dashed var(--line);border-radius:8px;background:none;color:var(--mute);font-size:21px;cursor:pointer}
+.pg-add:hover{border-color:var(--gold);color:var(--gold)}
+.pg-com{border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;margin-bottom:10px;background:var(--bg)}
+.pg-del{border:0;background:none;color:var(--red);font:inherit;font-size:12px;font-weight:600;cursor:pointer;padding:0}
+.pg-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-ghost{font:inherit;font-size:13px;font-weight:600;background:var(--surface-2);color:var(--mute);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 16px;cursor:pointer}
+.btn-ghost:hover{color:var(--text)}
+.steps{margin:0;padding-left:18px;font-size:13px;color:var(--mute);line-height:1.95}
+.steps li b{color:var(--text)}
+.push-on{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.push-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.funil-flow{display:flex;flex-direction:column;gap:12px}
+.up-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);flex-wrap:wrap}
+.up-num{width:30px;height:30px;border-radius:8px;background:var(--gold-dim);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.up-info{flex:1;min-width:170px}.up-info b{font-size:14px}.up-info span{display:block;font-size:12.5px;color:var(--mute)}.up-info .old{text-decoration:line-through;color:var(--faint)}
+.up-acts{display:flex;gap:8px;flex-wrap:wrap}
+.qr-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:center;width:250px}
+.qr-card img{width:200px;height:200px;image-rendering:pixelated;border-radius:8px;background:#fff;padding:6px}
+.qr-card .code{font-size:10.5px;word-break:break-all;color:var(--mute);background:var(--bg);padding:9px;border-radius:8px;margin:10px 0;font-family:ui-monospace,monospace;max-height:70px;overflow:auto}
+.up-edit{background:var(--surface);border:1px solid var(--line);border-radius:0 0 var(--r-sm) var(--r-sm);padding:16px;margin-top:-12px;display:flex;flex-direction:column;gap:12px}
+.uf{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--mute);font-weight:500}
+.uf input,.uf textarea{font:inherit;font-size:13.5px;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+.uf input:focus,.uf textarea:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+.uf-row{display:flex;gap:12px}.uf-row .uf{flex:1;min-width:0}
+.ios-steps{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 18px}
+
+/* editor */
+#viewEditor{position:fixed;top:0;left:var(--sb);right:0;bottom:0}
+#viewEditor iframe{width:100%;height:100%;border:0;background:var(--bg)}
+
+/* ============ TOASTS ============ */
+#toasts{position:fixed;top:16px;right:16px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:var(--r-sm);padding:13px 15px;box-shadow:var(--shadow);animation:slidein .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes slidein{from{transform:translateX(120%);opacity:0}to{transform:none;opacity:1}}
+.toast .tt{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;color:var(--green)}
+.toast .tb{font-size:12.5px;color:var(--mute);margin-top:5px;line-height:1.5}
+.toast .tb b{color:var(--text)}
+
+/* ============ RESPONSIVE ============ */
+.menu-btn{display:none}
+@media(max-width:900px){
+  #app{grid-template-columns:1fr}
+  .sidebar{transform:translateX(-100%);transition:transform .22s;width:270px;box-shadow:0 0 40px rgba(0,0,0,.5)}
+  body.nav-open .sidebar{transform:none}
+  body.nav-open::after{content:"";position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:39}
+  .main{grid-column:1}
+  #viewEditor{left:0}
+  .menu-btn{display:flex}
+  .charts,.live-grid{grid-template-columns:1fr}
+  .content{padding:18px 16px 60px}
+  .topbar{padding:13px 16px}
+  .kpis{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .kpi-val{font-size:22px}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">LAV</div>
+    <h1>Painel administrativo</h1>
+    <p>Informe seu token de acesso</p>
+    <input id="tok" type="password" placeholder="Token de acesso" autocomplete="off" aria-label="Token">
+    <button id="enter">Entrar</button>
+    <div class="gate-warn" id="gateWarn" hidden>Token inválido. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="mark">LAV</div>
+      <div><b>Lavadora LAV 1300</b><span>Painel · Nerva</span></div>
+    </div>
+    <nav class="nav">
+      <button class="nav-item is-on" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</button>
+      <button class="nav-item" data-view="vendas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h12"/></svg>Vendas</button>
+      <button class="nav-item" data-view="rastreamento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>Rastreamento</button>
+      <button class="nav-item" data-view="posvenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Pós-venda</button>
+      <button class="nav-item" data-view="campanhas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>Campanhas</button>
+      <button class="nav-item" data-view="localizacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Localização</button>
+      <button class="nav-item" data-view="produtos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l1-5h16l1 5"/><path d="M4 9h16v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M9 13h6"/></svg>Produtos</button>
+      <button class="nav-item" data-view="editor"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>Editor da oferta</button>
+    </nav>
+    <div class="sb-foot">
+      <div class="online-pill">
+        <span class="dot"></span>
+        <div><b id="sbOnline" class="num">0</b><span>online agora</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div>
+        <h2 id="pageTitle">Dashboard</h2>
+        <div class="sub" id="pageSub">visão geral em tempo real</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="seg" id="rangeSeg" role="group" aria-label="Período">
+        <button data-r="hoje" class="is-on">Hoje</button>
+        <button data-r="24h">24h</button>
+        <button data-r="7d">7 dias</button>
+        <button data-r="30d">30 dias</button>
+      </div>
+      <button class="icon-btn" id="refreshBtn" aria-label="Atualizar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12a9 9 0 11-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </header>
+
+    <!-- ============ DASHBOARD ============ -->
+    <div class="content" id="viewDashboard">
+      <div class="grid kpis" id="kpiGrid"></div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>Por período</h3><p>hoje · 7 dias · 30 dias · total</p></div>
+        <div class="grid wins" id="winGrid"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>Desempenho</h3><p class="sub">últimos 30 dias (horário de Brasília)</p></div>
+        <div class="grid charts">
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">Faturamento por dia</h3></div>
+            <div id="chartRevenue"></div>
+          </div>
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">Origem do tráfego</h3></div>
+            <div id="chartSource"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head"><h3>Quem paga</h3><p class="sub">do PIX gerado ao pago — mostra se a queda veio do público, não da oferta</p></div>
+        <div class="grid charts">
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">Por aparelho</h3></div>
+            <div id="chartDevConv"></div>
+          </div>
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">Por campanha</h3></div>
+            <div id="chartCampConv"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="grid charts">
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">PIX gerados × pagos</h3></div>
+            <div id="chartPix"></div>
+            <div class="chart-legend"><span><i style="background:var(--blue)"></i>Gerados</span><span><i style="background:var(--green)"></i>Pagos</span></div>
+          </div>
+          <div class="card chart-box">
+            <div class="sec-head"><h3 style="font-size:13.5px">Funil (agora)</h3></div>
+            <div id="chartFunnel"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="grid live-grid">
+          <div class="card">
+            <div class="sec-head"><h3 style="font-size:13.5px">Agora na oferta</h3><div class="spacer"></div><span class="live-badge"><i></i>ao vivo</span></div>
+            <div class="live-hero"><div class="n num" id="liveN">0</div><div class="c">pessoas navegando</div><div class="chips" id="liveChips"></div></div>
+          </div>
+          <div class="card">
+            <div class="sec-head"><h3 style="font-size:13.5px">Onde estão agora</h3><p>pessoas ao vivo em cada etapa</p></div>
+            <div id="liveStages"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="sec-head" style="padding:18px 18px 0"><h3 style="font-size:13.5px">Vendas recentes</h3><div class="spacer"></div><button class="chip-btn" id="goVendas">Ver todas</button></div>
+          <div class="table-wrap" style="border:0" id="recentWrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ VENDAS ============ -->
+    <div class="content" id="viewVendas" hidden>
+      <div class="filters" id="salesFilters">
+        <button class="chip-btn is-on" data-period="hoje">Hoje</button>
+        <button class="chip-btn" data-period="ontem">Ontem</button>
+        <button class="chip-btn" data-period="7d">7 dias</button>
+        <button class="chip-btn" data-period="30d">30 dias</button>
+        <button class="chip-btn" data-period="all">Tudo</button>
+        <div class="div"></div>
+        <button class="chip-btn is-on" data-status="all">Todos</button>
+        <button class="chip-btn" data-status="paid">Pago</button>
+        <button class="chip-btn" data-status="pending">Pendente</button>
+        <button class="chip-btn" data-status="expired">Expirado</button>
+      </div>
+      <div class="table-wrap" id="salesWrap"></div>
+    </div>
+
+    <!-- ============ RASTREAMENTO ============ -->
+    <div class="content" id="viewRastreamento" hidden>
+      <div class="card" style="margin-bottom:20px">
+        <div class="sec-head"><h3 style="font-size:14px">🔔 Notificações no celular</h3><p>avisa no seu iPhone quando gerar PIX (pendente) e quando pagar (aprovada)</p></div>
+        <div id="pushBox"><p class="hint">carregando…</p></div>
+      </div>
+      <div class="card" style="padding:0;margin-bottom:20px">
+        <div class="trk-status"><span class="trk-dot off" id="trkDot"></span>
+          <div style="flex:1"><b id="trkTitle">Rastreamento TikTok</b><div class="hint" id="trkMotivo">carregando…</div></div>
+        </div>
+      </div>
+      <div class="grid kpis" id="trkKpis" style="margin-bottom:20px"></div>
+
+      <div class="card">
+        <div class="sec-head"><h3 style="font-size:14px">Pixel / Rastreamento</h3><p>configure sem reiniciar — o token fica só no servidor</p></div>
+        <div id="pixMsg" class="msg" hidden style="margin-bottom:16px"></div>
+        <div class="pixform">
+          <label>Pixel do Meta (Facebook)<input id="pfMeta" type="text" inputmode="numeric" placeholder="ex.: 1593228632374084" autocomplete="off"></label>
+          <label>Pixel do TikTok<input id="pfTk" type="text" placeholder="ex.: DAJVT3RC77UES9752NLG" autocomplete="off"></label>
+          <label>TikTok Access Token <span class="hint">(secreto — nunca volta para esta tela)</span><input id="pfTok" type="password" placeholder="colar novo token (em branco = manter)" autocomplete="off"></label>
+          <div id="pfTokState" class="hint"></div>
+          <label>Test Event Code <span class="hint">(opcional — só para testar)</span><input id="pfTest" type="text" placeholder="em branco = produção" autocomplete="off"></label>
+          <div><button id="pfSave" class="btn-primary">Salvar</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ EDITOR ============ -->
+    <div class="content" id="viewPosvenda" hidden>
+      <div class="card" style="max-width:640px">
+        <div class="sec-head"><h3 style="font-size:14px">Redirecionamento após o pagamento</h3><p>para onde o cliente vai assim que o PIX for confirmado</p></div>
+        <div id="ppMsg" class="msg" hidden style="margin-bottom:16px"></div>
+        <div class="pixform">
+          <label>Link após o pagamento (upsell)
+            <input id="ppUrl" type="url" placeholder="https://seu-upsell.com  (em branco = tela de compra concluída)" autocomplete="off">
+          </label>
+          <p class="hint">Quando o pagamento for confirmado de verdade, o cliente é enviado para este link. Deixe em branco para mostrar a tela de "compra concluída". O pedido e o rastreamento vão junto na URL (?o=…&utm_source=…&ttclid=…) para o seu upsell continuar.</p>
+          <div><button id="ppSave" class="btn-primary">Salvar</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="viewCampanhas" hidden>
+      <div class="card" id="adsCfg" hidden style="max-width:680px">
+        <div class="sec-head">
+          <h3 style="font-size:14px">Conectar o TikTok Ads</h3>
+          <p>gasto, cliques, CTR e ROI das campanhas aqui dentro</p>
+        </div>
+        <div id="adsMsg" class="msg" hidden style="margin-bottom:16px"></div>
+        <div class="pixform" style="max-width:none">
+          <p class="hint" style="margin:0"><b>1.</b> Crie um app em <a href="https://business-api.tiktok.com/portal" target="_blank" rel="noopener">business-api.tiktok.com/portal</a> com os escopos <b>Ad Account Management</b> e <b>Reporting</b>, e registre esta URL de redirecionamento:</p>
+          <code id="adsRedir" class="tid" style="display:block;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);word-break:break-all"></code>
+          <p class="hint" style="margin:0"><b>2.</b> Cole o App ID e o Secret do app (só uma vez) e clique em conectar.</p>
+          <div class="pg-row">
+            <label>App ID<input id="adsApp" inputmode="numeric" autocomplete="off" placeholder="ex: 7401234567890123456"></label>
+            <label>App Secret<input id="adsSecret" type="password" autocomplete="off"></label>
+          </div>
+          <div class="pg-bar">
+            <button id="adsConnect" class="btn-primary">Conectar com o TikTok</button>
+            <span class="hint">abre o TikTok para você autorizar — o token vem sozinho</span>
+          </div>
+
+          <div id="adsContas" hidden style="border-top:1px solid var(--line);padding-top:14px">
+            <label>Conta de anúncios<select id="adsContaSel"></select></label>
+            <div style="margin-top:11px"><button id="adsContaSave" class="btn-primary">Usar esta conta</button></div>
+          </div>
+
+          <details style="margin-top:4px">
+            <summary class="hint" style="cursor:pointer">Prefiro colar o token na mão</summary>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:14px">
+              <label>ID do anunciante (Advertiser ID)<input id="adsAdv" inputmode="numeric" autocomplete="off" placeholder="ex: 7123456789012345678"></label>
+              <label>Access Token de relatório<input id="adsTok" type="password" autocomplete="off"></label>
+              <div><button id="adsSave" class="btn-ghost">Salvar e testar</button></div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div id="adsPainel" hidden>
+        <div class="filters">
+          <div class="seg" id="adsRange">
+            <button class="chip-btn is-on" data-r="hoje">Hoje</button>
+            <button class="chip-btn" data-r="7d">7 dias</button>
+            <button class="chip-btn" data-r="30d">30 dias</button>
+          </div>
+          <div style="flex:1"></div>
+          <button class="chip-btn" id="adsCfgLink">Credenciais</button>
+        </div>
+        <div class="grid kpis" id="adsKpis" style="margin-bottom:14px"></div>
+        <p class="hint" id="adsNota" style="margin-bottom:16px"></p>
+        <div class="table-wrap" id="adsTabela"></div>
+        <p class="hint" style="margin-top:12px">"Conv. TikTok" é o que o relatório dele atribuiu. "Vendas reais", receita, CPA, ROAS e lucro saem do <b>seu painel</b> — dinheiro que entrou de verdade, cruzado por nome de campanha.</p>
+      </div>
+    </div>
+
+    <div class="content" id="viewLocalizacao" hidden>
+      <div class="filters">
+        <div class="seg" id="geoRange">
+          <button class="chip-btn" data-r="hoje">Hoje</button>
+          <button class="chip-btn" data-r="7d">7 dias</button>
+          <button class="chip-btn is-on" data-r="30d">30 dias</button>
+        </div>
+        <div style="flex:1"></div>
+        <span class="hint" id="geoStatus"></span>
+      </div>
+      <div class="geo-live" id="geoLive" hidden>
+        <div class="geo-live__head"><span class="geo-live__dot"></span>
+          <span class="geo-live__n" id="geoLiveN">0</span>
+          <span class="geo-live__lbl">navegando agora</span>
+          <div style="flex:1"></div>
+          <span class="hint" id="geoLiveStatus"></span>
+        </div>
+        <div class="geo-ufs" id="geoLiveUfs"></div>
+        <div class="geo-now" id="geoNow"></div>
+      </div>
+      <div class="grid kpis" id="geoKpis" style="margin-bottom:16px"></div>
+      <div class="grid" style="grid-template-columns:1.25fr 1fr;gap:16px;align-items:start" id="geoCols">
+        <div class="card">
+          <div class="sec-head"><h3 style="font-size:14px">Por estado</h3><p>checkouts iniciados no período</p></div>
+          <div id="geoEstados"></div>
+        </div>
+        <div class="card">
+          <div class="sec-head"><h3 style="font-size:14px">Top cidades</h3><p>onde estão os clientes</p></div>
+          <div class="table-wrap"><table id="geoCidades"><thead><tr><th>Cidade</th><th>UF</th><th style="text-align:right">Checkouts</th><th style="text-align:right">Pagos</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:14px">A localização vem do IP de quem chega ao checkout (resolvido em estado e cidade). É aproximada — reflete a operadora de internet, não o endereço exato. Nenhum dado de pagamento entra aqui.</p>
+    </div>
+
+    <div class="content" id="viewProdutos" hidden>
+      <div class="card" id="pgLista">
+        <div class="sec-head">
+          <h3 style="font-size:14px">Oferta e páginas de produto</h3>
+          <p>edite qualquer parte de cada uma</p>
+        </div>
+        <div class="pg-grid" id="pgGrid"></div>
+        <p class="hint" style="margin-top:14px">A primeira é a <b>oferta principal</b>; as outras são as páginas dos produtos do carrossel. Dá para editar tudo: preço, fotos, variantes, descrição, ficha técnica, comentários, order bump, oferta de saída e SEO. Para mexer clicando direto na página, use o <b>Editor da oferta</b>.</p>
+      </div>
+
+      <div class="card" id="pgEditor" hidden>
+        <div class="sec-head">
+          <button class="btn-ghost" id="pgBack" type="button">← Voltar</button>
+          <div style="flex:1;min-width:0">
+            <h3 id="pgNome" style="font-size:14px">—</h3>
+            <p><a id="pgLink" href="#" target="_blank" rel="noopener">abrir a página</a></p>
+          </div>
+        </div>
+        <div id="pgMsg" class="msg" hidden style="margin-bottom:14px"></div>
+        <div class="pgform" id="pgCampos"></div>
+        <div class="pg-bar" style="margin-top:20px">
+          <button class="btn-primary" id="pgSave" type="button">Salvar</button>
+          <button class="btn-ghost" id="pgReset" type="button">Voltar ao original</button>
+          <span class="hint" id="pgStatus"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="viewEditor" hidden><iframe id="editorFrame" title="Editor da oferta"></iframe></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = (s,r=document) => Array.from(r.querySelectorAll(s));
+let TOKEN = localStorage.getItem('admtok') || '';
+let RANGE = 'hoje';
+let VIEW = 'dashboard';
+let editorLoaded = false, firstLoad = true;
+let seenPaid = null;               // Set de ids pagos já vistos (notificações)
+let salesPeriod = 'hoje', salesStatus = 'all';
+
+/* Redireciona as chamadas de API para o backend (porta 3000) SO quando o
+   arquivo foi aberto fora dele: via file:// ou pelo Live Server do VS Code
+   (portas 5500-5599). Antes a regra era "qualquer porta diferente de 3000
+   em localhost", e o painel ficava em branco quando o servidor rodava em
+   outra porta (PORT=8080, por exemplo): todas as chamadas iam para :3000. */
+const API_BASE = location.protocol === 'file:' ? 'http://127.0.0.1:3000'
+  : (/^55\d\d$/.test(location.port) && (location.hostname === '127.0.0.1' || location.hostname === 'localhost'))
+    ? 'http://' + location.hostname + ':3000' : '';
+
+const _origFetch = window.fetch;
+window.fetch = (url, opts) => {
+  if (typeof url === 'string' && url.startsWith('/api/')) url = API_BASE + url;
+  return _origFetch(url, opts);
+};
+
+const brl  = n => 'R$ ' + Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brl0 = n => 'R$ ' + Number(n||0).toLocaleString('pt-BR',{maximumFractionDigits:0});
+const esc  = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dur  = s => s<60 ? s+'s' : s<3600 ? Math.round(s/60)+'min' : Math.round(s/3600)+'h';
+const fmtDate = iso => { try{const d=new Date(iso);return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',timeZone:'America/Sao_Paulo'});}catch(_){return '—';} };
+const fmtTime = iso => { try{const d=new Date(iso);return d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'});}catch(_){return '';} };
+const SITU = {paid:'Pago', pending:'Pendente', expired:'Expirado', failed:'Falhou'};
+
+/* ---------- auth / gate ---------- */
+function gate(warn){ $('#gate').hidden=false; $('#app').hidden=true; $('#gateWarn').hidden=!warn; }
+function enter(){ const v=$('#tok').value.trim(); if(!v) return; TOKEN=v; localStorage.setItem('admtok',v); boot(); }
+$('#enter').onclick=enter;
+$('#tok').addEventListener('keydown',e=>{ if(e.key==='Enter') enter(); });
+
+async function api(path){
+  const r = await fetch(path + (path.includes('?')?'&':'?') + 'token=' + encodeURIComponent(TOKEN));
+  if(r.status===401||r.status===500){ throw {auth:true, status:r.status}; }
+  if(!r.ok) throw {status:r.status};
+  return r.json();
+}
+
+function boot(){
+  $('#gate').hidden=true; $('#app').hidden=false;
+  ligarStream();                      // tempo real: venda paga aparece na hora
+  setTimeout(adsRetorno, 300);        // voltou da autorizacao do TikTok?
+  firstLoad=true; seenPaid=null;
+  showSkeletons();
+  load();
+}
+
+/* ---------- navegação ---------- */
+const TITLES={dashboard:['Dashboard','visão geral em tempo real'],vendas:['Vendas','histórico e filtros'],rastreamento:['Rastreamento','pixel, eventos e saúde'],posvenda:['Pós-venda','para onde ir depois do pagamento'],campanhas:['Campanhas','gasto, cliques e ROI no TikTok Ads'],localizacao:['Localização','de onde os clientes acessam'],produtos:['Produtos','a oferta principal e as páginas dos relacionados'],editor:['Editor da oferta','edite a página sem código']};
+function showView(v){
+  VIEW=v;
+  ['dashboard','vendas','rastreamento','posvenda','campanhas','localizacao','produtos','editor'].forEach(x=>{ $('#view'+x[0].toUpperCase()+x.slice(1)).hidden = x!==v; });
+  $$('.nav-item').forEach(b=>b.classList.toggle('is-on', b.dataset.view===v));
+  $('#pageTitle').textContent=TITLES[v][0]; $('#pageSub').textContent=TITLES[v][1];
+  $('#rangeSeg').style.visibility = v==='dashboard' ? '' : 'hidden';
+  document.querySelector('.topbar').hidden = (v==='editor');
+  document.body.classList.remove('nav-open');
+  if(v==='editor' && !editorLoaded){ $('#editorFrame').src='/admin/editor'; editorLoaded=true; }
+  if(v==='vendas') loadSales();
+  if(v==='rastreamento'){ loadTrk(); loadPixCfg(); loadPushStatus(); }
+  if(v==='posvenda') loadPostPay();
+  if(v==='produtos'){ $('#pgLista').hidden=false; $('#pgEditor').hidden=true; loadPages(); }
+  if(v==='campanhas') loadAds();
+  if(v==='localizacao'){ loadGeo(); loadGeoLive(); } else clearTimeout(geoLiveTimer);
+}
+$$('.nav-item').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+$('#menuBtn').onclick=()=>document.body.classList.toggle('nav-open');
+$('#goVendas').onclick=()=>showView('vendas');
+$('#rangeSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; RANGE=b.dataset.r; $$('#rangeSeg button').forEach(x=>x.classList.toggle('is-on',x===b)); load(); });
+$('#refreshBtn').onclick=()=>{ $('#refreshBtn').classList.add('spin'); setTimeout(()=>$('#refreshBtn').classList.remove('spin'),700); load(); };
+
+/* ---------- ICONS ---------- */
+const IC={
+  money:'<path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>',
+  check:'<path d="M20 6L9 17l-5-5"/>',
+  pix:'<path d="M12 2l4 4-4 4-4-4z"/><path d="M2 12l4-4 4 4-4 4z"/><path d="M22 12l-4-4-4 4 4 4z"/><path d="M12 14l4 4-4 4-4-4z"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h2.5l2.2 12.4a1.6 1.6 0 001.6 1.3h8.7a1.6 1.6 0 001.6-1.3L21 7H6"/>',
+  users:'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.9"/>',
+  bolt:'<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
+  ticket:'<path d="M3 8a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a2 2 0 000-4z"/>',
+  wallet:'<path d="M3 7h18v12H3z"/><path d="M16 12h3"/><path d="M3 7l2-3h12l2 3"/>'
+};
+function kpi(ico,color,label,val,sub){
+  return `<div class="card kpi ${color}"><div class="kpi-top"><div class="kpi-ico ${color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">${IC[ico]}</svg></div></div>
+    <div class="kpi-label">${label}</div><div class="kpi-val num" data-v="${label}">${val}</div><div class="kpi-sub">${sub||''}</div></div>`;
+}
+function showSkeletons(){
+  $('#kpiGrid').innerHTML = Array(10).fill('<div class="card kpi"><div class="sk" style="width:38px;height:38px;border-radius:11px;margin-bottom:14px"></div><div class="sk" style="width:70%;height:12px;margin-bottom:8px"></div><div class="sk" style="width:50%;height:24px"></div></div>').join('');
+  $('#winGrid').innerHTML = Array(4).fill('<div class="card"><div class="sk" style="height:120px"></div></div>').join('');
+}
+
+/* ---------- DASHBOARD render ---------- */
+let prevVals={};
+function setKpi(label,val){
+  const el=$(`.kpi-val[data-v="${label}"]`); if(!el)return;
+  if(prevVals[label]!==undefined && prevVals[label]!==val){ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+  el.textContent=val; prevVals[label]=val;
+}
+async function load(){
+  if(VIEW!=='dashboard' && !firstLoad) { if(VIEW==='rastreamento') loadTrk(); return; }
+  let d;
+  try{ d = await api('/api/admin/metrics?range='+RANGE); }
+  catch(e){ if(e.auth){ gate(true); } return; }
+  firstLoad=false;
+  render(d);
+}
+function render(d){
+  const r=d.range||{}, w=d.windows||{};
+  $('#sbOnline').textContent=d.online||0;
+  $('#liveN').textContent=d.online||0;
+  // KPIs (período selecionado)
+  $('#kpiGrid').innerHTML =
+    kpi('money','gold','Faturamento',brl0(r.faturamento),`líquido ${brl0(r.liquido)}`)+
+    kpi('check','green','Vendas aprovadas',r.vendasAprovadas||0,`ticket ${brl(r.ticket)}`)+
+    kpi('pix','blue','PIX gerados',r.pixCriados||0,'total no período')+
+    kpi('wallet','green','PIX pagos',r.pixPagos||0,`${brl0(r.faturamento)}`)+
+    kpi('clock','amber','PIX pendentes',r.pendentes||0,`${brl0(r.pendenteValor)} em aberto`)+
+    kpi('cart','violet','Checkout iniciado',r.checkouts||0,'no período')+
+    kpi('users','blue','Visitantes',r.visitantes||0,'no período')+
+    kpi('bolt','green','Online agora',d.online||0,'em tempo real')+
+    kpi('target','gold','Conversão',(r.conversao||0)+'%','PIX pagos / gerados')+
+    kpi('ticket','amber','Ticket médio',brl(r.ticket),`${r.vendasAprovadas||0} vendas`);
+  // janelas
+  $('#winGrid').innerHTML=[['Hoje',w.hoje],['7 dias',w.d7],['30 dias',w.d30],['Total',w.total]].map(([t,x])=>{
+    x=x||{}; return `<div class="win"><h4>${t}</h4>
+      <div class="win-row"><span>Faturamento</span><b class="num">${brl0(x.faturamento)}</b></div>
+      <div class="win-row"><span>Aprovadas</span><b class="num">${x.vendasAprovadas||0}</b></div>
+      <div class="win-row"><span>PIX gerados</span><b class="num">${x.pixCriados||0}</b></div>
+      <div class="win-row"><span>Visitantes</span><b class="num">${x.visitantes||0}</b></div></div>`;
+  }).join('');
+  // charts
+  drawArea($('#chartRevenue'), d.daily, 'faturamento', true);
+  drawGrouped($('#chartPix'), d.daily, ['pixCriados','pixPagos'], ['var(--blue)','var(--green)']);
+  drawBars($('#chartSource'), (d.porFonte||[]).map(x=>({label:x.key,value:x.revenue,count:x.count})), true);
+  drawConv($('#chartDevConv'),  d.porAparelho||[],     'sem PIX gerado no período');
+  drawConv($('#chartCampConv'), d.porCampanhaConv||[], 'sem campanha identificada — coloque as macros do TikTok na URL do anúncio');
+  drawFunnel($('#chartFunnel'), d);
+  drawLiveStages($('#liveStages'), d);
+  // live chips
+  const dv=d.devices||{}; $('#liveChips').innerHTML = Object.keys(dv).length ? Object.entries(dv).map(([k,v])=>`<span class="chip">${esc(k)} · ${v}</span>`).join('') : '<span class="chip">ninguém agora</span>';
+  // recent sales
+  renderTable($('#recentWrap'), (d.ultimasVendas||[]).slice(0,8), true);
+  // notifications
+  handleNotifs(d.ultimasPagas||[]);
+}
+
+/* ---------- notificações de venda aprovada ---------- */
+function handleNotifs(paid){
+  if(seenPaid===null){ seenPaid=new Set(paid.map(p=>p.id)); return; } // 1ª carga: não notifica histórico
+  paid.forEach(p=>{ if(!seenPaid.has(p.id)){ seenPaid.add(p.id); toastSale(p); } });
+}
+function toastSale(p){
+  const el=document.createElement('div'); el.className='toast';
+  el.innerHTML=`<div class="tt"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>Venda aprovada</div>
+    <div class="tb"><b>${esc(p.product||'Produto')}</b> · <b>${brl(p.amount)}</b><br>${fmtTime(p.paidAt||p.createdAt)} · <span class="tid">${esc((p.id||'').slice(0,12))}</span></div>`;
+  $('#toasts').appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .4s,transform .4s'; el.style.opacity='0'; el.style.transform='translateX(120%)'; setTimeout(()=>el.remove(),400); }, 7000);
+}
+
+/* ---------- tabela ---------- */
+function renderTable(wrap, rows, compact){
+  if(!rows || !rows.length){ wrap.innerHTML='<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg><h4>Nenhuma venda ainda</h4><p>as vendas aparecem aqui assim que o primeiro PIX for gerado</p></div>'; return; }
+  const cols = compact
+    ? ['<th>Status</th><th>Valor</th><th>Cliente</th><th>Produto</th><th>Data</th>']
+    : ['<th>Transação</th><th>Cliente</th><th>Data</th><th>Hora</th><th>Produto</th><th>Valor</th><th>Método</th><th>Status</th><th>Origem</th><th>Campanha</th><th>ttclid</th>'];
+  const body = rows.map(r=>{
+    const badge=`<span class="badge ${r.status}">${SITU[r.status]||r.status}</span>`;
+    if(compact) return `<tr><td>${badge}</td><td class="num">${brl(r.amount)}</td><td>${esc((r.payerName||'—').slice(0,18))}</td><td>${esc((r.product||'—').slice(0,20))}</td><td>${fmtDate(r.createdAt)} ${fmtTime(r.createdAt)}</td></tr>`;
+    return `<tr>
+      <td class="tid">${esc((r.transactionId||r.id||'').slice(0,16))||'—'}</td><td>${esc(r.payerName||'—')}</td>
+      <td>${fmtDate(r.createdAt)}</td><td class="num">${fmtTime(r.createdAt)}</td>
+      <td>${esc((r.product||'—').slice(0,26))}</td>
+      <td class="num">${brl(r.amount)}</td>
+      <td>PIX</td><td>${badge}</td>
+      <td>${esc(r.utmSource||'—')}</td><td>${esc(r.utmCampaign||'—')}</td>
+      <td class="tid">${esc((r.ttclid||'—').slice(0,14))}</td>
+    </tr>`;
+  }).join('');
+  wrap.innerHTML=`<table><thead><tr>${cols}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
+/* ---------- VENDAS (tabela + filtros) ---------- */
+$('#salesFilters').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  if(b.dataset.period){ salesPeriod=b.dataset.period; $$('#salesFilters [data-period]').forEach(x=>x.classList.toggle('is-on',x===b)); }
+  if(b.dataset.status){ salesStatus=b.dataset.status; $$('#salesFilters [data-status]').forEach(x=>x.classList.toggle('is-on',x===b)); }
+  loadSales();
+});
+function periodRange(p){
+  const now=Date.now(), DAY=86400e3;
+  // início do dia em BR (-3h)
+  const brStart=t=>{const d=new Date(t-3*3600e3);d.setUTCHours(0,0,0,0);return d.getTime()+3*3600e3;};
+  if(p==='hoje') return [brStart(now), now];
+  if(p==='ontem') return [brStart(now)-DAY, brStart(now)];
+  if(p==='7d') return [now-7*DAY, now];
+  if(p==='30d') return [now-30*DAY, now];
+  return [null,null];
+}
+async function loadSales(quiet){
+  if(!quiet) $('#salesWrap').innerHTML='<div style="padding:14px">'+Array(6).fill('<div class="sk" style="height:20px;margin:10px 0"></div>').join('')+'</div>';
+  const [from,to]=periodRange(salesPeriod);
+  let q='/api/admin/sales?status='+salesStatus; if(from!=null)q+='&from='+from; if(to!=null)q+='&to='+to;
+  let d; try{ d=await api(q); }catch(e){ if(e.auth) gate(true); return; }
+  renderTable($('#salesWrap'), d.rows||[], false);
+  $('#pageSub').textContent = (d.total||0)+' venda(s) no filtro';
+}
+
+/* ---------- gráficos (SVG) ---------- */
+function drawArea(el, series, key, money){
+  const W=560,H=150,pad=8, data=series||[];
+  const max=Math.max(1,...data.map(d=>d[key]||0));
+  const step=data.length>1?(W-pad*2)/(data.length-1):0;
+  const pts=data.map((d,i)=>[pad+i*step, H-10-(H-24)*((d[key]||0)/max)]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area=line+` L${(pad+(data.length-1)*step).toFixed(1)} ${H-10} L${pad} ${H-10} Z`;
+  const grid=[0,.5,1].map(f=>`<line x1="${pad}" y1="${(10+(H-24)*f).toFixed(0)}" x2="${W-pad}" y2="${(10+(H-24)*f).toFixed(0)}" stroke="var(--line-soft)" stroke-width="1"/>`).join('');
+  const dots = data.length<=31 ? pts.map((p,i)=> (data[i][key]>0)?`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="var(--gold)"/>`:'').join('') : '';
+  el.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${H+16}" preserveAspectRatio="none">
+    <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--gold)" stop-opacity=".35"/><stop offset="1" stop-color="var(--gold)" stop-opacity="0"/></linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#ga)"/><path d="${line}" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linejoin="round"/>${dots}
+    <text x="${pad}" y="${H+12}" fill="var(--faint)" font-size="10">${data[0]?data[0].label:''}</text>
+    <text x="${W-pad}" y="${H+12}" fill="var(--faint)" font-size="10" text-anchor="end">${data.length?data[data.length-1].label:''}</text>
+    <text x="${pad+4}" y="16" fill="var(--faint)" font-size="10">${money?brl0(max):max}</text>
+  </svg>`;
+}
+function drawGrouped(el, series, keys, colors){
+  const data=(series||[]).slice(-14); const W=560,H=150,pad=8;
+  const max=Math.max(1,...data.flatMap(d=>keys.map(k=>d[k]||0)));
+  const gw=(W-pad*2)/data.length, bw=Math.min(10,(gw-4)/keys.length);
+  let bars='';
+  data.forEach((d,i)=>{ keys.forEach((k,j)=>{ const h=(H-24)*((d[k]||0)/max); const x=pad+i*gw+(gw-bw*keys.length-2)/2+j*(bw+1); bars+=`<rect x="${x.toFixed(1)}" y="${(H-10-h).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0,h).toFixed(1)}" rx="2" fill="${colors[j]}"/>`; }); });
+  el.innerHTML=`<svg class="chart" viewBox="0 0 ${W} ${H+16}"><line x1="${pad}" y1="${H-10}" x2="${W-pad}" y2="${H-10}" stroke="var(--line)"/>${bars}
+    <text x="${pad}" y="${H+12}" fill="var(--faint)" font-size="10">${data[0]?data[0].label:''}</text>
+    <text x="${W-pad}" y="${H+12}" fill="var(--faint)" font-size="10" text-anchor="end">${data.length?data[data.length-1].label:''}</text></svg>`;
+}
+function drawBars(el, rows, money){
+  if(!rows||!rows.length){ el.innerHTML='<div class="empty" style="padding:24px"><p>Sem dados de origem ainda</p></div>'; return; }
+  const max=Math.max(1,...rows.map(r=>r.value));
+  el.innerHTML=rows.slice(0,7).map(r=>`<div class="bar-row"><span class="bl" title="${esc(r.label)}">${esc(r.label)}</span><div class="bar-track"><div class="bar-fill" style="width:${(r.value/max*100).toFixed(0)}%"></div></div><span class="bv num">${money?brl0(r.value):r.value}</span></div>`).join('');
+}
+/* taxa de pagamento por corte. Diferente de drawBars, o denominador aqui e
+   PIX GERADO — e o que revela um publico que chega ao QR e nao paga. */
+function drawConv(el, rows, vazio){
+  if(!rows||!rows.length){ el.innerHTML='<div class="empty" style="padding:24px"><p>'+esc(vazio)+'</p></div>'; return; }
+  const tot=rows.reduce((a,r)=>a+r.criados,0), pag=rows.reduce((a,r)=>a+r.pagos,0);
+  const media=tot?pag/tot*100:0;
+  el.innerHTML=rows.slice(0,7).map(r=>{
+    const baixo = r.criados>=5 && r.conversao < media-8;
+    return `<div class="bar-row"><span class="bl" title="${esc(r.key)}">${esc(r.key)}</span>`
+      + `<div class="bar-track"><div class="bar-fill" style="width:${Math.min(100,r.conversao).toFixed(0)}%${baixo?';opacity:.5':''}"></div></div>`
+      + `<span class="bv bv-wide num${baixo?' bv-low':''}">${r.conversao.toFixed(0)}% · ${r.pagos}/${r.criados}</span></div>`;
+  }).join('')
+  + `<div class="hint" style="margin-top:12px">média do período ${media.toFixed(0)}% · em vermelho, quem paga bem abaixo dela</div>`;
+}
+function drawLiveStages(el, d){
+  const order=d.stageOrder||[], labels=d.stageLabels||{}, by=d.onlineByStage||{};
+  const total=d.online||0;
+  if(!total){ el.innerHTML='<div class="empty" style="padding:30px 20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0116 0"/></svg><h4>Ninguém navegando agora</h4><p>as pessoas aparecem aqui, em tempo real, conforme entram na oferta</p></div>'; return; }
+  const max=Math.max(1,...order.map(k=>by[k]||0));
+  el.innerHTML=order.map(k=>{
+    const n=by[k]||0;
+    return `<div class="stage-row ${n?'active':''}"><span class="stage-dot"></span><span class="stage-label">${esc(labels[k]||k)}</span><div class="stage-track"><div class="stage-fill" style="width:${(n/max*100).toFixed(0)}%"></div></div><span class="stage-n num">${n}</span></div>`;
+  }).join('');
+}
+function drawFunnel(el, d){
+  const order=d.stageOrder||[], labels=d.stageLabels||{}, reached=d.reached||{};
+  const keep=['page_view','carrinho','order_bump','checkout_addr','checkout_pgto','pix_gerado','pago'].filter(k=>order.includes(k));
+  const max=Math.max(1,...keep.map(k=>reached[k]||0));
+  const any=keep.some(k=>reached[k]>0);
+  if(!any){ el.innerHTML='<div class="empty" style="padding:24px"><p>Sem tráfego no período</p></div>'; return; }
+  el.innerHTML=keep.map(k=>`<div class="flow-row"><span class="fl">${esc(labels[k]||k)}</span><div class="flow-track"><div class="flow-fill" style="width:${((reached[k]||0)/max*100).toFixed(0)}%"></div></div><span class="fn num">${reached[k]||0}</span></div>`).join('');
+}
+
+/* ---------- rastreamento (status + kpis) ---------- */
+async function loadTrk(){
+  let t; try{ t=await api('/api/admin/tracking'); }catch(e){ if(e.auth) gate(true); return; }
+  const dot=$('#trkDot'); dot.className='trk-dot '+(t.saude||'off');
+  $('#trkTitle').textContent = t.ativo ? 'Events API ativo · pixel '+(t.pixel||'') : 'Events API desligado';
+  $('#trkMotivo').textContent = t.motivo || (t.ativo?'enviando eventos ao TikTok':'cole o Access Token abaixo para ligar');
+  $('#trkKpis').innerHTML =
+    kpi('bolt', t.ativo?'green':'amber','Status', t.ativo?'Ativo':'Off', t.teste?'modo teste':'')+
+    kpi('check','blue','Enviados', t.enviados||0, 'eventos ao TikTok')+
+    kpi('clock','amber','Na fila', t.fila||0, (t.filaPresaMin||0)+'min presa')+
+    kpi('target','violet','Match médio', (t.matchMedio!=null?t.matchMedio:'—'), 'qualidade');
+}
+
+/* ---------- pós-venda: link após o pagamento ---------- */
+async function loadPostPay(){
+  const el=$('#ppUrl'); if(!el) return;
+  try{ const c=await api('/api/admin/pixel-config'); el.value=(c&&c.postPaymentUrl)||''; }catch(e){ if(e.auth) return gate(true); }
+}
+async function savePostPay(){
+  const msg=$('#ppMsg'); const url=$('#ppUrl').value.trim();
+  try{
+    const r=await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({postPaymentUrl:url})});
+    if(!r.ok) throw new Error('HTTP '+r.status); await r.json();
+    msg.className='msg ok'; msg.textContent = url ? ('✓ Salvo. Após o pagamento o cliente vai para: '+url) : '✓ Salvo. Sem redirecionamento — mostra a tela de compra concluída.'; msg.hidden=false;
+    setTimeout(function(){ msg.hidden=true; }, 6000);
+  }catch(e){ msg.className='msg err'; msg.textContent='Erro ao salvar: '+e.message; msg.hidden=false; }
+}
+$('#ppSave') && ($('#ppSave').onclick=savePostPay);
+
+/* ---------- PÁGINAS DOS PRODUTOS RELACIONADOS ---------- */
+let PG = null;   // produto aberto no formulário
+
+const pgFoto = u => { u = String(u||''); return u.startsWith('/')||u.startsWith('http') ? u : '/'+u; };
+function pgMsg(tipo, txt){
+  const m = $('#pgMsg'); m.className = 'msg '+tipo; m.textContent = txt; m.hidden = false;
+  if(tipo==='ok') setTimeout(()=>{ m.hidden = true; }, 5000);
+}
+
+async function loadPages(){
+  const g = $('#pgGrid');
+  try{
+    const lista = await api('/api/admin/pages');
+    let ofe = null;
+    try{
+      const o = await api('/api/admin/offer');
+      ofe = { slug:'__oferta__', nome:(o.produto&&o.produto.nomeCurto)||'Oferta principal',
+              foto:(o.fotos&&o.fotos[0])||'', por:(o.preco&&o.preco.por)||0,
+              coments:((o.avaliacoes&&o.avaliacoes.lista)||[]).length, principal:true };
+    }catch(_){}
+    const todos = ofe ? [ofe].concat(lista) : lista;
+    g.innerHTML = todos.map(p =>
+      '<button class="pg-item'+(p.principal?' pg-item--main':'')+'" data-slug="'+esc(p.slug)+'">'
+      + '<img src="'+esc(pgFoto(p.foto))+'" alt="" loading="lazy">'
+      + '<span style="min-width:0"><b>'+esc(p.nome)
+      + (p.principal?'<span class="tag">oferta</span>':(p.editado?'<span class="tag">editado</span>':''))+'</b>'
+      + '<small>'+brl(p.por)+' · '+p.coments+' comentários</small></span></button>').join('');
+    $$('.pg-item', g).forEach(b => b.onclick = () => abrirProduto(b.dataset.slug));
+  }catch(e){
+    if(e.auth) return gate(true);
+    g.innerHTML = '<p class="hint">Não foi possível carregar os produtos.</p>';
+  }
+}
+
+/* a oferta principal usa /api/admin/offer; os relacionados usam /api/admin/pages */
+async function abrirProduto(slug){
+  try{
+    if(slug === '__oferta__'){
+      const o = await api('/api/admin/offer');
+      PG = {
+        slug:'__oferta__', principal:true, url:'/', editado:false, _raw:o,
+        card:null, produto:o.produto||{}, preco:o.preco||{}, fotos:(o.fotos||[]).slice(),
+        variante:o.variante||{rotulo:'',opcoes:[]}, bullets:o.bullets||[],
+        descricao:o.descricao||'', specs:o.specs||[],
+        avaliacoes:o.avaliacoes||{resumoIA:'',comentarios:'',lista:[]},
+        orderBump:o.orderBump||{titulo:'',sub:'',itens:[]},
+        ofertaSaida:o.ofertaSaida||{}, seo:o.seo||{title:'',description:'',buscas:[]}
+      };
+    } else {
+      PG = await api('/api/admin/pages/'+encodeURIComponent(slug));
+      PG.variante    = PG.variante    || {rotulo:'',opcoes:[]};
+      PG.orderBump   = PG.orderBump   || {titulo:'',sub:'',itens:[]};
+      PG.ofertaSaida = PG.ofertaSaida || {};
+      PG.seo         = PG.seo         || {title:'',description:'',buscas:[]};
+    }
+  }catch(e){ if(e.auth) return gate(true); return; }
+  $('#pgLista').hidden = true; $('#pgEditor').hidden = false; $('#pgMsg').hidden = true;
+  $('#pgNome').textContent = PG.produto.nomeCurto || (PG.card && PG.card.t) || 'Oferta principal';
+  $('#pgLink').href = PG.url;
+  $('#pgLink').textContent = 'abrir ' + location.origin + PG.url;
+  $('#pgStatus').textContent = PG.principal ? 'oferta principal' : (PG.editado ? 'esta página tem alterações salvas' : 'conteúdo original');
+  $('#pgReset').hidden = !!PG.principal;      // a oferta tem o "desfazer" do editor visual
+  montarPgForm();
+  window.scrollTo(0,0);
+}
+
+const pgLinhas = t => String(t||'').split('\n').map(x=>x.trim()).filter(Boolean);
+
+function montarPgForm(){
+  const p = PG;
+  const sec = (t, corpo) => '<div class="pg-sec"><h4>'+t+'</h4>'+corpo+'</div>';
+  const inp = (id, rot, val, extra) => '<label>'+rot+'<input id="'+id+'" value="'+esc(val==null?'':val)+'"'+(extra||'')+'></label>';
+  const ta  = (id, rot, val, linhas) => '<label>'+rot+'<textarea id="'+id+'" rows="'+(linhas||4)+'">'+esc(val==null?'':val)+'</textarea></label>';
+
+  const cardSec = p.principal ? '' :
+    '<div><h4 style="font-size:13px;margin:0 0 12px;font-weight:650">Card no carrossel</h4>'
+    + inp('f_cardT','Nome que aparece no card', p.card.t)
+    + '<div class="pg-row" style="margin-top:11px">'+inp('f_cardSold','Vendidos', p.card.sold,' placeholder="+1000 vendidos"')+'</div>'
+    + '<div class="pg-chks" style="margin-top:11px">'
+    + '<label><input type="checkbox" id="f_ship"'+(p.card.ship?' checked':'')+'> Frete grátis</label>'
+    + '<label><input type="checkbox" id="f_full"'+(p.card.full?' checked':'')+'> Selo FULL</label>'
+    + '<label><input type="checkbox" id="f_pix"'+(p.card.pix?' checked':'')+'> Mostrar "no Pix"</label></div></div>';
+
+  $('#pgCampos').innerHTML = cardSec
+    + sec('Topo da página',
+        ta('f_titulo','Título completo', p.produto.titulo, 2)
+      + '<label style="margin-top:11px">Nome curto<input id="f_nome" value="'+esc(p.produto.nomeCurto||'')+'"></label>'
+      + '<div class="pg-row" style="margin-top:11px">'
+      + inp('f_nota','Nota', p.produto.nota, ' placeholder="4.8"')
+      + inp('f_avals','Nº de avaliações', p.produto.avaliacoes, ' placeholder="11.423"')
+      + inp('f_vendidos','Vendidos', p.produto.vendidos)
+      + '</div><div class="pg-row" style="margin-top:11px">'
+      + inp('f_badge','Selo', p.produto.badge, ' placeholder="Mais vendido"')
+      + inp('f_badgeLink','Texto ao lado do selo', p.produto.badgeLink)
+      + '</div>')
+
+    + sec('Identificação e vendedor',
+        '<div class="pg-row">'
+      + inp('f_marca','Marca', p.produto.marca)
+      + inp('f_modelo','Modelo', p.produto.modelo)
+      + inp('f_condicao','Condição', p.produto.condicao, ' placeholder="Novo"')
+      + '</div><div class="pg-row" style="margin-top:11px">'
+      + inp('f_vendedor','Vendedor', p.produto.vendedor)
+      + inp('f_vendas','Vendas do vendedor', p.produto.vendedorVendas)
+      + '</div>'
+      + '<label style="margin-top:11px">Código do produto (SKU)<input id="f_sku" value="'+esc(p.produto.sku||'')+'"></label>'
+      + '<p class="hint" style="margin-top:6px">É o <b>content_id</b> mandado ao pixel do TikTok. Precisa ser igual ao ID do produto no seu catálogo.</p>'
+      + ta('f_categoria','Caminho de categorias (uma por linha)', (p.produto.categoria||[]).join('\n'), 4))
+
+    + sec('Preço',
+        '<div class="pg-row">'
+      + inp('f_de','De (riscado)', p.preco.de, ' type="number" step="0.01"')
+      + inp('f_por','Por', p.preco.por, ' type="number" step="0.01"')
+      + inp('f_off','Selo de desconto', p.preco.off, ' placeholder="70% OFF"')
+      + inp('f_parc','Parcelas', p.preco.parcelas||4, ' type="number" min="1" max="12"')
+      + '</div>' + '<label style="margin-top:11px">Cupom<input id="f_cupom" value="'+esc(p.preco.cupom||'')+'"></label>')
+
+    + sec('Fotos', '<div class="pg-fotos" id="f_fotos"></div>'
+      + '<p class="hint" style="margin-top:8px">A primeira foto é a que aparece no card do carrossel. Com menos de 2 fotos, a seção "Fotos do produto" some da página.</p>')
+
+    + sec('Variante (voltagem, modelo…)',
+        inp('f_varRot','Rótulo', p.variante.rotulo, ' placeholder="Voltagem"')
+      + '<div id="f_varOpts" style="margin-top:12px"></div>'
+      + '<button class="btn-ghost" type="button" id="f_addVar">+ Adicionar opção</button>')
+
+    + sec('O que você precisa saber (uma linha por item)',
+        '<textarea id="f_bullets" rows="7">'+esc((p.bullets||[]).join('\n'))+'</textarea>')
+
+    + sec('Descrição', '<textarea id="f_desc" rows="12">'+esc(p.descricao||'')+'</textarea>')
+
+    + sec('Ficha técnica (uma linha por item, <code>Chave: valor</code>)',
+        '<textarea id="f_specs" rows="10">'+esc((p.specs||[]).map(x=>x.k+': '+x.v).join('\n'))+'</textarea>')
+
+    + sec('Comentários',
+        ta('f_resumo','Resumo das opiniões (o texto "gerado por IA")', p.avaliacoes.resumoIA, 3)
+      + '<label style="margin-top:11px">Contagem exibida<input id="f_qtd" value="'+esc(p.avaliacoes.comentarios||'')+'" placeholder="4.7 mil comentários"></label>'
+      + '<div id="f_coms" style="margin-top:14px"></div>'
+      + '<button class="btn-ghost" type="button" id="f_addCom">+ Adicionar comentário</button>')
+
+    + sec('Oferta antes de finalizar (order bump)',
+        inp('f_obTit','Título', p.orderBump.titulo)
+      + '<label style="margin-top:11px">Subtítulo<input id="f_obSub" value="'+esc(p.orderBump.sub||'')+'"></label>'
+      + '<div id="f_obItens" style="margin-top:12px"></div>'
+      + '<button class="btn-ghost" type="button" id="f_addOb">+ Adicionar item</button>')
+
+    + sec('Oferta de saída (quando tenta sair da página)',
+        '<div class="pg-row">'
+      + inp('f_boTit','Título', p.ofertaSaida.titulo)
+      + inp('f_boPreco','Preço do combo', p.ofertaSaida.preco, ' type="number" step="0.01"')
+      + '</div>'
+      + '<label style="margin-top:11px">Subtítulo<input id="f_boSub" value="'+esc(p.ofertaSaida.sub||'')+'"></label>'
+      + ta('f_boChamada','Chamada (aceita <b> para negrito)', p.ofertaSaida.chamada, 3)
+      + '<div class="pg-row" style="margin-top:11px">'
+      + inp('f_boBrindeT','Título do brinde', p.ofertaSaida.brindeTitulo)
+      + '</div>'
+      + ta('f_boBrindeTxt','Texto do brinde', p.ofertaSaida.brindeTexto, 2)
+      + '<p class="hint" style="margin-top:10px">Fotos do produto no combo</p><div class="pg-fotos" id="f_boProd"></div>'
+      + '<p class="hint" style="margin-top:10px">Fotos dos brindes</p><div class="pg-fotos" id="f_boBrindes"></div>'
+      + (p.principal ? '<p class="hint" style="margin-top:10px">Esta é a oferta de saída usada em <b>todas</b> as páginas.</p>'
+                     : '<p class="hint" style="margin-top:10px">Esta oferta de saída vem da oferta principal e é igual em todas as páginas — edite na oferta principal.</p>'))
+
+    + sec('SEO e busca',
+        inp('f_seoT','Título da aba do navegador', p.seo.title)
+      + ta('f_seoD','Descrição (Google e compartilhamento)', p.seo.description, 3)
+      + ta('f_buscas','"Você também pode estar interessado" (uma por linha)', (p.seo.buscas||[]).join('\n'), 5));
+
+  pgRenderFotos(); pgRenderComs(); pgRenderVar(); pgRenderBump(); pgRenderBoFotos();
+
+  $('#f_addCom').onclick = () => { pgLerComs();
+    PG.avaliacoes.lista.push({ nota:5, pais:'Brasil', quando:'Há 2 meses', likes:0, texto:'', fotos:[] });
+    pgRenderComs(); };
+  $('#f_addVar').onclick = () => { pgLerVar();
+    PG.variante.opcoes.push({ label:'', img: PG.fotos[0]||'' }); pgRenderVar(); };
+  $('#f_addOb').onclick = () => { pgLerBump();
+    PG.orderBump.itens.push({ t:'', p:0, old:0, img: PG.fotos[0]||'' }); pgRenderBump(); };
+}
+
+/* ---- variante ---- */
+function pgRenderVar(){
+  const box = $('#f_varOpts'); if(!box) return;
+  box.innerHTML = (PG.variante.opcoes||[]).map((o,i) =>
+    '<div class="pg-com" data-i="'+i+'"><div class="pg-row">'
+    + '<label>Opção<input class="v-label" value="'+esc(o.label||'')+'" placeholder="110V"></label>'
+    + '<label>Foto (URL)<input class="v-img" value="'+esc(o.img||'')+'"></label></div>'
+    + '<div style="margin-top:9px"><button class="pg-del" type="button" data-del="'+i+'">Remover opção</button></div></div>').join('')
+    || '<p class="hint">Sem variante. O bloco de voltagem/modelo não aparece na página.</p>';
+  $$('[data-del]', box).forEach(b => b.onclick = () => {
+    pgLerVar(); PG.variante.opcoes.splice(Number(b.dataset.del),1); pgRenderVar(); });
+}
+function pgLerVar(){
+  $$('#f_varOpts .pg-com').forEach(el => {
+    const o = PG.variante.opcoes[Number(el.dataset.i)]; if(!o) return;
+    o.label = el.querySelector('.v-label').value;
+    o.img   = el.querySelector('.v-img').value;
+  });
+}
+
+/* ---- order bump ---- */
+function pgRenderBump(){
+  const box = $('#f_obItens'); if(!box) return;
+  box.innerHTML = (PG.orderBump.itens||[]).map((it,i) =>
+    '<div class="pg-com" data-i="'+i+'">'
+    + '<label>Produto<input class="ob-t" value="'+esc(it.t||'')+'"></label>'
+    + '<div class="pg-row" style="margin-top:9px">'
+    + '<label>Preço<input class="ob-p" type="number" step="0.01" value="'+(it.p||0)+'"></label>'
+    + '<label>Riscado<input class="ob-old" type="number" step="0.01" value="'+(it.old||0)+'"></label></div>'
+    + '<div class="pg-fotos ob-foto" style="margin-top:10px"></div>'
+    + '<div style="margin-top:9px"><button class="pg-del" type="button" data-del="'+i+'">Remover item</button></div></div>').join('')
+    || '<p class="hint">Nenhum item. O order bump não aparece no checkout.</p>';
+  $$('#f_obItens .pg-com', box).forEach(el => {
+    const i = Number(el.dataset.i);
+    const fb = el.querySelector('.ob-foto');
+    const u = PG.orderBump.itens[i].img;
+    fb.innerHTML = (u ? '<div class="pg-foto"><img src="'+esc(pgFoto(u))+'" alt=""><button type="button" title="Remover">×</button></div>' : '')
+      + '<button class="pg-add" type="button" title="Trocar foto">+</button>';
+    const rm = fb.querySelector('.pg-foto button');
+    if(rm) rm.onclick = () => { pgLerBump(); PG.orderBump.itens[i].img=''; pgRenderBump(); };
+    fb.querySelector('.pg-add').onclick = () => pgUpload(url => { pgLerBump(); PG.orderBump.itens[i].img=url; pgRenderBump(); });
+  });
+  $$('[data-del]', box).forEach(b => b.onclick = () => {
+    pgLerBump(); PG.orderBump.itens.splice(Number(b.dataset.del),1); pgRenderBump(); });
+}
+function pgLerBump(){
+  $$('#f_obItens .pg-com').forEach(el => {
+    const it = PG.orderBump.itens[Number(el.dataset.i)]; if(!it) return;
+    it.t = el.querySelector('.ob-t').value;
+    it.p = Number(el.querySelector('.ob-p').value)||0;
+    it.old = Number(el.querySelector('.ob-old').value)||0;
+  });
+}
+
+/* ---- fotos da oferta de saída ---- */
+function pgRenderBoFotos(){
+  [['#f_boProd','imgProduto'],['#f_boBrindes','imgBrindes']].forEach(([sel,campo]) => {
+    const box = $(sel); if(!box) return;
+    const lista = PG.ofertaSaida[campo] = PG.ofertaSaida[campo] || [];
+    box.innerHTML = lista.map((u,i) =>
+      '<div class="pg-foto"><img src="'+esc(pgFoto(u))+'" alt=""><button type="button" data-i="'+i+'" title="Remover">×</button></div>').join('')
+      + '<button class="pg-add" type="button" title="Adicionar foto">+</button>';
+    $$('.pg-foto button', box).forEach(b => b.onclick = () => { lista.splice(Number(b.dataset.i),1); pgRenderBoFotos(); });
+    box.querySelector('.pg-add').onclick = () => pgUpload(url => { lista.push(url); pgRenderBoFotos(); });
+  });
+}
+
+async function salvarProduto(){
+  pgLerComs(); pgLerVar(); pgLerBump();
+  const specs = pgLinhas($('#f_specs').value).map(l => {
+    const i = l.indexOf(':');
+    return i < 0 ? { k:l, v:'' } : { k:l.slice(0,i).trim(), v:l.slice(i+1).trim() };
+  });
+  const corpo = {
+    produto: { titulo:$('#f_titulo').value, nomeCurto:$('#f_nome').value, vendidos:$('#f_vendidos').value,
+               nota:$('#f_nota').value, avaliacoes:$('#f_avals').value,
+               badge:$('#f_badge').value, badgeLink:$('#f_badgeLink').value, sku:$('#f_sku').value,
+               marca:$('#f_marca').value, modelo:$('#f_modelo').value, condicao:$('#f_condicao').value,
+               vendedor:$('#f_vendedor').value, vendedorVendas:$('#f_vendas').value,
+               categoria: pgLinhas($('#f_categoria').value) },
+    preco: { de:Number($('#f_de').value)||0, por:Number($('#f_por').value)||0, off:$('#f_off').value,
+             parcelas:Number($('#f_parc').value)||4, cupom:$('#f_cupom').value, freteGratis:true },
+    fotos: PG.fotos,
+    variante: { rotulo:$('#f_varRot').value, opcoes:PG.variante.opcoes },
+    bullets: pgLinhas($('#f_bullets').value),
+    descricao: $('#f_desc').value,
+    specs: specs,
+    avaliacoes: { resumoIA:$('#f_resumo').value, comentarios:$('#f_qtd').value, lista:PG.avaliacoes.lista },
+    orderBump: { titulo:$('#f_obTit').value, sub:$('#f_obSub').value, itens:PG.orderBump.itens },
+    ofertaSaida: Object.assign({}, PG.ofertaSaida, {
+      titulo:$('#f_boTit').value, sub:$('#f_boSub').value, chamada:$('#f_boChamada').value,
+      preco:Number($('#f_boPreco').value)||0,
+      brindeTitulo:$('#f_boBrindeT').value, brindeTexto:$('#f_boBrindeTxt').value }),
+    seo: { title:$('#f_seoT').value, description:$('#f_seoD').value, buscas: pgLinhas($('#f_buscas').value) }
+  };
+  if(!PG.principal){
+    corpo.card = { t:$('#f_cardT').value, sold:$('#f_cardSold').value,
+                   ship:$('#f_ship').checked, full:$('#f_full').checked, pix:$('#f_pix').checked };
+    // a oferta de saída é a da oferta principal: não grava cópia por produto
+    delete corpo.ofertaSaida;
+  }
+  try{
+    let r;
+    if(PG.principal){
+      const inteiro = Object.assign({}, PG._raw, corpo);        // preserva o que o form não edita
+      r = await fetch('/api/admin/offer?token='+encodeURIComponent(TOKEN),
+        { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(inteiro) });
+    } else {
+      r = await fetch('/api/admin/pages/'+encodeURIComponent(PG.slug)+'?token='+encodeURIComponent(TOKEN),
+        { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(corpo) });
+    }
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || ('HTTP '+r.status));
+    pgMsg('ok','✓ Salvo. Já está no ar em '+location.origin+PG.url);
+    if(!PG.principal) $('#pgStatus').textContent = 'esta página tem alterações salvas';
+    loadPages();
+  }catch(e){ pgMsg('err','Erro ao salvar: '+e.message); }
+}
+
+async function resetProduto(){
+  if(!confirm('Descartar as alterações e voltar ao conteúdo original deste produto?')) return;
+  try{
+    const r = await fetch('/api/admin/pages/'+encodeURIComponent(PG.slug)+'/reset?token='+encodeURIComponent(TOKEN), { method:'POST' });
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || ('HTTP '+r.status));
+    await abrirProduto(PG.slug);
+    pgMsg('ok','✓ Conteúdo original restaurado.');
+    loadPages();
+  }catch(e){ pgMsg('err','Erro: '+e.message); }
+}
+
+
+function pgRenderFotos(){
+  const box = $('#f_fotos');
+  box.innerHTML = (PG.fotos||[]).map((u,i) =>
+    '<div class="pg-foto"><img src="'+esc(pgFoto(u))+'" alt=""><button type="button" data-i="'+i+'" title="Remover">×</button></div>').join('')
+    + '<button class="pg-add" type="button" id="f_addFoto" title="Adicionar foto">+</button>';
+  $$('.pg-foto button', box).forEach(b => b.onclick = () => {
+    PG.fotos.splice(Number(b.dataset.i), 1); pgRenderFotos();
+  });
+  $('#f_addFoto').onclick = () => pgUpload(url => { PG.fotos.push(url); pgRenderFotos(); });
+}
+
+function pgUpload(cb){
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'image/*';
+  inp.onchange = () => {
+    const f = inp.files && inp.files[0]; if(!f) return;
+    const fr = new FileReader();
+    fr.onload = async () => {
+      try{
+        const r = await fetch('/api/admin/upload?token='+encodeURIComponent(TOKEN),
+          { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ dataUrl: fr.result }) });
+        const j = await r.json().catch(()=>({}));
+        if(!r.ok) throw new Error(j.error || ('HTTP '+r.status));
+        cb(j.url);
+      }catch(e){ pgMsg('err','Não deu para enviar a imagem: '+e.message); }
+    };
+    fr.readAsDataURL(f);
+  };
+  inp.click();
+}
+
+function pgRenderComs(){
+  const box = $('#f_coms');
+  box.innerHTML = (PG.avaliacoes.lista||[]).map((r,i) =>
+    '<div class="pg-com" data-i="'+i+'">'
+    + '<div class="pg-row" style="margin-bottom:10px">'
+    + '<label>Estrelas<input class="c-nota" type="number" min="1" max="5" value="'+(r.nota||5)+'"></label>'
+    + '<label>Quando<input class="c-quando" value="'+esc(r.quando||'')+'" placeholder="Há 3 meses"></label>'
+    + '<label>Curtidas<input class="c-likes" type="number" min="0" value="'+(r.likes||0)+'"></label></div>'
+    + '<label>Comentário<textarea class="c-texto" rows="3">'+esc(r.texto||'')+'</textarea></label>'
+    + '<div class="pg-fotos c-fotos" style="margin-top:10px"></div>'
+    + '<div style="margin-top:10px"><button class="pg-del" type="button" data-del="'+i+'">Remover este comentário</button></div>'
+    + '</div>').join('') || '<p class="hint">Nenhum comentário ainda.</p>';
+
+  $$('.pg-com', box).forEach(el => {
+    const i = Number(el.dataset.i);
+    const fotos = (PG.avaliacoes.lista[i].fotos || []);
+    const fb = el.querySelector('.c-fotos');
+    fb.innerHTML = fotos.map((u,j) =>
+      '<div class="pg-foto"><img src="'+esc(pgFoto(u))+'" alt=""><button type="button" data-j="'+j+'" title="Remover">×</button></div>').join('')
+      + '<button class="pg-add" type="button" title="Adicionar foto do cliente">+</button>';
+    $$('.pg-foto button', fb).forEach(b => b.onclick = () => {
+      pgLerComs(); PG.avaliacoes.lista[i].fotos.splice(Number(b.dataset.j),1); pgRenderComs();
+    });
+    fb.querySelector('.pg-add').onclick = () => pgUpload(url => {
+      pgLerComs(); PG.avaliacoes.lista[i].fotos.push(url); pgRenderComs();
+    });
+  });
+
+  $$('[data-del]', box).forEach(b => b.onclick = () => {
+    pgLerComs(); PG.avaliacoes.lista.splice(Number(b.dataset.del),1); pgRenderComs();
+  });
+}
+
+function pgLerComs(){
+  $$('#f_coms .pg-com').forEach(el => {
+    const r = PG.avaliacoes.lista[Number(el.dataset.i)]; if(!r) return;
+    r.nota   = Number(el.querySelector('.c-nota').value) || 5;
+    r.quando = el.querySelector('.c-quando').value;
+    r.likes  = Number(el.querySelector('.c-likes').value) || 0;
+    r.texto  = el.querySelector('.c-texto').value;
+  });
+}
+
+/* ---------- CAMPANHAS (TikTok Ads) ---------- */
+let ADSRANGE = 'hoje';
+
+async function loadAds(){
+  const cfg = $('#adsCfg'), painel = $('#adsPainel');
+  try{
+    const d = await api('/api/admin/ads?range='+ADSRANGE);
+    if(!d.configurado){ cfg.hidden=false; painel.hidden=true; loadAdsCfg(); return; }
+    if(d.erro){
+      cfg.hidden=false; painel.hidden=true; loadAdsCfg();
+      $('#adsMsg').className='msg err';
+      $('#adsMsg').textContent='O TikTok recusou a consulta: '+d.erro+(d.code?(' (code '+d.code+')'):'');
+      $('#adsMsg').hidden=false;
+      return;
+    }
+    cfg.hidden=true; painel.hidden=false;
+    const t=d.total;
+    $('#adsKpis').innerHTML =
+        kpi('wallet','amber','Gasto',        brl(t.gasto),  d.periodo.de===d.periodo.ate ? d.periodo.de : (d.periodo.de+' a '+d.periodo.ate))
+      + kpi('users','blue',  'Cliques',      t.cliques.toLocaleString('pt-BR'), 'CTR '+t.ctr+'% · CPC '+brl(t.cpc))
+      + kpi('cart','gold',   'Vendas reais', t.vendas,      'CPA '+brl(t.cpa))
+      + kpi('money','green', 'Receita',      brl(t.receita),'líquido '+brl(t.liquido))
+      + kpi('target','green','ROAS real',    (t.roas||0).toFixed(2)+'x', 'TikTok reportou '+t.convTikTok+' conv.')
+      + kpi('bolt', t.lucro>=0?'green':'amber','Lucro', brl(t.lucro), t.lucro>=0?'já descontado o gasto':'no prejuízo neste período');
+
+    $('#adsNota').innerHTML = t.naoAtribuidas>0
+      ? '⚠️ <b>'+t.naoAtribuidas+'</b> venda(s) real(is) que o TikTok não atribuiu a nenhuma campanha neste período. O dinheiro entrou — o relatório dele é que não amarrou.'
+      : 'Todas as vendas do período foram atribuídas pelo TikTok.';
+
+    const linhas = d.campanhas.map(c =>
+      '<tr><td><b>'+esc(c.nome)+'</b><div class="tid">'+esc(c.id)+'</div></td>'
+      + '<td>'+brl(c.gasto)+'</td>'
+      + '<td>'+c.impressoes.toLocaleString('pt-BR')+'</td>'
+      + '<td>'+c.cliques.toLocaleString('pt-BR')+'</td>'
+      + '<td>'+c.ctr+'%</td><td>'+brl(c.cpc)+'</td>'
+      + '<td>'+c.convTikTok+'</td>'
+      + '<td><b>'+c.vendas+'</b></td>'
+      + '<td>'+brl(c.receita)+'</td>'
+      + '<td>'+(c.vendas?brl(c.cpa):'—')+'</td>'
+      + '<td>'+(c.gasto?(c.roas.toFixed(2)+'x'):'—')+'</td>'
+      + '<td style="color:var(--'+(c.lucro>=0?'green':'red')+')"><b>'+brl(c.lucro)+'</b></td></tr>').join('');
+    $('#adsTabela').innerHTML =
+      '<table><thead><tr><th>Campanha</th><th>Gasto</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>CPC</th>'
+      + '<th>Conv. TikTok</th><th>Vendas reais</th><th>Receita</th><th>CPA</th><th>ROAS</th><th>Lucro</th></tr></thead>'
+      + '<tbody>'+(linhas || '<tr><td colspan="12" style="color:var(--mute)">Nenhuma campanha com dados neste período.</td></tr>')+'</tbody></table>';
+  }catch(e){
+    if(e.auth) return gate(true);
+    $('#adsPainel').hidden=true; $('#adsCfg').hidden=false;
+  }
+}
+
+function adsRedirect(){ return location.origin + '/api/admin/ads/callback'; }
+
+async function conectarAds(){
+  const msg=$('#adsMsg');
+  try{
+    const body={ tiktokAppId:$('#adsApp').value.trim() };
+    const sec=$('#adsSecret').value.trim(); if(sec) body.tiktokAppSecret=sec;
+    if(!body.tiktokAppId){ msg.className='msg err'; msg.textContent='Preencha o App ID.'; msg.hidden=false; return; }
+    let r=await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),
+      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d=await api('/api/admin/ads/auth-url');
+    if(!d.ok){ msg.className='msg err'; msg.textContent=d.erro||'Não foi possível gerar o link.'; msg.hidden=false; return; }
+    location.href=d.url;                       // vai para o TikTok autorizar
+  }catch(e){ msg.className='msg err'; msg.textContent='Erro: '+e.message; msg.hidden=false; }
+}
+
+async function carregarContas(){
+  try{
+    const d=await api('/api/admin/ads/advertisers');
+    if(!d.ok || !d.contas.length){ $('#adsContas').hidden=true; return; }
+    $('#adsContas').hidden=false;
+    $('#adsContaSel').innerHTML=d.contas.map(c=>
+      '<option value="'+esc(c.id)+'"'+(c.id===d.escolhida?' selected':'')+'>'+esc(c.nome)+' — '+esc(c.id)+'</option>').join('');
+  }catch(e){ if(e.auth) gate(true); }
+}
+
+async function salvarConta(){
+  const msg=$('#adsMsg');
+  try{
+    await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),
+      {method:'POST',headers:{'Content-Type':'application/json'},
+       body:JSON.stringify({ tiktokAdvertiserId: $('#adsContaSel').value })});
+    msg.className='msg ok'; msg.textContent='✓ Conta escolhida. Carregando as campanhas...'; msg.hidden=false;
+    setTimeout(loadAds, 700);
+  }catch(e){ msg.className='msg err'; msg.textContent='Erro: '+e.message; msg.hidden=false; }
+}
+
+/* volta da autorizacao do TikTok */
+function adsRetorno(){
+  const q=new URLSearchParams(location.search).get('ads');
+  if(!q) return;
+  history.replaceState({}, '', location.pathname);
+  showView('campanhas');
+  const msg=$('#adsMsg');
+  const txt={ ok:'✓ Conectado! Carregando as campanhas...',
+              escolher:'✓ Conectado. Escolha qual conta de anúncios usar.',
+              falhou:'O TikTok recusou a autorização. Confira o App ID, o Secret e a URL de redirecionamento cadastrada no app.',
+              estado_invalido:'O link de autorização expirou. Clique em Conectar de novo.',
+              sem_codigo:'O TikTok não devolveu o código de autorização. Tente conectar de novo.' }[q];
+  if(txt){ msg.className='msg '+(q==='ok'||q==='escolher'?'ok':'err'); msg.textContent=txt; msg.hidden=false; }
+  if(q==='escolher'){ $('#adsCfg').hidden=false; $('#adsPainel').hidden=true; loadAdsCfg(); carregarContas(); }
+  else if(q==='ok') setTimeout(loadAds, 600);
+}
+
+async function loadAdsCfg(){
+  try{
+    const c = await api('/api/admin/pixel-config');
+    $('#adsAdv').value = c.tiktokAdvertiserId || '';
+    $('#adsTok').placeholder = c.tiktokAdsTokenSet ? ('token salvo: '+c.tiktokAdsTokenMask) : 'cole aqui o Access Token de relatório';
+    $('#adsApp').value = c.tiktokAppId || '';
+    $('#adsSecret').placeholder = c.tiktokAppSecretSet ? 'secret já salvo — só preencha para trocar' : 'cole o App Secret';
+    try { const a = await api('/api/admin/ads/auth-url'); $('#adsRedir').textContent = a.redirectUri || adsRedirect(); }
+    catch(_) { $('#adsRedir').textContent = adsRedirect(); }
+  }catch(e){ if(e.auth) gate(true); }
+}
+
+async function salvarAds(){
+  const msg=$('#adsMsg');
+  try{
+    const body = { tiktokAdvertiserId: $('#adsAdv').value.trim() };
+    const tok = $('#adsTok').value.trim();
+    if(tok) body.tiktokAdsToken = tok;
+    let r = await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),
+      {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    r = await fetch('/api/admin/ads/test?token='+encodeURIComponent(TOKEN),{method:'POST'});
+    const j = await r.json();
+    if(j.ok){
+      msg.className='msg ok';
+      msg.textContent='✓ Conectado ao TikTok Ads. '+(j.linhas?('Trouxe '+j.linhas+' campanha(s) de hoje.'):'Sem campanha com gasto hoje, mas o acesso funciona.');
+      msg.hidden=false; $('#adsTok').value='';
+      setTimeout(loadAds, 800);
+    } else {
+      msg.className='msg err';
+      msg.textContent='Não conectou: '+(j.erro||'erro desconhecido')+(j.code?(' (code '+j.code+')'):'');
+      msg.hidden=false;
+    }
+  }catch(e){ msg.className='msg err'; msg.textContent='Erro: '+e.message; msg.hidden=false; }
+}
+
+$('#adsSave').onclick = salvarAds;
+$('#adsConnect').onclick = conectarAds;
+$('#adsContaSave').onclick = salvarConta;
+
+/* ---------- LOCALIZAÇÃO ---------- */
+let GEORANGE = '30d';
+const UF_NOME = { SP:'São Paulo', MG:'Minas Gerais', RJ:'Rio de Janeiro', BA:'Bahia', GO:'Goiás',
+  CE:'Ceará', PE:'Pernambuco', PA:'Pará', MA:'Maranhão', PR:'Paraná', RS:'Rio Grande do Sul',
+  SC:'Santa Catarina', DF:'Distrito Federal', ES:'Espírito Santo', PB:'Paraíba', RN:'Rio Grande do Norte',
+  AL:'Alagoas', PI:'Piauí', MT:'Mato Grosso', MS:'Mato Grosso do Sul', SE:'Sergipe', RO:'Rondônia',
+  TO:'Tocantins', AM:'Amazonas', AC:'Acre', AP:'Amapá', RR:'Roraima' };
+
+async function loadGeo(){
+  try{
+    const d = await api('/api/admin/geo?range='+GEORANGE);
+    const topE = d.estados[0];
+    const topC = d.cidades[0];
+    $('#geoKpis').innerHTML =
+        kpi('users','blue',  'Estados alcançados', d.estados.length, d.resolvidos+' checkouts localizados')
+      + kpi('target','gold', 'Top estado', topE ? topE.uf : '—', topE ? (UF_NOME[topE.uf]||topE.nome)+' · '+topE.pct+'%' : 'sem dados')
+      + kpi('pix','green',   'Top cidade', topC ? topC.cidade : '—', topC ? topC.uf+' · '+topC.pagos+' pagos' : 'sem dados')
+      + kpi('cart','violet', 'Cidades distintas', d.cidades.length ? (d.cidades.length+'+') : '0', 'no período');
+
+    const max = Math.max(1, ...d.estados.map(e=>e.checkouts));
+    $('#geoEstados').innerHTML = d.estados.length ? d.estados.map(e=>
+      '<div class="bar-row"><span class="bl" title="'+esc(UF_NOME[e.uf]||e.nome)+'">'+esc(e.uf)+' · '+esc((UF_NOME[e.uf]||e.nome))+'</span>'
+      + '<span class="bar-track"><span class="bar-fill" style="width:'+Math.round(e.checkouts/max*100)+'%"></span></span>'
+      + '<span class="bv" title="'+e.pagos+' pagos · '+brl(e.receita)+'">'+e.checkouts+' · '+e.pagos+'✓</span></div>'
+    ).join('') : '<p class="hint">Nenhum checkout localizado neste período.</p>';
+
+    const tb = $('#geoCidades tbody');
+    tb.innerHTML = d.cidades.length ? d.cidades.map(c=>
+      '<tr><td>'+esc(c.cidade)+'</td><td>'+esc(c.uf)+'</td>'
+      + '<td style="text-align:right" class="num">'+c.checkouts+'</td>'
+      + '<td style="text-align:right" class="num">'+c.pagos+'</td></tr>'
+    ).join('') : '<tr><td colspan="4" class="hint">Sem dados.</td></tr>';
+
+    $('#geoStatus').textContent = d.atualizando
+      ? ('resolvendo '+d.pendentes+' endereços… atualize em instantes')
+      : (d.resolvidos+' de '+d.total+' localizados'+(d.foraBR?(' · '+d.foraBR+' fora do BR'):''));
+    if(d.atualizando) setTimeout(()=>{ if(VIEW==='localizacao') loadGeo(); }, 8000);
+  }catch(e){ if(e.auth) return gate(true); $('#geoStatus').textContent='não foi possível carregar'; }
+}
+let geoLiveTimer = null;
+function geoStageClass(et){
+  if(et==='Pagou') return 'pay';
+  if(/PIX|Pagamento|Revisão|Dados|Endereço|saída/.test(et)) return 'hot';
+  return '';
+}
+async function loadGeoLive(){
+  try{
+    const d = await api('/api/admin/geo/live');
+    $('#geoLive').hidden = d.online === 0;
+    $('#geoLiveN').textContent = d.online;
+    $('#geoLiveUfs').innerHTML = d.estados.map(e=>
+      '<span class="geo-uf" title="'+esc(e.nome)+'">'+esc(e.uf)+'<b>'+e.n+'</b></span>').join('')
+      || '<span class="hint">localizando…</span>';
+    $('#geoNow').innerHTML = d.agora.map(a=>
+      '<div class="geo-now__row"><span class="geo-now__loc">'+esc(a.cidade)
+      + '<small>'+esc(a.uf)+'</small></span>'
+      + '<span class="geo-now__stage '+geoStageClass(a.etapa)+'">'+esc(a.etapa)+'</span>'
+      + '<span class="geo-now__dev">'+esc(a.device||'')+'</span></div>').join('')
+      || '<p class="hint" style="padding:8px 0">Ninguém no site agora.</p>';
+    $('#geoLiveStatus').textContent = d.atualizando ? 'localizando '+(d.online-d.localizados)+'…' : 'atualiza a cada 5s';
+  }catch(e){ if(e.auth) return gate(true); }
+  clearTimeout(geoLiveTimer);
+  if(VIEW==='localizacao') geoLiveTimer = setTimeout(loadGeoLive, 5000);
+}
+$$('#geoRange button').forEach(b=>b.onclick=()=>{ GEORANGE=b.dataset.r;
+  $$('#geoRange button').forEach(x=>x.classList.toggle('is-on',x===b)); loadGeo(); });
+$('#adsCfgLink').onclick = () => { $('#adsCfg').hidden=false; $('#adsPainel').hidden=true; loadAdsCfg(); };
+$$('#adsRange button').forEach(b => b.onclick = () => {
+  ADSRANGE = b.dataset.r;
+  $$('#adsRange button').forEach(x=>x.classList.toggle('is-on', x===b));
+  loadAds();
+});
+
+$('#pgBack').onclick  = () => { $('#pgEditor').hidden = true; $('#pgLista').hidden = false; loadPages(); };
+$('#pgSave').onclick  = salvarProduto;
+$('#pgReset').onclick = resetProduto;
+
+
+/* ---------- notificações (Web Push) ---------- */
+function pushSupported(){ return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; }
+function u8(b64){ const pad='='.repeat((4-b64.length%4)%4); const t=(b64+pad).replace(/-/g,'+').replace(/_/g,'/'); const raw=atob(t); const a=new Uint8Array(raw.length); for(let i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i); return a; }
+async function currentSub(){ try{ const reg=await navigator.serviceWorker.getRegistration('/nerva/'); if(!reg) return null; return await reg.pushManager.getSubscription(); }catch(_){ return null; } }
+function iosInstall(){ return '<div class="ios-steps"><p class="hint" style="margin-bottom:12px">No iPhone, as notificações só funcionam com o painel na Tela de Início:</p><ol class="steps"><li>Abra este painel no <b>Safari</b></li><li>Toque em <b>Compartilhar</b> (quadradinho com seta ↑)</li><li>Escolha <b>Adicionar à Tela de Início</b></li><li>Abra pelo <b>ícone dourado LAV</b> e volte aqui para ativar</li></ol></div>'; }
+function toastMsg(msg){ const el=document.createElement('div'); el.className='toast'; el.style.borderLeftColor='var(--gold)'; el.innerHTML='<div class="tt" style="color:var(--gold)">🔔 Notificações</div><div class="tb">'+esc(msg)+'</div>'; $('#toasts').appendChild(el); setTimeout(function(){ el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(function(){el.remove();},400); },5000); }
+async function loadPushStatus(){
+  const box=$('#pushBox'); if(!box) return;
+  if(isIOS() && !isStandalone()){ box.innerHTML=iosInstall()+'<div class="push-actions" style="margin-top:14px"><button class="chip-btn" id="pushTest">Enviar teste</button></div>'; $('#pushTest').onclick=testPush; return; }
+  if(!pushSupported()){ box.innerHTML='<p class="hint">Este navegador não suporta push (abra pelo Safari/Chrome).</p><div class="push-actions" style="margin-top:12px"><button class="chip-btn" id="pushTest">Enviar teste</button></div>'; $('#pushTest').onclick=testPush; return; }
+  let info={}; try{ info=await api('/api/admin/push/vapid'); }catch(e){ if(e.auth) return gate(true); }
+  const sub=await currentSub();
+  if(sub){
+    box.innerHTML='<div class="push-on"><span class="badge paid">Ativado neste aparelho</span><span class="hint">'+(info.devices||1)+' aparelho(s) recebendo</span></div><div style="display:flex;gap:10px;margin-top:14px"><button class="btn-primary" id="pushTest">Enviar teste</button><button class="chip-btn" id="pushOff">Desativar aqui</button></div>';
+    $('#pushTest').onclick=testPush; $('#pushOff').onclick=disablePush;
+  } else {
+    box.innerHTML='<p class="hint" style="margin-bottom:14px">Receba um aviso na hora quando gerar um PIX e quando uma venda for paga.</p><div class="push-actions"><button class="btn-primary" id="pushOn">🔔 Ativar notificações</button><button class="chip-btn" id="pushTest">Enviar teste</button></div>';
+    $('#pushOn').onclick=enablePush; var _pt=$('#pushTest'); if(_pt) _pt.onclick=testPush;
+  }
+}
+async function enablePush(){
+  const box=$('#pushBox');
+  try{
+    const perm=await Notification.requestPermission();
+    if(perm!=='granted'){ toastMsg('Permissão negada. Ative em Ajustes > Notificações no iPhone.'); return; }
+    const reg=await navigator.serviceWorker.register('/nerva/sw.js',{scope:'/nerva/'});
+    await navigator.serviceWorker.ready;
+    const info=await api('/api/admin/push/vapid');
+    if(!info.key){ toastMsg('Servidor de push indisponível.'); return; }
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:u8(info.key)});
+    await fetch('/api/admin/push/subscribe?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sub)});
+    await loadPushStatus();
+    setTimeout(testPush,600);
+  }catch(e){ box.insertAdjacentHTML('beforeend','<p class="msg err" style="margin-top:12px">Erro ao ativar: '+esc(e.message)+'</p>'); }
+}
+async function testPush(){ try{ const r=await fetch('/api/admin/push/test?token='+encodeURIComponent(TOKEN),{method:'POST'}); const j=await r.json(); toastMsg(j.sent?('Teste enviado para '+j.sent+' aparelho(s)'):'Nenhum aparelho inscrito ainda'); }catch(_){ toastMsg('Falha ao enviar teste'); } }
+async function disablePush(){ try{ const sub=await currentSub(); if(sub){ await fetch('/api/admin/push/unsubscribe?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})}); await sub.unsubscribe(); } await loadPushStatus(); }catch(_){} }
+
+/* ---------- config de pixel ---------- */
+async function loadPixCfg(){
+  try{ const c=await api('/api/admin/pixel-config'); if(!c)return;
+    $('#pfMeta').value=c.metaPixelId||''; $('#pfTk').value=c.tiktokPixelId||''; $('#pfTest').value=c.tiktokTestEventCode||''; $('#pfTok').value='';
+    $('#pfTokState').textContent=c.tiktokAccessTokenSet?('Token atual: '+c.tiktokAccessTokenMask+' — em branco mantém.'):'Nenhum token salvo — Events API desligado até você colar um.';
+  }catch(e){ if(e.auth) gate(true); }
+}
+async function savePixCfg(){
+  const msg=$('#pixMsg'); const body={metaPixelId:$('#pfMeta').value.trim(),tiktokPixelId:$('#pfTk').value.trim(),tiktokTestEventCode:$('#pfTest').value.trim(),tiktokAccessToken:$('#pfTok').value};
+  try{
+    const r=await fetch('/api/admin/pixel-config?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok) throw new Error('HTTP '+r.status); await r.json();
+    msg.className='msg ok'; msg.textContent='✓ Salvo. Vale na hora, sem reiniciar.'; msg.hidden=false;
+    await loadPixCfg(); loadTrk(); setTimeout(()=>msg.hidden=true,4000);
+  }catch(e){ msg.className='msg err'; msg.textContent='Erro ao salvar: '+e.message; msg.hidden=false; }
+}
+$('#pfSave').onclick=savePixCfg;
+
+/* ---------- tempo real (SSE) ----------
+   O servidor empurra 'pix' (cobranca gerada), 'venda' (pagamento confirmado)
+   e 'online' (presenca) por /api/admin/monitor/stream. Ao receber, o painel
+   recarrega NA HORA — antes esperava o proximo poll (5 a 10 s). O EventSource
+   reconecta sozinho se a conexao cair; os polls abaixo viram so rede de
+   seguranca. */
+let sse=null, sseTimer=null;
+function atualizarAgora(){
+  clearTimeout(sseTimer);
+  sseTimer=setTimeout(async ()=>{
+    if($('#app').hidden) return;
+    if(VIEW==='dashboard') return load();
+    if(VIEW==='vendas') loadSales(true);
+    try{ const d=await api('/api/admin/metrics?range=hoje'); $('#sbOnline').textContent=d.online||0; handleNotifs(d.ultimasPagas||[]); }catch(_){}
+  }, 150);   // junta rajadas (webhook + polling do comprador) num recarregamento so
+}
+function ligarStream(){
+  if(sse || !TOKEN || !window.EventSource) return;
+  try{ sse=new EventSource(API_BASE+'/api/admin/monitor/stream?token='+encodeURIComponent(TOKEN)); }catch(_){ sse=null; return; }
+  sse.addEventListener('venda', atualizarAgora);
+  sse.addEventListener('pix', atualizarAgora);
+  sse.addEventListener('online', e=>{ try{ const o=JSON.parse(e.data); $('#sbOnline').textContent=o.total||0; if(VIEW==='dashboard') $('#liveN').textContent=o.total||0; }catch(_){} });
+  sse.onerror=()=>{ /* o navegador reconecta sozinho (retry: 3000) */ };
+}
+// voltou para a aba (ou o app foi reaberto no celular): atualiza sem esperar
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && !$('#app').hidden) atualizarAgora(); });
+
+/* ---------- start + polling (rede de seguranca do SSE) ---------- */
+if(!TOKEN) gate(false); else boot();
+setInterval(()=>{ if(!$('#app').hidden && VIEW==='dashboard' && (!sse || sse.readyState!==1)) load(); }, 5000);
+setInterval(()=>{ if(!$('#app').hidden && VIEW==='dashboard') load(); }, 20000);
+setInterval(()=>{ if(!$('#app').hidden && VIEW==='vendas') loadSales(true); }, 20000);
+setInterval(()=>{ if(!$('#app').hidden && VIEW==='rastreamento') loadTrk(); }, 8000);
+// notificações continuam mesmo fora do dashboard (poll leve das pagas)
+setInterval(async ()=>{ if($('#app').hidden||VIEW==='dashboard')return; try{ const d=await api('/api/admin/metrics?range=hoje'); $('#sbOnline').textContent=d.online||0; handleNotifs(d.ultimasPagas||[]); }catch(_){} }, 20000);
+</script>
+</body>
+</html>

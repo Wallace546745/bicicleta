@@ -1,0 +1,30 @@
+# systemd: mantém o servidor da loja sempre no ar e o sobe no boot.
+#   sudo cp deploy/lavadora.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now lavadora
+[Unit]
+Description=Loja Lavadora Vonder (Nerva + TikTok)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=loja
+Group=loja
+WorkingDirectory=/var/www/lavadora/nerva
+# o server.js lê o nerva/.env sozinho (env.js) — nada de segredo aqui
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+# logs: journalctl -u lavadora -f
+StandardOutput=journal
+StandardError=journal
+# endurecimento básico
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/var/www/lavadora/nerva/data /var/www/lavadora/p
+
+[Install]
+WantedBy=multi-user.target

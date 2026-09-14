@@ -1,0 +1,28 @@
+FOTOS DAS OPINIOES — enviadas por compradores
+==============================================
+
+8 fotos, servidas do proprio site. Foram enviadas 11, mas 3 eram
+duplicatas (arquivos com sufixo __1_).
+
+  826608-...  caixa fechada sobre a mesa
+  998405-...  caixa com a etiqueta de envio
+  848230-...  caixa aberta, cabos e acessorios
+  660745-...  embalagem plastica dos acessorios
+  654954-...  lavadora montada no quintal
+  747755-...  lavadora no piso, mangueira enrolada
+  997508-...  lanca lavando o piso
+  888663-...  lavadora ligada na mangueira amarela
+
+DISTRIBUICAO NAS OPINIOES
+  opiniao 1 -> fotos 1 e 2
+  opiniao 2 -> foto 3
+  opiniao 3 -> fotos 4, 5 e 6
+  opiniao 4 -> foto 7
+  opiniao 5 -> foto 8
+
+Todas aparecem tambem na faixa "Opinioes com fotos", no topo da secao.
+
+PARA MUDAR
+  app.js            -> REV_IMG (arquivos) e REVIEWS[].pics (distribuicao)
+  nerva/content.js  -> avaliacoes.lista[].fotos
+Depois rode: node gerar-paginas.js

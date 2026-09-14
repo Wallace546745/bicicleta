@@ -1,0 +1,17 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente com chaves secretas
+.env
+.env.local
+nerva/.env
+nerva/.env.local
+
+# Dados locais persistidos
+data/
+nerva/data/
+
+# Logs e arquivos de sistema
+*.log
+.DS_Store
+Thumbs.db

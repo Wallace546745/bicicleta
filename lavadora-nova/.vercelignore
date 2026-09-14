@@ -1,0 +1,12 @@
+# Só a loja estática vai para a Vercel. O backend (nerva/) roda na VPS e é
+# alcançado pelos rewrites do vercel.json — nunca publicar o código do
+# servidor, os dados de clientes nem os testes.
+nerva
+deploy
+teste_*
+*.py
+*.ps1
+*.sh
+*.md
+gerar-paginas.js
+.gitignore

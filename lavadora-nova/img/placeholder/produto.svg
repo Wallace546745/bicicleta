@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="Lavadora Vonder LAV 1300">
+  <rect width="320" height="320" fill="#f2f3f5"/>
+  <g stroke="#c9ccd1" stroke-width="2" fill="none">
+    <rect x="106" y="96" width="108" height="82" rx="6"/><circle cx="134" cy="122" r="9"/>
+    <path d="M110 166l30-30 22 22 18-16 30 24"/>
+  </g>
+  <text x="160" y="202" text-anchor="middle" font-family="Arial,Helvetica,sans-serif"
+        font-size="10" letter-spacing="1.4" fill="#a5a8ad">FOTO PENDENTE</text>
+    <text x="160" y="221" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#8c8c8c">Lavadora Alta Pressao</text>
+    <text x="160" y="239" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#8c8c8c">Vonder LAV 1300</text>
+</svg>

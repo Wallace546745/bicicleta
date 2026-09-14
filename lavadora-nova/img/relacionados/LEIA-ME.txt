@@ -1,0 +1,33 @@
+FOTOS DOS PRODUTOS RELACIONADOS
+================================
+
+5 fotos servidas do proprio site.
+
+  639170-...-snow-foam-...webp   Aplicador Snow Foam 500 ml
+  742224-...webp                 Kit Vonixx (V-Floc, Intense, Sintra, Vexus)
+  904933-...-kit-lavadora-...    Kit Lavadora 1600 + Aspirador APV1010 Vonder
+  932088-...webp                 Mangueira Jardim Tramontina Flex 30 m
+  643511-...webp                 Extensao Eletrica 10 m 3 Tomadas
+
+TODAS AS 6 COM FOTO REAL
+  930716-...-mangueira-trama-de-aco-...  Mangueira WAP 10 m
+
+
+O QUE AS FOTOS CORRIGIRAM
+Duas descricoes minhas estavam erradas, e so deu para ver pela imagem:
+
+1. "Snow Foam 500ml" nao e um quimico. E um APLICADOR (canhao de
+   espuma) com reservatorio de 500 ml e bico de latao com engate
+   rapido. Bullets, descricao e ficha refeitos. Acrescentado aviso
+   sobre compatibilidade de engate, que varia por fabricante.
+
+2. O kit Vonixx tem QUATRO produtos, nao dois: V-Floc (shampoo),
+   Intense (plasticos internos), Sintra Fast (bactericida) e Vexus
+   (rodas e motores), mais toalha de microfibra, pincel e esponjas.
+
+3. O rotulo da Tramontina trouxe dados novos: 4 camadas, ate 10 bar
+   (145 psi) e 50 C. Acrescentados a ficha.
+
+PRECOS
+Continuam sendo estimativa minha — o Mercado Livre bloqueia acesso
+automatizado. Ajuste em /admin/editor -> Produtos relacionados.

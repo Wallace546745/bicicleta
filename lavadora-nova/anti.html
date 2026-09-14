@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Cupom liberado</title>
+
+<!-- ═══════════ PIXELS (mesmos da loja JBL: Meta + TikTok) ═══════════
+     A presell dispara PageView no MESMO pixel da LP, para o anúncio otimizar
+     sobre o funil inteiro (presell → loja → compra). -->
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1593228632374084');   // pixel da loja JBL
+fbq('init','1676043856783119');   // pixel do chuveiro (mantido a pedido)
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1593228632374084&ev=PageView&noscript=1"/>
+<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1676043856783119&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<!-- TikTok Pixel -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('DAJVT3RC77UES9752NLG');   // mesmo pixel da loja
+  /* mesmo external_id persistente da loja: o Pageview da presell e o
+     CompletePayment de depois viram a MESMA pessoa para o TikTok */
+  try {
+    var eid = localStorage.getItem('_ttk_eid');
+    if (!eid) { eid = 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 11); localStorage.setItem('_ttk_eid', eid); }
+    ttq.identify({ external_id: eid });
+  } catch (e) {}
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- End TikTok Pixel -->
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     CONFIG DA PRESELL — é só isto que muda de oferta para oferta.
+
+       destino → para onde o botão "Continuar" leva. Toda a querystring da
+                 entrada (utm_*, fbclid, ttclid, gclid, sck, src…) é repassada
+                 sozinha, então NÃO precisa colocar parâmetro nenhum aqui.
+       oferta  → mesma chave que a LP já usa em ?offer= e no /api/pix/create.
+                 É por ela que o painel de vendas separa a loja.
+     ══════════════════════════════════════════════════════════════════════ -->
+<script>
+window.PRESELL_CONFIG = {
+  // Caminho relativo: presell.html mora ao lado do index.html, então vale
+  // tanto no domínio raiz quanto dentro de uma subpasta. Mover a presell
+  // para outra pasta? troque por '/index.html'.
+  destino: 'index.html',
+  oferta:  'lav1300',
+};
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Aparência: os 4 valores que mexem em tudo. */
+  :root{
+    --marca:  #F92B4F;   /* vermelho do botão e do cupom */
+    --fundo:  #F1F1F1;
+    --titulo: #1C1C1E;
+    --apoio:  #A2A2A8;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  html{-webkit-text-size-adjust:100%}
+  body{
+    /* Em iPhone cai no SF Pro (a fonte do print). Fora da Apple, Inter — que é
+       o desenho mais próximo do SF. */
+    font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display',
+                'Inter','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--fundo);
+    color:var(--titulo);
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    /* o card fica um pouco abaixo do centro óptico, como no layout */
+    padding:calc(10vh + env(safe-area-inset-top)) 20px calc(4vh + env(safe-area-inset-bottom));
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  .cartao{
+    width:100%;
+    max-width:320px;
+    background:#fff;
+    border-radius:18px;
+    padding:32px 24px 24px;
+    text-align:center;
+    box-shadow:0 1px 2px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.05);
+  }
+
+  .cupom{display:block;margin:0 auto 22px;width:60px;height:54px}
+
+  .titulo{
+    font-size:20px;
+    font-weight:700;
+    line-height:1.32;
+    letter-spacing:-.015em;
+    color:var(--titulo);
+  }
+
+  .apoio{
+    margin-top:11px;
+    font-size:13.5px;
+    font-weight:400;
+    line-height:1.5;
+    color:var(--apoio);
+  }
+
+  .continuar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:26px;
+    height:52px;
+    border:0;
+    border-radius:999px;
+    background:var(--marca);
+    color:#fff;
+    font:inherit;
+    font-size:15.5px;
+    font-weight:600;
+    letter-spacing:-.01em;
+    text-decoration:none;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .12s ease, filter .12s ease;
+  }
+  .continuar:active{transform:scale(.975);filter:brightness(.94)}
+
+  @media (prefers-reduced-motion:reduce){
+    .continuar{transition:none}
+    .continuar:active{transform:none}
+  }
+</style>
+</head>
+<body>
+
+  <main class="cartao">
+
+    <!-- cupom desenhado em SVG: renderiza igual em todo aparelho, ao contrário
+         do emoji, que muda de desenho conforme o sistema -->
+    <svg class="cupom" viewBox="0 0 60 54" fill="none" aria-hidden="true" focusable="false">
+      <defs>
+        <!-- brilho de 4 pontas; reaproveitado em 3 tamanhos -->
+        <path id="brilho" d="M0-1Q.2-.2 1 0 .2.2 0 1-.2.2-1 0-.2-.2 0-1Z"/>
+      </defs>
+      <g fill="#FBC02D">
+        <use href="#brilho" transform="translate(19 13) scale(6)"/>
+        <use href="#brilho" transform="translate(30 6) scale(4.2)"/>
+        <use href="#brilho" transform="translate(41 12) scale(5.2)"/>
+      </g>
+      <g transform="rotate(-8 30 34)">
+        <path d="M10 22h17.5a2.5 2.5 0 0 0 5 0H50a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5H32.5a2.5 2.5 0 0 0-5 0H10a5 5 0 0 1-5-5V27a5 5 0 0 1 5-5Z" fill="var(--marca)"/>
+        <path d="M30 25v18" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-dasharray="2.6 2.9"/>
+      </g>
+    </svg>
+
+    <!-- Texto da oferta: os 20% ficam aqui. -->
+    <h1 class="titulo">Cupom de 20% a mais liberado</h1>
+    <p class="apoio">O desconto será aplicado<br>automaticamente no produto.</p>
+
+    <!-- data-ir = o script põe o destino com a querystring completa no href -->
+    <a class="continuar" href="#" data-ir rel="nofollow">Continuar</a>
+
+  </main>
+
+<!--
+  ══════════════════════════════════════════════════════════════════════
+  PRESELL — RASTREIO + REPASSE DE UTM
+  Cópia de snippets/presell/_modelo.html (meta-tracking e tiktok-tracking).
+
+  O que faz:
+    1. Registra a etapa `presell_view` no painel de vendas (funil da oferta).
+    2. Conta a pessoa como viva na presell (rosca de presença do painel).
+    3. Repassa a querystring INTEIRA para o destino, em todo [data-ir].
+
+  Para trocar o destino: bloco `window.PRESELL_CONFIG` lá em cima.
+
+  Oferta rodada SEM presell não gera `presell_view`, e aí a etapa some
+  sozinha do funil no painel — não precisa configurar nada lá.
+  ══════════════════════════════════════════════════════════════════════
+-->
+<script>
+(function () {
+  /* CONFIG — o normal é vir do bloco `window.PRESELL_CONFIG` no topo da página
+     (é lá que se troca o destino). Os valores abaixo são só a rede de segurança
+     para quem colar este snippet numa página sem esse bloco. */
+  var CFG     = window.PRESELL_CONFIG || {};
+  var DESTINO = CFG.destino || 'https://minha-oferta.com/';
+  var OFERTA  = CFG.oferta  || 'SUA-OFERTA';
+
+  var p = new URLSearchParams(location.search);
+  var val = function (k) { return (p.get(k) || '').trim(); };
+
+  /* ── Canal (Meta × TikTok) ──────────────────────────────────────────
+     Mesma cascata da LP. A presell precisa acertar o canal porque o evento
+     de funil tem que cair no MESMO servidor que vai receber o resto da
+     jornada — senão a presell conta num painel e a venda no outro. */
+  var canal = window._CHANNEL || (function () {
+    var forcado = (val('channel') || val('ch')).toLowerCase();
+    if (forcado === 'tiktok' || forcado === 'ttk' || forcado === 'tt') return 'tiktok';
+    if (forcado === 'meta' || forcado === 'fb' || forcado === 'facebook') return 'meta';
+
+    if (val('ttclid')) return 'tiktok';
+    if (val('fbclid')) return 'meta';
+
+    // utm_source CRU da URL — nunca de objeto com default, senão tudo vira TikTok
+    var src = val('utm_source').toLowerCase();
+    if (src.indexOf('tiktok') >= 0 || src.indexOf('ttk') >= 0) return 'tiktok';
+    if (src.indexOf('facebook') >= 0 || src.indexOf('instagram') >= 0 ||
+        src.indexOf('meta') >= 0 || src === 'fb' || src === 'ig') return 'meta';
+
+    try {
+      if (localStorage.getItem('ttclid'))  return 'tiktok';
+      if (localStorage.getItem('_fbclid')) return 'meta';
+    } catch (e) {}
+
+    return 'meta';   // sem sinal nenhum → comportamento histórico
+  })();
+  window._CHANNEL = canal;
+
+  /* Painel desta oferta: o mesmo servidor que serve a loja (nerva/server.js).
+     Apontava para dois hosts antigos de outra oferta — a presença da presell
+     ia parar num painel que não é este. */
+  var SERVIDOR = CFG.servidor || location.origin;
+
+  /* Rodando local (live server, file://, rede interna) não suja o painel de
+     produção com visita de teste: o evento vira log no console. */
+  var LOCAL = location.protocol === 'file:' ||
+    /^(localhost|127\.|0\.0\.0\.0|\[::1\]|192\.168\.|10\.)/.test(location.hostname);
+
+  /* ── Querystring que vai ser repassada ──────────────────────────────
+     Guarda a query da entrada. Se a pessoa voltar à presell sem parâmetro
+     nenhum (link salvo, voltar do navegador), reaproveita a última — assim
+     o clique não chega na LP sem atribuição. */
+  var QS_KEY = '_presell_qs';
+  var entrada = location.search.replace(/^\?/, '');
+  try {
+    if (entrada) sessionStorage.setItem(QS_KEY, entrada);
+    else entrada = sessionStorage.getItem(QS_KEY) || '';
+  } catch (e) {}
+
+  // click ids também no localStorage: sobrevivem à troca de página
+  try {
+    if (val('ttclid')) localStorage.setItem('ttclid', val('ttclid'));
+    if (val('fbclid')) { localStorage.setItem('fbclid', val('fbclid')); localStorage.setItem('_fbclid', val('fbclid')); }
+  } catch (e) {}
+
+  /** Destino final = DESTINO + parâmetros dele + parâmetros da entrada.
+      Em conflito manda quem veio do anúncio (é o dado fresco). */
+  function destinoFinal() {
+    var u;
+    try { u = new URL(DESTINO, location.href); }
+    catch (e) { return DESTINO; }
+    new URLSearchParams(entrada).forEach(function (v, k) { u.searchParams.set(k, v); });
+    return u.toString();
+  }
+
+  /* ── Etapa presell_view no funil do painel ──────────────────────────
+     Uma por carregamento, igual ao page_view da LP — assim a conversão
+     presell → página é comparável no painel. */
+  (function () {
+    var corpo = { stage: 'presell_view', funnel: OFERTA, offer: OFERTA };
+    if (LOCAL) { console.log('[presell] ambiente local — evento NÃO enviado:', SERVIDOR, corpo); return; }
+    fetch(SERVIDOR + '/api/funnel/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(corpo),
+      keepalive: true,
+    }).catch(function () {});
+  })();
+
+  /* ── Presença ao vivo (só o painel do TikTok tem /api/funnel/ping) ──
+     Mesmo sid da aba usado pela LP: a pessoa não conta duas vezes ao
+     avançar, só muda de etapa na rosca. */
+  if (canal === 'tiktok' && !LOCAL) (function () {
+    var URL_PING = SERVIDOR + '/api/funnel/ping';
+    var sid;
+    try {
+      sid = sessionStorage.getItem('ttk_sid');
+      if (!sid) {
+        sid = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+        sessionStorage.setItem('ttk_sid', sid);
+      }
+    } catch (e) {
+      sid = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    }
+    function ping(extra) {
+      var corpo = JSON.stringify(Object.assign(
+        { sid: sid, funnel: OFERTA, stage: 'presell_view' }, extra || {}));
+      if (extra && extra.bye && navigator.sendBeacon) {
+        try { navigator.sendBeacon(URL_PING, new Blob([corpo], { type: 'application/json' })); return; } catch (e) {}
+      }
+      fetch(URL_PING, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: corpo, keepalive: true }).catch(function () {});
+    }
+    var timer = setInterval(ping, 20000);
+    ping();
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { clearInterval(timer); ping({ bye: true }); }
+      else { ping(); clearInterval(timer); timer = setInterval(ping, 20000); }
+    });
+    window.addEventListener('pagehide', function () { ping({ bye: true }); });
+  })();
+
+  /* ── Liga os botões ─────────────────────────────────────────────────
+     Qualquer <a data-ir> ou <button data-ir> vai para o destino com a
+     querystring completa. Reaplica em conteúdo inserido depois. */
+  function ligar(raiz) {
+    var url = destinoFinal();
+    (raiz || document).querySelectorAll('[data-ir]').forEach(function (el) {
+      if (el.tagName === 'A') { el.setAttribute('href', url); return; }
+      if (el._presellLigado) return;
+      el._presellLigado = true;
+      el.addEventListener('click', function (ev) { ev.preventDefault(); location.href = destinoFinal(); });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { ligar(); });
+  else ligar();
+  new MutationObserver(function () { ligar(); }).observe(document.documentElement, { childList: true, subtree: true });
+
+  // API para chamar na mão: window.PRESELL.ir()
+  window.PRESELL = {
+    oferta:  OFERTA,
+    canal:   canal,
+    destino: destinoFinal,
+    ligar:   ligar,
+    ir:      function () { location.href = destinoFinal(); },
+  };
+})();
+</script>
+</body>
+</html>

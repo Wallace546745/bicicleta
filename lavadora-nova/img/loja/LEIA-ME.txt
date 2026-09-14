@@ -1,0 +1,19 @@
+IDENTIDADE DA LOJA — Domus
+===========================
+
+  domus-logo.jpg     120x88   avatar do vendedor e badge do banner
+  domus-banner.jpg   1200x100 fundo do card da loja
+
+Aparecem em:
+  - card da loja (banner + circulo do avatar)
+  - card "Vendido por" no topo da pagina
+  - mesmas posicoes nas paginas /p/<produto>
+
+DADOS DA LOJA (conforme o print do anuncio)
+  Domus - Loja oficial do Mercado Livre
+  +17,3 mil Seguidores | +5mil Produtos
+  MercadoLider Platinum
+  +250 mil Vendas | Bom atendimento | Entrega no prazo
+
+Para trocar: index.html (store-banner e seller-card__logo),
+nerva/content.js (produto.vendedorVendas) e nerva/pages.js (VENDEDOR).

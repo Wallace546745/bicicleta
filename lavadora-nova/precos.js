@@ -17,8 +17,8 @@
 
 const PRECOS = {
   // ---------- PRODUTO PRINCIPAL ----------
-  principal: { de: 416.30, por: 67.88, parcelas: 12, parcelaValor: 7.49,
-               parcelado: 89.90 },   // preço em "outros meios", na buybox
+  principal: { de: 1189.90, por: 189.75, parcelas: 12, parcelaValor: 20.83,
+               parcelado: 249.90 },   // preço em "outros meios", na buybox
 
   // ---------- PRODUTOS RELACIONADOS ----------
   // a chave é o slug da página /p/<slug>/
@@ -41,7 +41,7 @@ const PRECOS = {
   /* Oferta de saída. Pode ser MENOR que o preço principal (desconto) ou
      MAIOR (combo com brindes, como está agora: 3 brindes por R$ 99,70). */
   ofertaSaida: {
-    por: 99.70,
+    por: 229.90,
     // produtos que entram de brinde — o riscado é a soma de tudo
     brindes: ['snow-foam-500ml', 'kit-lavadora-aspirador-vonder', 'kit-vonixx-vexus'],
   },

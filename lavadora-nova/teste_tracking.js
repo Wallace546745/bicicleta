@@ -82,7 +82,7 @@ fakeTikTok.listen(9400, () => fakeNerva.listen(9402, async () => {
   console.log('\n1) HTML COM O PRODUTO INJETADO (ViewContent do <head> certo)');
   const home = await (await fetch(B + '/')).text();
   const headHome = home.split('</head>')[0];
-  ok(/window\.__TTK_PRODUTO__=\{"sku":"V9MAX-1000W","nome":"[^"]+","preco":67\.88,"marca":"Inow","categoria":"Bicicletas Elétricas/.test(headHome), 'home: __TTK_PRODUTO__ com SKU, preço, marca e categoria da oferta principal');
+  ok(/window\.__TTK_PRODUTO__=\{"sku":"V9MAX-1000W","nome":"[^"]+","preco":189\.75,"marca":"Inow","categoria":"Bicicletas Elétricas/.test(headHome), 'home: __TTK_PRODUTO__ com SKU, preço, marca e categoria da oferta principal');
   ok(/window\.__PIXELS__=\{"meta":"[^"]*","tiktok":"PIXEL_TESTE"/.test(headHome), 'home: Pixel ID do painel injetado');
   ok(headHome.indexOf('TikTok Pixel Code Start') > 0 && headHome.indexOf('window.__TTK_PRODUTO__') < headHome.indexOf('TikTok Pixel Code Start'),
      'home: produto injetado ANTES da base do pixel, dentro do <head>');

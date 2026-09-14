@@ -33,11 +33,11 @@ const DEFAULT = {
     categoria: ["Esportes e Fitness", "Ciclismo", "Bicicletas", "Bicicletas Elétricas"]
   },
   preco: {
-    de: 416.3,
-    por: 67.88,
+    de: 1189.9,
+    por: 189.75,
     off: '84% OFF',
     parcelas: 12,
-    parcelaValor: 7.49,
+    parcelaValor: 20.83,
     cupom: 'Desconto de R$ 20 no cupom',
     freteGratis: true
   },
@@ -162,7 +162,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
     titulo: 'ESPERA! Não vá embora…',
     sub: 'Liberamos uma condição exclusiva só pra você agora',
     chamada: 'Leve a Bicicleta Elétrica V9 Max + Aplicador Snow Foam + Kit Vonder 1600 com Aspirador + Kit Vonixx de brinde',
-    preco: 99.7,
+    preco: 229.9,
     brindeTitulo: 'GRÁTIS: Snow Foam + Kit Vonder 1600 com Aspirador + Kit Vonixx',
     brindeTexto: 'Os 3 brindes já entram separados no seu pedido — sem custo nenhum.',
     imgProduto: ['img/produto/bicicleta-eletrica-v9-max-1.webp'],

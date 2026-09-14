@@ -567,7 +567,7 @@
     const key = (item.id || item.title) + '___' + (item.variant || '');
     const existing = items.find(i => ((i.id || i.title) + '___' + (i.variant || '')) === key);
     if (existing) {
-      existing.qty = (Number(existing.qty) || 1) + (Number(item.qty) || 1);
+      existing.qty = (Number(existing.qty) || 1) + (Number(item.qty) || 229.90);
       if (item.price) existing.price = Number(item.price);
       if (item.img && !existing.img) existing.img = item.img;
     } else {
@@ -800,7 +800,7 @@
      APENAS esse produto (ignora o carrinho e o produto principal). */
   let soloItem = null;                                  // { title, price, old, img } quando ativa
   const unitPrice = () => soloItem ? soloItem.price : (backOffer ? backOffer.unit : Number(($('.buy-opt.is-sel') || {}).dataset?.pix || 0));
-  const OLD_UNIT = 416.30;                              // preço "cheio" p/ calcular economia
+  const OLD_UNIT = 1189.90;                              // preço "cheio" p/ calcular economia
   const cho = $('#checkout');
   const steps = $$('.step', cho);
   const doneView = $('#choDone');
@@ -2269,7 +2269,7 @@
   /* preco do back offer = o que esta no painel (Editor da oferta ->
      oferta de saida). Antes era fixo em 59,90 e ignorava o painel: a
      tela prometia um valor e o checkout cobrava outro. */
-  const BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 99.70);
+  const BACK_OFFER_TOTAL = Number((O && O.ofertaSaida && O.ofertaSaida.preco) || 229.90);
   let boTimerId = null;
 
   function startBoTimer() {

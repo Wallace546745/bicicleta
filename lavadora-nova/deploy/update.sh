@@ -38,6 +38,8 @@ DOM=$(grep '^PUBLIC_URL=' "$DIR/nerva/.env" | cut -d= -f2)
 [[ -n "$DOM" ]] && sudo -u loja bash -c "cd '$DIR' && SITE_URL=$DOM node gerar-paginas.js >/dev/null"
 # segredos lacrados (deploy/segredos.enc) -> nerva/.env, antes do restart
 DIR="$DIR" bash "$DIR/deploy/aplicar-segredos.sh" || true
+# zerar o painel a pedido (deploy/zerar-painel.txt mudou) — guarda os dados antigos em nerva/data/arquivo-*
+DIR="$DIR" bash "$DIR/deploy/zerar-painel.sh" || true
 systemctl restart lavadora
 sleep 2
 systemctl --no-pager --lines=3 status lavadora

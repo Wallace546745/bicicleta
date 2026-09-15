@@ -379,9 +379,134 @@ const invictuspay = {
   }
 };
 
+/* =============================================================================
+   4) Zenixpay — conforme a documentação oficial (Pagamento Direto via API Key)
+      base  https://api.zenixpay.com.br
+      auth  X-API-Key: pk_live_…   (só no POST /api/v1/direct-payments)
+      POST /api/v1/direct-payments { amount (centavos, mín. 1), description (3-255),
+             paymentMethod:'pix', customer:{ name (3-128), email, document (só dígitos),
+             phone (E.164, opcional) } }
+        -> { hasError, data:{ transaction_id, total_value, status:'PENDING',
+             payment_data:{ payment_id, pix_key (copia e cola), expiration_date } } }
+      GET  /api/v1/payments/:id/status (pública) -> data.status
+      status: PENDING / WAITING_PAYMENT / IN_PROCESS (pendente), AUTHORIZED (pago),
+              REJECTED / FAILED (falhou), CANCELLED (expirada), REFUNDED /
+              CHARGED_BACK / CHARGEBACK (estornada), IN_MEDIATION / IN_DISPUTE (segue paga)
+      webhook: POST { transaction_id, total_value, status, payment_method, … },
+        cadastrado no painel da Zenix (Integração → Webhooks); sem assinatura.
+        "Pago" é sempre confirmado no GET de status. REFUNDED/CANCELLED/CHARGED_BACK
+        NÃO aparecem no polling (só chegam por webhook), por isso esses são
+        aceitos do webhook quando a transação existe no painel. */
+const ZENIX_STATUS = {
+  PENDING: 'pending', WAITING_PAYMENT: 'pending', IN_PROCESS: 'pending',
+  AUTHORIZED: 'paid', IN_MEDIATION: 'paid', IN_DISPUTE: 'paid',
+  REJECTED: 'failed', FAILED: 'failed', CANCELLED: 'expired',
+  REFUNDED: 'refunded', CHARGED_BACK: 'refunded', CHARGEBACK: 'refunded'
+};
+function zenixNormalizar(d) {
+  const data = (d && d.data) || d || {};
+  const pd = data.payment_data || {};
+  const stBruto = String(data.status || '').toUpperCase();
+  const st = ZENIX_STATUS[stBruto] || normStatus(stBruto);
+  return {
+    gateway: 'zenixpay',
+    id: String(data.transaction_id || data.id || ''),
+    status: st,
+    amount: toReais(data.total_value != null ? data.total_value : pd.total_transaction_value, true),
+    pixCode: pd.pix_key || pd.qr_code || pd.qrcode || undefined,
+    pixQrCode: pd.qr_code_base64 || pd.qrcode_base64 || undefined,
+    transactionId: pd.payment_id || undefined,
+    externalId: undefined,
+    description: data.description || (data.product && data.product.title) || '',
+    fee: 0, netAmount: 0,
+    createdAt: data.created_at || data.createdAt,
+    paidAt: st === 'paid' ? (data.paid_at || data.updated_at || data.updatedAt || null) : null,
+    updatedAt: data.updated_at || data.updatedAt,
+    expiraEm: pd.expiration_date,
+    raw: d
+  };
+}
+const zenixpay = {
+  id: 'zenixpay', nome: 'Zenixpay', site: 'https://zenixpay.com.br',
+  nota: 'Integração pela documentação oficial (Pagamento Direto): X-API-Key pk_live_…, valores em centavos. Webhook cadastrado no painel da Zenix; "pago" é confirmado na API.',
+  campos: [
+    { key: 'apiKey',        label: 'API Key (X-API-Key)', secreto: true, obrigatorio: true, placeholder: 'pk_live_…' },
+    { key: 'webhookSecret', label: 'Token do webhook',    secreto: true, placeholder: 'opcional — se a Zenix permitir um token na URL/cabeçalho' },
+    { key: 'baseUrl',       label: 'URL da API',          placeholder: 'https://api.zenixpay.com.br' }
+  ],
+  webhookPath: '/webhooks/zenixpay',
+  centavos: true,
+  /* estes status não aparecem no polling da Zenix: aceitos do webhook se a venda existe aqui */
+  confiarWebhookPara: ['refunded', 'expired'],
+  base: cfg => String(cfg.baseUrl || 'https://api.zenixpay.com.br').replace(/\/+$/, ''),
+  pronto: cfg => !!(cfg.apiKey || '').trim(),
+  async req(cfg, path, opts = {}) {
+    const key = (cfg.apiKey || '').trim();
+    if (!key && !opts.publico) { const e = new Error('Pagamento indisponível: Zenixpay sem chave cadastrada.'); e.status = 503; throw e; }
+    const d = await http(`${zenixpay.base(cfg)}${path}`, Object.assign({}, opts, { headers: Object.assign(key ? { 'X-API-Key': key } : {}, opts.headers || {}) }));
+    if (d && d.hasError) { const e = new Error(d.error || d.message || 'Zenixpay: erro'); e.payload = d; throw e; }
+    return d;
+  },
+  async criarCobranca(cfg, p) {
+    const doc = onlyDigits(p.customer.document);
+    const email = String(p.customer.email || '').trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { const e = new Error('Informe um e-mail válido para gerar o Pix.'); e.status = 400; throw e; }
+    let nome = String(p.customer.name || '').trim().slice(0, 128);
+    if (nome.length < 3) nome = 'Cliente ' + doc.slice(-4);
+    const fone = onlyDigits(p.customer.phone);
+    const payload = {
+      amount: Math.round(p.amount * 100),
+      description: String(p.description || 'Pedido').slice(0, 255).padEnd(3, '.'),
+      paymentMethod: 'pix',
+      customer: { name: nome, email, document: doc }
+    };
+    if (fone.length === 10 || fone.length === 11) payload.customer.phone = '+55' + fone;          // E.164
+    if (p.utms && Object.values(p.utms).some(Boolean)) {
+      payload.customer.utm = { source: p.utms.utmSource, medium: p.utms.utmMedium, campaign: p.utms.utmCampaign, term: p.utms.utmTerm, content: p.utms.utmContent };
+      for (const k of Object.keys(payload.customer.utm)) if (!payload.customer.utm[k]) delete payload.customer.utm[k];
+    }
+    const d = await zenixpay.req(cfg, '/api/v1/direct-payments', { method: 'POST', body: payload });
+    const v = zenixNormalizar(d);
+    if (!v.id) { const e = new Error('Zenixpay: resposta sem transaction_id'); e.payload = d; throw e; }
+    if (!v.pixCode) { const e = new Error('Zenixpay: resposta sem pix_key (código Pix)'); e.payload = d; throw e; }
+    v.externalId = p.externalId;
+    return v;
+  },
+  /* rota pública: funciona mesmo sem chave (útil para acompanhar pendentes após trocar de gateway) */
+  async consultar(cfg, id) {
+    return zenixNormalizar(await zenixpay.req(cfg, `/api/v1/payments/${encodeURIComponent(id)}/status`, { publico: true }));
+  },
+  webhook: {
+    verificar(cfg, req) {
+      const tok = (cfg.webhookSecret || '').trim();
+      if (!tok) return 'sem';
+      const cand = [req.headers['x-webhook-token'], req.headers['x-webhook-secret'], req.headers['x-signature'], req.headers['x-api-key'],
+                    req.headers['authorization'], req.query && req.query.token].filter(Boolean).map(String);
+      return cand.some(c => c === tok || c === `Bearer ${tok}`);
+    },
+    interpretar(body) {
+      const v = zenixNormalizar(body || {});
+      return { evento: ['paid', 'expired', 'failed', 'refunded'].includes(v.status) ? v.status : 'info',
+               tipo: String((body && body.status) || ''), id: v.id, amount: v.amount, status: v.status, dados: v };
+    }
+  },
+  /* sem GET autenticado barato: um POST inválido (amount 0) responde 400 com chave
+     válida e 401 com chave errada — nada é cobrado */
+  async testar(cfg) {
+    try {
+      await zenixpay.req(cfg, '/api/v1/direct-payments', { method: 'POST', body: { amount: 0, description: 'teste de conexão', paymentMethod: 'pix', customer: { name: 'Teste', email: 'teste@teste.com', document: '00000000000' } } });
+      return { ok: false, detalhe: 'resposta inesperada (a API aceitou um pagamento de R$ 0,00?)' };
+    } catch (e) {
+      if (e.status === 401 || e.status === 403) return { ok: false, detalhe: 'chave recusada (401). Confira a API Key em Integração → API Keys.' };
+      if (e.status === 400 || e.status === 422) return { ok: true, detalhe: 'chave aceita (a API validou o pedido de teste)' };
+      return { ok: false, detalhe: e.message };
+    }
+  }
+};
+
 const ADAPTADORES = {
   nerva,
-  zenixpay:    gatewayPadrao({ id: 'zenixpay',    nome: 'Zenixpay',    site: 'https://zenixpay.com.br',    baseUrl: 'https://api.zenixpay.com.br/v1' }),
+  zenixpay,
   flevopay:    gatewayPadrao({ id: 'flevopay',    nome: 'FlevoPay',    site: 'https://flevopay.com.br',    baseUrl: 'https://api.flevopay.com.br/v1' }),
   invictuspay
 };

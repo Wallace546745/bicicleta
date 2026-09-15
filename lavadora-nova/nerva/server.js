@@ -177,7 +177,8 @@ app.post('/api/pix/create', async (req, res) => {
         clientIpAddress: clientIp(req) || undefined,
         eventId
       },
-      postbackUrl: PUBLIC_URL ? `${PUBLIC_URL}${gw.webhookPath}` : undefined
+      postbackUrl: PUBLIC_URL ? `${PUBLIC_URL}${gw.webhookPath}` : undefined,
+      utms: t
     };
 
     let sale = await gw.criarCobranca(gwCfg, pedido);
@@ -433,8 +434,12 @@ app.post('/webhooks/:gw', async (req, res) => {
   if (!id) { console.log(`[webhook ${gw.id}] evento sem id:`, ev.tipo); return res.json({ received: true }); }
   const rec = sales.get(id);
 
-  /* não assinado: confirma na fonte antes de acreditar em "pago" */
-  if (ver === 'sem' && ev.evento !== 'info') {
+  /* não assinado: confirma na fonte antes de acreditar em "pago". Exceção: status
+     que o gateway declara não existir no polling (estorno/cancelamento na Zenix)
+     são aceitos do webhook quando a venda é conhecida — vale só para o painel,
+     nunca libera nada. */
+  const soWebhook = Array.isArray(gw.confiarWebhookPara) && gw.confiarWebhookPara.includes(ev.evento) && !!admin.getSale(id);
+  if (ver === 'sem' && ev.evento !== 'info' && !soWebhook) {
     try {
       const atual = await gw.consultar(cfg, id);
       ev = { evento: ['paid', 'expired', 'failed', 'refunded'].includes(atual.status) ? atual.status : 'info', tipo: ev.tipo + ' (confirmado na API)', id, amount: atual.amount, status: atual.status, dados: atual };

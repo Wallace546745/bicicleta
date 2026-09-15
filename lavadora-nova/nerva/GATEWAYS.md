@@ -7,7 +7,7 @@ para os próximos Pix, sem reiniciar nada.
 | Gateway     | Integração                                                    | Webhook                    |
 |-------------|---------------------------------------------------------------|----------------------------|
 | PixNerva    | completa: cobrança, webhook HMAC, reconciliação, saldo, saque | `/webhooks/nerva`          |
-| Zenixpay    | formato padrão de gateways de checkout (ver abaixo)           | `/webhooks/zenixpay`       |
+| Zenixpay    | pela documentação oficial (Pagamento Direto com X-API-Key, centavos) | `/webhooks/zenixpay` |
 | FlevoPay    | formato padrão de gateways de checkout                        | `/webhooks/flevopay`       |
 | InvictusPay | pela documentação oficial v2 (X-Api-Key, centavos, e-mail e telefone obrigatórios) | `/webhooks/invictuspay` |
 
@@ -59,10 +59,25 @@ antifraud (pendentes), paid, in_dispute e pre_chargeback (seguem pagas), expired
 cancelled, failed, refused, refunded e chargeback (estornada). O webhook é lido
 de forma tolerante e sempre confirmado por `GET /transactions/{id}`.
 
-## Formato padrão (Zenixpay, FlevoPay)
+## Zenixpay (documentação oficial)
 
-Os dois usam o formato mais comum entre gateways de checkout brasileiros
-(`nerva/gateways.js`, função `gatewayPadrao`):
+Base `https://api.zenixpay.com.br`. A loja usa o **Pagamento Direto**:
+`POST /api/v1/direct-payments` com cabeçalho `X-API-Key: pk_live_…`, `amount` em
+centavos, `description`, `paymentMethod: "pix"` e `customer` (nome, e-mail, CPF
+só dígitos, telefone em E.164 `+55…`, UTMs). A resposta traz
+`data.transaction_id` e `data.payment_data.pix_key` (copia e cola; o QR é gerado
+no servidor). Status por `GET /api/v1/payments/{id}/status` (rota pública).
+Status: PENDING, WAITING_PAYMENT, IN_PROCESS (pendentes), AUTHORIZED (paga),
+IN_MEDIATION/IN_DISPUTE (seguem pagas), REJECTED/FAILED (falhou), CANCELLED
+(expirada), REFUNDED/CHARGED_BACK (estornada). O webhook é cadastrado no painel
+da Zenix (Integração → Webhooks) com a URL do cartão; "pago" é confirmado na
+API. REFUNDED, CANCELLED e CHARGED_BACK não aparecem no polling da Zenix, então
+esses chegam só pelo webhook e são aceitos quando a venda existe no painel.
+
+## Formato padrão (FlevoPay)
+
+A FlevoPay usa o formato mais comum entre gateways de checkout brasileiros
+(`nerva/gateways.js`, função `gatewayPadrao`), até a documentação chegar:
 
 - autenticação `Authorization: Basic base64(publicKey:secretKey)` (ou
   `secretKey:x` sem chave pública), mais `x-api-key`;

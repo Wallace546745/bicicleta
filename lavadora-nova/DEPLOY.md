@@ -33,7 +33,7 @@ linha (ficam só no `nerva/.env` da VPS; nunca no git):
 
 ```bash
 NERVA_API_KEY=sk_live_... NERVA_WEBHOOK_SECRET=whsec_... \
-TIKTOK_PIXEL_ID=D451RVBC77U1GG09RAKG TIKTOK_ACCESS_TOKEN=... \
+TIKTOK_PIXEL_ID=DAJVT3RC77UES9752NLG TIKTOK_ACCESS_TOKEN=... \
 sudo -E bash install-vps.sh loja.seudominio.com.br
 ```
 
@@ -53,7 +53,7 @@ sudo nano /var/www/lavadora/nerva/.env
 ```
 NERVA_API_KEY=sk_live_...
 NERVA_WEBHOOK_SECRET=whsec_...
-TIKTOK_PIXEL_ID=D451RVBC77U1GG09RAKG
+TIKTOK_PIXEL_ID=DAJVT3RC77UES9752NLG
 TIKTOK_ACCESS_TOKEN=cole_o_token_do_events_manager
 ```
 

@@ -10,7 +10,7 @@ confirma o pagamento — funciona mesmo se o comprador fechar o navegador.
 No `.env` do servidor:
 
 ```
-TIKTOK_PIXEL_ID=D451RVBC77U1GG09RAKG
+TIKTOK_PIXEL_ID=DAJVT3RC77UES9752NLG
 TIKTOK_ACCESS_TOKEN=cole_aqui_o_token_do_events_manager
 TIKTOK_TEST_EVENT_CODE=        # só durante o teste; apague para produção
 ```
@@ -96,7 +96,7 @@ arquivos. Nada daqui é somado aos dados de outra loja:
   (`/admin` → Rastreamento → "Pixel do Meta"). Em branco, o `fbq` nem carrega.
   O servidor injeta o id na home, nas páginas `/p/<produto>` e na presell
   (`anti.html`), inclusive o `<noscript>`.
-- **Pixel do TikTok**: idem, pelo painel (`D451RVBC77U1GG09RAKG` é o desta loja).
+- **Pixel do TikTok**: idem, pelo painel (`DAJVT3RC77UES9752NLG` é o desta loja).
 - **Chave da oferta**: `v9max` (era `lav1300`, da lavadora). É o `offer`/`funnel`
   dos pings do funil e o prefixo `v9max-` do `externalId` das cobranças na
   Nerva. A reconciliação (`/sales` da Nerva) só puxa vendas com esse prefixo,

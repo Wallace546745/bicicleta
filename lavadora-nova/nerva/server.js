@@ -603,7 +603,11 @@ async function vigiarPendentes() {
 setInterval(vigiarPendentes, 3000);
 
 /* pix/webhook: só diz SE a chave está cadastrada (nunca o valor) */
-app.get('/health', (_req, res) => res.json({ ok: true, gateway: gateways.ativoId(), pix: gwPronto(), webhook: !!webhookSecret() }));
+/* versão publicada (commit) e marcador do último "zerar painel": para conferir
+   de fora se a atualização automática aplicou o que está no GitHub */
+const VERSAO = (() => { try { return require('child_process').execSync('git rev-parse --short HEAD', { cwd: __dirname, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch (_) { return ''; } })();
+const painelZerado = () => { try { return _fsP.readFileSync(_pathP.join(process.env.DATA_DIR || _pathP.join(__dirname, 'data'), '.painel-zerado'), 'utf8').trim().slice(0, 80); } catch (_) { return ''; } };
+app.get('/health', (_req, res) => res.json({ ok: true, gateway: gateways.ativoId(), pix: gwPronto(), webhook: !!webhookSecret(), versao: VERSAO, painelZerado: painelZerado() }));
 
 /* ---------------- COMPROVANTE DE PIX ----------------
    Antes o upload ia para um serviço de outra loja (tiktok-tracking.onrender.com):

@@ -11,7 +11,17 @@ LOCAL=$(sudo -u loja git -C "$CLONE" rev-parse HEAD)
 REMOTO=$(sudo -u loja git -C "$CLONE" ls-remote -q origin "refs/heads/$BRANCH" | cut -f1)
 if [[ -n "$REMOTO" && "$REMOTO" != "$LOCAL" ]]; then
   echo "novo commit em $BRANCH: ${LOCAL:0:7} -> ${REMOTO:0:7}; atualizando"
-  bash "$DIR/deploy/update.sh"
+  # Roda a versão NOVA do update.sh (a do commit remoto), copiada para fora do
+  # clone. Antes rodava a do disco: o git reset trocava o arquivo no meio da
+  # execução e o bash seguia na versão antiga — mudanças no próprio update.sh
+  # só valiam na atualização seguinte.
+  sudo -u loja git -C "$CLONE" fetch -q origin "$BRANCH"
+  NOVO=$(mktemp /tmp/update-XXXXXX.sh)
+  if sudo -u loja git -C "$CLONE" show "origin/$BRANCH:lavadora-nova/deploy/update.sh" > "$NOVO" 2>/dev/null && [[ -s "$NOVO" ]]; then
+    bash "$NOVO"; rm -f "$NOVO"
+  else
+    rm -f "$NOVO"; bash "$DIR/deploy/update.sh"
+  fi
   exit 0
 fi
 # sem commit novo: ainda assim, se o domínio do repositório ainda não está no

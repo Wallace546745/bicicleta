@@ -1,0 +1,43 @@
+# Navega a loja publicada como um comprador, num navegador real (Playwright):
+# home e páginas de produto (desktop e celular), fluxo de compra completo
+# (comprar agora → order bump → checkout → Pix no gateway ativo), clique no
+# card relacionado, compra direta e carrinho. Falha se achar erro de JS,
+# imagem quebrada, overflow, link morto ou Pix não gerado. As capturas de
+# tela ficam nos artefatos do run.
+# Rodar em: Actions > "Teste do funil na loja" > Run workflow.
+name: Teste do funil na loja
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: URL da loja
+        default: https://v9maxoficial.com
+        required: true
+jobs:
+  funil:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar Playwright
+        run: |
+          mkdir -p /tmp/pw && cd /tmp/pw && npm init -y >/dev/null && npm i playwright@1.47.2 --no-audit --no-fund --silent
+          npx playwright install --with-deps chromium >/dev/null
+      - name: Saúde e gateway ativo
+        run: curl -fsS "${{ inputs.site }}/health"; echo
+      - name: Navegar como comprador
+        env:
+          BASE: ${{ inputs.site }}
+          SAIDA: ${{ github.workspace }}/capturas
+          NODE_PATH: /tmp/pw/node_modules
+        run: node lavadora-nova/teste_funil_e2e.js
+      - name: Capturas de tela
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-funil
+          path: capturas/
+          if-no-files-found: ignore

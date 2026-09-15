@@ -293,6 +293,20 @@ function quandoPagou(data) {
   const agora = Date.now();
   return Number.isFinite(t) && t <= agora + 60e3 && t >= agora - 7 * 86400e3 ? t : agora;
 }
+/* O valor que VALE é o que este servidor cobrou (tabela oficial de preços),
+   guardado na venda. O que o gateway reporta é conferido: se bater, ok; se
+   divergir (centavos x reais, taxa descontada, campo trocado), fica o nosso e
+   a diferença vai para o log. Evita venda de R$ 220,55 virar R$ 2,20 no
+   painel e no Purchase do TikTok. */
+function valorConfiavel(saleId, reportado) {
+  const local = admin.getSale(saleId);
+  const meu = local && Number(local.amount);
+  const rep = Number(reportado);
+  if (!(meu > 0)) return Number.isFinite(rep) ? rep : undefined;
+  if (Number.isFinite(rep) && Math.abs(rep - meu) < 0.01) return meu;
+  if (Number.isFinite(rep)) console.warn(`[valor] ${saleId}: gateway reportou ${rep}, cobrado ${meu} — mantendo o cobrado`);
+  return meu;
+}
 function firePaid(saleId, amount, origem, data) {
   if (paidFired.has(saleId)) return;
   paidFired.add(saleId); paidSujo = true;
@@ -331,6 +345,7 @@ app.get('/api/pix/status/:id', async (req, res) => {
     if (!sale.id) sale.id = req.params.id;
     const cached = sales.get(sale.id);
     if (cached) cached.status = sale.status;
+    sale.amount = valorConfiavel(sale.id, sale.amount);
     if (String(sale.status).toLowerCase() === 'paid') { firePaid(sale.id, sale.amount, 'polling', sale); admin.markPaid(sale.id, sale); }
     else admin.setStatus(sale.id, sale.status);
     const stored = admin.getSale(sale.id);
@@ -448,7 +463,8 @@ app.post('/webhooks/:gw', async (req, res) => {
       return res.json({ received: true, confirmado: false });
     }
   }
-  const dados = Object.assign({ id, amount: ev.amount, status: ev.status, gateway: gw.id }, ev.dados || {}, { id });
+  ev.amount = valorConfiavel(id, ev.amount);
+  const dados = Object.assign({ id, status: ev.status, gateway: gw.id }, ev.dados || {}, { id, amount: ev.amount });
 
   switch (ev.evento) {
     case 'paid':
@@ -524,6 +540,7 @@ async function reconcileFromNerva() {
           added++;
         } else {
           const cur = String(existing.status || '').toLowerCase();
+          s.amount = valorConfiavel(s.id, s.amount);
           if (st === 'paid' && cur !== 'paid') { firePaid(s.id, s.amount, 'reconcile', Object.assign({}, s, { paidAt: realPaidAt })); admin.markPaid(s.id, Object.assign({}, s, { paidAt: realPaidAt })); healed++; }
           else if ((st === 'expired' || st === 'failed') && cur === 'pending') { admin.setStatus(s.id, st); healed++; }
         }
@@ -569,6 +586,7 @@ async function vigiarPendentes() {
       try { atual = await gw.consultar(gwCfg, s.id); }
       catch (e) { if (e.status === 404) admin.setStatus(s.id, 'failed'); continue; }
       const st = String((atual && atual.status) || '').toLowerCase();
+      if (atual) atual.amount = valorConfiavel(s.id, atual.amount);
       if (st === 'paid') {
         firePaid(s.id, atual.amount, 'vigia', atual);
         admin.markPaid(s.id, atual);

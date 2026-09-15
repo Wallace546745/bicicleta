@@ -403,6 +403,10 @@ const ZENIX_STATUS = {
   REJECTED: 'failed', FAILED: 'failed', CANCELLED: 'expired',
   REFUNDED: 'refunded', CHARGED_BACK: 'refunded', CHARGEBACK: 'refunded'
 };
+/* A doc diz centavos, mas a consulta de status devolveu 220.55 (reais) para uma
+   cobrança de R$ 220,55. Inteiro = centavos; com decimais = reais. O servidor
+   ainda confere com o valor que ele mesmo cobrou (valorConfiavel). */
+const zenixReais = v => { const n = Number(v); if (!Number.isFinite(n)) return undefined; return Number.isInteger(n) ? n / 100 : n; };
 function zenixNormalizar(d) {
   const data = (d && d.data) || d || {};
   const pd = data.payment_data || {};
@@ -412,7 +416,7 @@ function zenixNormalizar(d) {
     gateway: 'zenixpay',
     id: String(data.transaction_id || data.id || ''),
     status: st,
-    amount: toReais(data.total_value != null ? data.total_value : pd.total_transaction_value, true),
+    amount: zenixReais(data.total_value != null ? data.total_value : pd.total_transaction_value),
     pixCode: pd.pix_key || pd.qr_code || pd.qrcode || undefined,
     pixQrCode: pd.qr_code_base64 || pd.qrcode_base64 || undefined,
     transactionId: pd.payment_id || undefined,

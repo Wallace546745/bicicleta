@@ -760,7 +760,9 @@ async function load(){
   firstLoad=false;
   render(d);
 }
+let lastMetrics=null;
 function render(d){
+  lastMetrics=d;
   const r=d.range||{}, w=d.windows||{};
   $('#sbOnline').textContent=d.online||0;
   $('#liveN').textContent=d.online||0;
@@ -1716,7 +1718,12 @@ function ligarStream(){
   try{ sse=new EventSource(API_BASE+'/api/admin/monitor/stream?token='+encodeURIComponent(TOKEN)); }catch(_){ sse=null; return; }
   sse.addEventListener('venda', atualizarAgora);
   sse.addEventListener('pix', atualizarAgora);
-  sse.addEventListener('online', e=>{ try{ const o=JSON.parse(e.data); $('#sbOnline').textContent=o.total||0; if(VIEW==='dashboard') $('#liveN').textContent=o.total||0; }catch(_){} });
+  sse.addEventListener('online', e=>{ try{ const o=JSON.parse(e.data); $('#sbOnline').textContent=o.total||0;
+    if(VIEW==='dashboard'){ $('#liveN').textContent=o.total||0;
+      /* funil ao vivo redesenhado com o retrato que acabou de chegar */
+      try{ drawLiveStages($('#liveStages'), Object.assign({}, lastMetrics||{}, { online:o.total||0, onlineByStage:o.porEtapa||{}, stageOrder:o.ordem||(lastMetrics&&lastMetrics.stageOrder)||[], stageLabels:o.rotulos||(lastMetrics&&lastMetrics.stageLabels)||{} })); }catch(_){}
+      if(!o.total) $('#liveChips').innerHTML='<span class="chip">ninguém agora</span>';
+    } }catch(_){} });
   sse.onerror=()=>{ /* o navegador reconecta sozinho (retry: 3000) */ };
 }
 // voltou para a aba (ou o app foi reaberto no celular): atualiza sem esperar

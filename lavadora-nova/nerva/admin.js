@@ -76,7 +76,7 @@ function logEvent(type, detail) {
 }
 
 /* ---------- presença ao vivo ---------- */
-const ONLINE_MS = 45000;              // sessão viva se pingou nos últimos 45s
+const ONLINE_MS = 30000;              // sessão viva se pingou nos últimos 30s (o site pinga a cada 10s)
 const sessions = new Map();           // sid -> { stage, first, last, ua, ip, utm, device, ref }
 
 const STAGE_LABELS = {
@@ -150,6 +150,26 @@ setInterval(() => {
 }, 60000);
 
 const isOnline = s => Date.now() - s.last < ONLINE_MS;
+
+/* ---------- presença em tempo real ----------
+   O painel recebe 'online' por SSE. Antes só a cada 5 s (tique do stream);
+   agora TAMBÉM na hora em que alguém entra, muda de etapa, sai (bye) ou expira:
+   o servidor compara com o último retrato enviado e só empurra se mudou. */
+function onlineAgora() {
+  const vivos = [...sessions.values()].filter(isOnline);
+  const porEtapa = {};
+  vivos.forEach(s => { porEtapa[s.stage] = (porEtapa[s.stage] || 0) + 1; });
+  return { total: vivos.length, porEtapa, rotulos: STAGE_LABELS, ordem: STAGE_ORDER, t: Date.now() };
+}
+let ultimoRetrato = '';
+function emitirOnlineSeMudou() {
+  const o = onlineAgora();
+  const chave = o.total + '|' + JSON.stringify(o.porEtapa);
+  if (chave === ultimoRetrato) return;
+  ultimoRetrato = chave;
+  monitor.emitir('online', o);
+}
+setInterval(emitirOnlineSeMudou, 1000);   // pega quem expirou sem mandar bye
 
 /* ---------- estatística de vendas a partir do sales.json (fonte da verdade) ----------
    pagos são contados por paidAt (quando o dinheiro entrou); criados por createdAt. */
@@ -490,9 +510,11 @@ function mount(app, opts = {}) {
     if (b.bye) {
       const s = sessions.get(b.sid);
       if (s) s.last = 0;                       // marca offline na hora
+      emitirOnlineSeMudou();
       return res.json({ ok: true });
     }
     touchSession(String(b.sid).slice(0, 64), { stage: b.stage, utm: b.utm, ref: b.ref }, req);
+    emitirOnlineSeMudou();                     // painel vê a pessoa no mesmo segundo
     res.json({ ok: true });
   });
 
@@ -512,12 +534,7 @@ function mount(app, opts = {}) {
   monitor.mount(app, auth, {
     sessions, salesDb, eventsDb, dailyDb,
     tracking: (() => { try { return require('./tracking'); } catch (_) { return null; } })(),
-    online: () => {
-      const vivos = [...sessions.values()].filter(s => Date.now() - s.last < ONLINE_MS);
-      const porEtapa = {};
-      vivos.forEach(s => { porEtapa[s.stage] = (porEtapa[s.stage] || 0) + 1; });
-      return { total: vivos.length, porEtapa, rotulos: STAGE_LABELS, ordem: STAGE_ORDER, t: Date.now() };
-    }
+    online: onlineAgora
   });
 
   app.get('/api/admin/metrics', auth, (req, res) => {

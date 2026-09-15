@@ -12,7 +12,7 @@
   <meta name="theme-color" content="#FFE600">
   <!-- canonical e og:url são relativos aqui e viram absolutos no build
        (gerar-paginas.js com SITE_URL=https://seu-dominio) e no navegador -->
-        <meta property="og:url" content="https://v9maxoficial.com/">
+            <meta property="og:url" content="https://v9maxoficial.com/">
   <link rel="canonical" href="https://v9maxoficial.com/">
   <script>
     (function () {
@@ -2760,7 +2760,7 @@
       var ETAPA = 'page_view';
 
       // presença é medida em TODOS os canais (o painel separa por utm_source)
-      var INTERVALO = 20000;
+      var INTERVALO = 10000;   // o servidor considera online quem pingou nos últimos 30 s
       var URL = SERVIDOR.replace(/[/]+$/, '') + '/api/funnel/ping';
 
       var sid;
@@ -2790,6 +2790,20 @@
 
       var timer = setInterval(ping, INTERVALO);
       ping();
+
+      /* atividade real (rolar, tocar, digitar) pinga na hora, no máximo 1x a
+         cada 5 s: quem está mexendo na página aparece online sem esperar o
+         intervalo; a volta do bfcache (botão voltar) também reativa */
+      var ultimoPing = Date.now();
+      var pingOriginal = ping;
+      ping = function (extra) { ultimoPing = Date.now(); return pingOriginal(extra); };
+      function atividade() { if (!document.hidden && Date.now() - ultimoPing > 5000) ping(); }
+      ['scroll', 'click', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+        document.addEventListener(ev, atividade, { passive: true });
+      });
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) { ping(); clearInterval(timer); timer = setInterval(ping, INTERVALO); }
+      });
 
       document.addEventListener('visibilitychange', function () {
         if (document.hidden) { clearInterval(timer); ping({ bye: true }); }
@@ -4978,7 +4992,7 @@ Veículo autopropelido conforme Resolução CONTRAN 996/2023. Desbloquear a velo
 
       function carregarApp() {
         var s = document.createElement('script');
-        s.src = 'app.js?v=64';
+        s.src = 'app.js?v=65';
         if (EDITOR) s.onload = function () {
           // o modo edição entra depois que o app montou reviews, cards etc.
           setTimeout(function () {

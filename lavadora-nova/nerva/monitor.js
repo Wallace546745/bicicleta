@@ -226,7 +226,7 @@ function visitante(api, sid) {
   return {
     sid,
     primeiroAcesso: j.first, ultimoSinal: j.last,
-    online: !!(s.last && Date.now() - s.last < 45000),
+    online: !!(s.last && Date.now() - s.last < 30000),
     device: j.device || s.device || '', ua: s.ua || '',
     pais: j.pais || '', estado: j.estado || '', cidade: j.cidade || '',
     origem: j.origem || (s.utm && s.utm.utmSource) || '', ref: s.ref || '',
@@ -251,7 +251,7 @@ function listaVisitantes(api, per, filtros = {}) {
       const s = api.sessions.get(j.sid) || {};
       return {
         sid: j.sid, first: j.first, last: j.last,
-        online: !!(s.last && Date.now() - s.last < 45000),
+        online: !!(s.last && Date.now() - s.last < 30000),
         etapa: (j.passos[j.passos.length - 1] || {}).etapa || '',
         passos: j.passos.length,
         cidade: j.cidade || '', estado: j.estado || '', pais: j.pais || '',
@@ -298,7 +298,7 @@ function mount(app, auth, api) {
       try { res.write(`event: online\ndata: ${JSON.stringify(api.online())}\n\n`); } catch (_) {}
     };
     agora();
-    const t1 = setInterval(agora, 5000);                       // presença
+    const t1 = setInterval(agora, 4000);                       // presença (rede de segurança; a mudança é empurrada na hora)
     const t2 = setInterval(() => { try { res.write(': ping\n\n'); } catch (_) {} }, 25000);  // mantém viva
 
     req.on('close', () => { clearInterval(t1); clearInterval(t2); inscritos.delete(res); });

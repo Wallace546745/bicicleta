@@ -1560,8 +1560,16 @@
       qrImg.width = 190; qrImg.height = 190; qrImg.alt = 'QR Code Pix';
       qrImg.src = data.base64QrCode;   // setAttribute via DOM — sem risco de injeção de HTML
       const qrEl = $('#choQr'); qrEl.innerHTML = ''; qrEl.appendChild(qrImg);
+    } else if (data.qrCode || data.pixCode) {
+      /* sem imagem do servidor: NUNCA desenhar um QR falso (o comprador tentaria
+         escanear e não pagaria). Mostra a orientação para usar o copia e cola. */
+      const qrEl = $('#choQr'); qrEl.innerHTML = '';
+      const aviso = document.createElement('div');
+      aviso.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;padding:12px;text-align:center;font-size:13px;color:#555;border:1px dashed #ccc;border-radius:8px';
+      aviso.textContent = 'Use o código Pix copia e cola abaixo no app do seu banco.';
+      qrEl.appendChild(aviso);
     } else {
-      renderQR();                                // fallback visual se a API não devolver imagem
+      renderQR();                                // só no modo demonstração (sem API)
     }
     $('#pixCode').textContent = data.qrCode || data.pixCode || '';
     lastPurchase = { value: Math.round(totalPedido() * 100) / 100,

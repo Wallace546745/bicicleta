@@ -189,6 +189,13 @@ app.post('/api/pix/create', async (req, res) => {
       sale = await gw.criarCobranca(gwCfg, pedido);
     }
     const payload = pedido;   // (nome antigo usado abaixo)
+    /* Gateways como a InvictusPay devolvem só o código copia e cola. O QR é
+       gerado AQUI a partir dele (padrão BR Code), para o comprador sempre
+       ter a imagem para escanear no app do banco. */
+    if (!sale.pixQrCode && sale.pixCode) {
+      try { sale.pixQrCode = await require('qrcode').toDataURL(String(sale.pixCode), { errorCorrectionLevel: 'M', margin: 1, width: 380 }); }
+      catch (e) { console.warn('[pix] não gerou QR:', e.message); }
+    }
 
     sales.set(sale.id, { eventId, externalId: payload.externalId, amount, status: sale.status, gateway: gw.id });
     /* sem o sid a venda nao se liga a jornada do visitante, e o painel nao

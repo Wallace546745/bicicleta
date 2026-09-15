@@ -1,6 +1,6 @@
 # Rastreamento TikTok
 
-Pixel ID: `DAJVT3RC77UES9752NLG` (definido em `TTK_CONFIG`, no `index.html`;
+Pixel ID: `D451RVBC77U1GG09RAKG` (definido em `TTK_CONFIG`, no `index.html`;
 o painel `/admin` pode trocar sem mexer no código — o servidor injeta o ID
 atual em `window.__PIXELS__`).
 
@@ -206,7 +206,7 @@ nenhum sinal, assume `tiktok`, porque esta oferta roda no TikTok Ads e o
 Opcional, mas recomendado. No `nerva/.env`:
 
 ```
-TIKTOK_PIXEL_ID=DAJVT3RC77UES9752NLG
+TIKTOK_PIXEL_ID=D451RVBC77U1GG09RAKG
 TIKTOK_ACCESS_TOKEN=cole_o_token_do_events_manager
 TIKTOK_TEST_EVENT_CODE=   # só durante a validação; depois apague
 ```

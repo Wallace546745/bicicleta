@@ -16,12 +16,22 @@ const FILE     = path.join(DATA_DIR, 'settings.json');
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 /* fallback: mantém o comportamento de hoje até o admin salvar algo */
+/* Pixel do TikTok DESTA loja. O anterior (DAJVT…) ficou gravado no .env e no
+   settings.json das instalações antigas: é trocado pelo novo na carga. */
+const TIKTOK_PIXEL_ANTIGO = 'DAJVT3RC77UES9752NLG';
+const TIKTOK_PIXEL_ATUAL  = 'D451RVBC77U1GG09RAKG';
+const trocaPixelTk = v => (String(v || '').trim() === TIKTOK_PIXEL_ANTIGO ? TIKTOK_PIXEL_ATUAL : v);
+/* token do pixel antigo (guardado só como hash): não serve para o pixel novo
+   e é descartado, para os eventos não irem para a conta errada */
+const TOKEN_TK_ANTIGO_SHA256 = 'd4467746570c1fdf6ab4a9bf14ead38e735ee95a9120201db87a3bfb5621f3ef';
+const ehTokenAntigo = t => !!t && require('crypto').createHash('sha256').update(String(t)).digest('hex') === TOKEN_TK_ANTIGO_SHA256;
+
 const FALLBACK = {
   /* SEM fallback: cada loja tem o seu pixel. Em branco o Meta Pixel fica
      desligado até cadastrar o id desta loja no painel (Rastreamento). */
   metaPixelId:         process.env.META_PIXEL_ID         || '',
-  tiktokPixelId:       process.env.TIKTOK_PIXEL_ID       || '',
-  tiktokAccessToken:   process.env.TIKTOK_ACCESS_TOKEN   || '',
+  tiktokPixelId:       trocaPixelTk(process.env.TIKTOK_PIXEL_ID) || '',
+  tiktokAccessToken:   ehTokenAntigo(process.env.TIKTOK_ACCESS_TOKEN) ? '' : (process.env.TIKTOK_ACCESS_TOKEN || ''),
   tiktokTestEventCode: process.env.TIKTOK_TEST_EVENT_CODE || '',
   /* relatorio de campanhas: token com escopo de RELATORIO (o do Events API nao serve) */
   tiktokAdsToken:      process.env.TIKTOK_ADS_TOKEN      || '',
@@ -45,6 +55,12 @@ let store = load();
    instalações antigas (o painel reenviava o valor padrão ao salvar qualquer
    campo). Esse id é de outra loja: é descartado e o campo volta a vazio até o
    dono cadastrar o pixel desta loja. */
+{
+  let mudou = false;
+  if (String(store.tiktokPixelId || '').trim() === TIKTOK_PIXEL_ANTIGO) { store.tiktokPixelId = TIKTOK_PIXEL_ATUAL; mudou = true; console.log('[settings] pixel do TikTok atualizado para ' + TIKTOK_PIXEL_ATUAL); }
+  if (ehTokenAntigo(store.tiktokAccessToken)) { delete store.tiktokAccessToken; mudou = true; console.warn('[settings] token do pixel antigo do TikTok descartado: cole o token do pixel novo no painel (Rastreamento).'); }
+  if (mudou) { try { fs.writeFileSync(FILE, JSON.stringify(store, null, 2)); } catch (_) {} }
+}
 const PIXEL_META_OUTRA_LOJA = new Set(['1593228632374084', '1676043856783119']);
 if (PIXEL_META_OUTRA_LOJA.has(String(store.metaPixelId || '').replace(/\D/g, ''))) {
   delete store.metaPixelId;

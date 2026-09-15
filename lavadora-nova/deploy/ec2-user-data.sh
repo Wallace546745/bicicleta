@@ -15,7 +15,7 @@ GITHUB_TOKEN=""                       # só se o repositório for privado (token
 NERVA_API_KEY=""
 NERVA_WEBHOOK_SECRET=""
 ADMIN_TOKEN=""                        # senha do painel /admin (vazio = o instalador gera uma e imprime no log)
-TIKTOK_PIXEL_ID="DAJVT3RC77UES9752NLG"
+TIKTOK_PIXEL_ID="D451RVBC77U1GG09RAKG"
 TIKTOK_ACCESS_TOKEN=""
 
 # ----------------------------------------------------------------------------

@@ -32,7 +32,9 @@ const FALLBACK = {
   postPaymentUrl:      process.env.POST_PAYMENT_URL || '',
   /* gateway de pagamento: podem vir do .env ou ser cadastradas no painel */
   nervaApiKey:         process.env.NERVA_API_KEY        || '',
-  nervaWebhookSecret:  process.env.NERVA_WEBHOOK_SECRET || ''
+  nervaWebhookSecret:  process.env.NERVA_WEBHOOK_SECRET || '',
+  /* qual gateway recebe os pagamentos agora (painel > Gateways) */
+  gatewayAtivo:        process.env.GATEWAY_ATIVO        || 'nerva'
 };
 const KEYS = Object.keys(FALLBACK);
 
@@ -79,9 +81,11 @@ function mask(tok) {
 
 /* estado seguro para o painel: token mascarado, nunca o valor real */
 function adminView() {
+  const gwAtivo = get().gatewayAtivo;
   const s = get();
   return {
     metaPixelId:           s.metaPixelId,
+    gatewayAtivo:          gwAtivo,
     tiktokPixelId:         s.tiktokPixelId,
     tiktokTestEventCode:   s.tiktokTestEventCode,
     postPaymentUrl:        s.postPaymentUrl,
@@ -120,6 +124,7 @@ function save(patch) {
   for (const k of ['nervaApiKey', 'nervaWebhookSecret']) {
     if (typeof patch[k] === 'string') { const t = patch[k].trim(); if (t && !/^[•]/.test(t)) next[k] = t; }
   }
+  if (typeof patch.gatewayAtivo === 'string' && patch.gatewayAtivo.trim()) next.gatewayAtivo = patch.gatewayAtivo.trim().toLowerCase();
   store = next;
   try { fs.writeFileSync(FILE, JSON.stringify(store, null, 2)); }
   catch (e) { console.error('[settings] persist:', e.message); }
@@ -189,4 +194,36 @@ function mount(app, auth) {
   });
 }
 
-module.exports = { get, getPublic, save, adminView, mount, renderIndex, renderHtml, pixelTag, produtoPixel };
+/* ---------- credenciais por gateway (painel > Gateways) ----------
+   Guardadas em store.gateways[id] = { campo: valor }. A Nerva continua nos
+   campos antigos (nervaApiKey / nervaWebhookSecret, que também vêm do .env),
+   então a aba Rastreamento e a aba Gateways mexem no MESMO valor. */
+const NERVA_MAP = { apiKey: 'nervaApiKey', webhookSecret: 'nervaWebhookSecret' };
+function gatewayConfig(id) {
+  id = String(id || '').toLowerCase();
+  const g = Object.assign({}, (store.gateways || {})[id] || {});
+  if (id === 'nerva') {
+    const s = get();
+    for (const [campo, k] of Object.entries(NERVA_MAP)) g[campo] = s[k] || '';
+  }
+  return g;
+}
+function saveGateway(id, patch, campos) {
+  id = String(id || '').toLowerCase();
+  const next = Object.assign({}, store);
+  next.gateways = Object.assign({}, next.gateways || {});
+  const g = Object.assign({}, next.gateways[id] || {});
+  for (const c of campos || []) {
+    if (typeof patch[c.key] !== 'string') continue;
+    const t = patch[c.key].trim();
+    if (c.secreto) { if (t && !/^[•]/.test(t)) g[c.key] = t; }       // vazio ou máscara = manter
+    else g[c.key] = t;
+    if (id === 'nerva' && NERVA_MAP[c.key] && t && !/^[•]/.test(t)) next[NERVA_MAP[c.key]] = t;
+  }
+  next.gateways[id] = g;
+  store = next;
+  fs.writeFileSync(FILE, JSON.stringify(store, null, 2));
+}
+function setGatewayAtivo(id) { save({ gatewayAtivo: String(id || 'nerva') }); }
+
+module.exports = { get, getPublic, save, adminView, mount, renderIndex, renderHtml, pixelTag, produtoPixel, gatewayConfig, saveGateway, setGatewayAtivo };

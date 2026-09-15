@@ -194,6 +194,22 @@ tbody tr:hover{background:var(--surface-2)}
 .trk-status{display:flex;align-items:center;gap:12px;padding:16px 18px}
 .trk-dot{width:12px;height:12px;border-radius:50%;flex:none}
 .trk-dot.ok{background:var(--green)} .trk-dot.off{background:var(--faint)} .trk-dot.erro,.trk-dot.travado{background:var(--red)} .trk-dot.teste{background:var(--amber)}
+.gw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;align-items:start}
+.gw{cursor:pointer;position:relative;transition:border-color .16s,transform .16s,box-shadow .16s}
+.gw:hover{transform:translateY(-1px)}
+.gw.is-on{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 28%,transparent)}
+.gw-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.gw-radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none}
+.gw.is-on .gw-radio{border-color:var(--gold);background:var(--gold)}
+.gw.is-on .gw-radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold-ink)}
+.gw-nome{font-weight:700;font-size:15px}
+.gw-site{font-size:12px;color:var(--mute)}
+.gw-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.gw.is-open .gw-body{display:block}
+.gw .pixform{max-width:none;gap:12px}
+.gw-acoes{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.gw-wh{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;word-break:break-all;cursor:copy}
+.gw-toggle{font:inherit;font-size:12.5px;font-weight:600;background:none;border:0;color:var(--mute);cursor:pointer;padding:0;text-decoration:underline}
 .pixform{display:flex;flex-direction:column;gap:16px;max-width:560px}
 .pixform label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:500}
 .pixform input,.pixform select{font:inherit;font-size:14px;padding:11px 13px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--bg);color:var(--text)}
@@ -307,7 +323,7 @@ tbody tr:hover{background:var(--surface-2)}
 <!-- ============ GATE ============ -->
 <div id="gate">
   <div class="gate-card">
-    <div class="gate-logo">LAV</div>
+    <div class="gate-logo">V9</div>
     <h1>Painel administrativo</h1>
     <p>Informe seu token de acesso</p>
     <input id="tok" type="password" placeholder="Token de acesso" autocomplete="off" aria-label="Token">
@@ -320,13 +336,14 @@ tbody tr:hover{background:var(--surface-2)}
 <div id="app" hidden>
   <aside class="sidebar">
     <div class="sb-brand">
-      <div class="mark">LAV</div>
-      <div><b>Lavadora LAV 1300</b><span>Painel · Nerva</span></div>
+      <div class="mark">V9</div>
+      <div><b>Loja V9 Max</b><span>Painel · Pagamentos</span></div>
     </div>
     <nav class="nav">
       <button class="nav-item is-on" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Dashboard</button>
       <button class="nav-item" data-view="vendas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h12"/></svg>Vendas</button>
       <button class="nav-item" data-view="rastreamento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>Rastreamento</button>
+      <button class="nav-item" data-view="gateways"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>Gateways</button>
       <button class="nav-item" data-view="posvenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Pós-venda</button>
       <button class="nav-item" data-view="campanhas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>Campanhas</button>
       <button class="nav-item" data-view="localizacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Localização</button>
@@ -476,6 +493,18 @@ tbody tr:hover{background:var(--surface-2)}
           <div><button id="pfSave" class="btn-primary">Salvar</button></div>
         </div>
       </div>
+    </div>
+
+    <!-- ============ GATEWAYS ============ -->
+    <div class="content" id="viewGateways" hidden>
+      <div class="card" style="padding:0;margin-bottom:20px">
+        <div class="trk-status"><span class="trk-dot off" id="gwDot"></span>
+          <div style="flex:1"><b id="gwTitle">Gateway de pagamento</b><div class="hint" id="gwMotivo">carregando…</div></div>
+        </div>
+      </div>
+      <div id="gwMsg" class="msg" hidden style="margin-bottom:16px"></div>
+      <p class="hint" style="margin:0 0 14px">Clique no gateway que deve <b>receber os pagamentos</b>. A troca vale na hora para os próximos Pix; as cobranças já geradas continuam sendo acompanhadas no gateway em que nasceram. Cadastre as chaves de cada um em "configurar" antes de ativar.</p>
+      <div class="gw-grid" id="gwGrid"></div>
     </div>
 
     <!-- ============ EDITOR ============ -->
@@ -670,10 +699,10 @@ function boot(){
 }
 
 /* ---------- navegação ---------- */
-const TITLES={dashboard:['Dashboard','visão geral em tempo real'],vendas:['Vendas','histórico e filtros'],rastreamento:['Rastreamento','pixel, eventos e saúde'],posvenda:['Pós-venda','para onde ir depois do pagamento'],campanhas:['Campanhas','gasto, cliques e ROI no TikTok Ads'],localizacao:['Localização','de onde os clientes acessam'],produtos:['Produtos','a oferta principal e as páginas dos relacionados'],editor:['Editor da oferta','edite a página sem código']};
+const TITLES={dashboard:['Dashboard','visão geral em tempo real'],vendas:['Vendas','histórico e filtros'],rastreamento:['Rastreamento','pixel, eventos e saúde'],gateways:['Gateways','quem recebe os pagamentos Pix'],posvenda:['Pós-venda','para onde ir depois do pagamento'],campanhas:['Campanhas','gasto, cliques e ROI no TikTok Ads'],localizacao:['Localização','de onde os clientes acessam'],produtos:['Produtos','a oferta principal e as páginas dos relacionados'],editor:['Editor da oferta','edite a página sem código']};
 function showView(v){
   VIEW=v;
-  ['dashboard','vendas','rastreamento','posvenda','campanhas','localizacao','produtos','editor'].forEach(x=>{ $('#view'+x[0].toUpperCase()+x.slice(1)).hidden = x!==v; });
+  ['dashboard','vendas','rastreamento','gateways','posvenda','campanhas','localizacao','produtos','editor'].forEach(x=>{ $('#view'+x[0].toUpperCase()+x.slice(1)).hidden = x!==v; });
   $$('.nav-item').forEach(b=>b.classList.toggle('is-on', b.dataset.view===v));
   $('#pageTitle').textContent=TITLES[v][0]; $('#pageSub').textContent=TITLES[v][1];
   $('#rangeSeg').style.visibility = v==='dashboard' ? '' : 'hidden';
@@ -682,6 +711,7 @@ function showView(v){
   if(v==='editor' && !editorLoaded){ $('#editorFrame').src='/admin/editor'; editorLoaded=true; }
   if(v==='vendas') loadSales();
   if(v==='rastreamento'){ loadTrk(); loadPixCfg(); loadPushStatus(); }
+  if(v==='gateways') loadGateways();
   if(v==='posvenda') loadPostPay();
   if(v==='produtos'){ $('#pgLista').hidden=false; $('#pgEditor').hidden=true; loadPages(); }
   if(v==='campanhas') loadAds();
@@ -1572,6 +1602,75 @@ async function enablePush(){
 }
 async function testPush(){ try{ const r=await fetch('/api/admin/push/test?token='+encodeURIComponent(TOKEN),{method:'POST'}); const j=await r.json(); toastMsg(j.sent?('Teste enviado para '+j.sent+' aparelho(s)'):'Nenhum aparelho inscrito ainda'); }catch(_){ toastMsg('Falha ao enviar teste'); } }
 async function disablePush(){ try{ const sub=await currentSub(); if(sub){ await fetch('/api/admin/push/unsubscribe?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})}); await sub.unsubscribe(); } await loadPushStatus(); }catch(_){} }
+
+/* ---------- gateways de pagamento ---------- */
+let GW_OPEN=null;
+function gwMsg(cls,txt){ const m=$('#gwMsg'); m.className='msg '+cls; m.textContent=txt; m.hidden=false; clearTimeout(gwMsg.t); gwMsg.t=setTimeout(()=>m.hidden=true,5000); }
+function renderGateways(d){
+  const at=d.gateways.find(g=>g.ativo);
+  $('#gwDot').className='trk-dot '+(at&&at.pronto?'ok':'off');
+  $('#gwTitle').textContent='Recebendo em: '+(at?at.nome:'—');
+  $('#gwMotivo').textContent=at&&at.pronto?'chaves cadastradas — os Pix são gerados neste gateway':'o gateway ativo está SEM chave: o Pix não é gerado até cadastrar';
+  $('#gwGrid').innerHTML=d.gateways.map(g=>{
+    const campos=g.campos.map(c=>{
+      const st=c.secreto?(c.set?'<span class="hint">atual: '+esc(c.mask)+' — em branco mantém</span>':'<span class="hint">não cadastrado</span>'):'';
+      return '<label>'+esc(c.label)+(c.obrigatorio?' *':'')+' '+st+'<input data-k="'+esc(c.key)+'" type="'+(c.secreto?'password':'text')+'" value="'+(c.secreto?'':esc(c.valor||''))+'" placeholder="'+esc(c.placeholder||'')+'" autocomplete="off"></label>';
+    }).join('');
+    return '<div class="card gw'+(g.ativo?' is-on':'')+(GW_OPEN===g.id?' is-open':'')+'" data-id="'+g.id+'">'
+      +'<div class="gw-head"><span class="gw-radio"></span><div style="flex:1"><div class="gw-nome">'+esc(g.nome)+'</div><div class="gw-site">'+esc(g.site.replace(/^https?:\/\//,''))+'</div></div>'
+      +'<span class="badge '+(g.ativo?'paid':g.pronto?'pending':'expired')+'">'+(g.ativo?'recebendo':g.pronto?'pronto':'sem chave')+'</span></div>'
+      +'<div class="hint">'+esc(g.nota||'')+'</div>'
+      +'<div style="margin-top:10px"><button class="gw-toggle" data-act="toggle">'+(GW_OPEN===g.id?'fechar':'configurar')+'</button></div>'
+      +'<div class="gw-body"><div class="pixform">'+campos
+      +'<label>URL do webhook (cole no painel do gateway)<div class="gw-wh" data-act="copy" title="clique para copiar">'+esc(g.webhookUrl)+'</div></label>'
+      +'<div class="gw-acoes"><button class="btn-primary" data-act="save">Salvar chaves</button><button class="btn-ghost" data-act="test">Testar conexão</button>'
+      +(g.ativo?'':'<button class="btn-ghost" data-act="ativar"'+(g.pronto?'':' disabled title="cadastre a chave primeiro"')+'>Receber neste gateway</button>')+'</div>'
+      +'<div class="hint" data-role="gwState"></div></div></div></div>';
+  }).join('');
+}
+async function loadGateways(){
+  try{ const d=await api('/api/admin/gateways'); if(!d)return; renderGateways(d); }
+  catch(e){ if(e.auth) gate(true); }
+}
+async function gwPost(path,body){
+  const r=await fetch(path+'?token='+encodeURIComponent(TOKEN),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error||('HTTP '+r.status));
+  return j;
+}
+async function ativarGateway(id,nome){
+  if(!confirm('Passar a receber os pagamentos em '+nome+'?\n\nOs próximos Pix serão gerados lá. As cobranças pendentes continuam no gateway onde foram geradas.')) return;
+  try{ const d=await gwPost('/api/admin/gateways/ativar',{id}); renderGateways(d); gwMsg('ok','✓ '+nome+' está recebendo os pagamentos agora.'); }
+  catch(e){ gwMsg('err','Não foi possível ativar: '+e.message); }
+}
+$('#gwGrid').addEventListener('click',async e=>{
+  const card=e.target.closest('.gw'); if(!card) return;
+  const id=card.dataset.id, nome=card.querySelector('.gw-nome').textContent;
+  const act=e.target.closest('[data-act]');
+  if(!act){ // clique no cartão = escolher quem recebe
+    if(e.target.closest('.gw-body')) return;
+    if(!card.classList.contains('is-on')) ativarGateway(id,nome);
+    return;
+  }
+  const a=act.dataset.act;
+  if(a==='toggle'){ GW_OPEN = GW_OPEN===id?null:id; loadGateways(); return; }
+  if(a==='copy'){ try{ await navigator.clipboard.writeText(act.textContent.trim()); gwMsg('ok','URL do webhook copiada.'); }catch(_){ } return; }
+  if(a==='ativar'){ ativarGateway(id,nome); return; }
+  const state=card.querySelector('[data-role="gwState"]');
+  if(a==='save'){
+    const body={}; card.querySelectorAll('input[data-k]').forEach(i=>body[i.dataset.k]=i.value);
+    act.disabled=true;
+    try{ const d=await gwPost('/api/admin/gateways/'+id+'/config',body); GW_OPEN=id; renderGateways(d); gwMsg('ok','✓ Chaves de '+nome+' salvas. Vale na hora.'); }
+    catch(err){ gwMsg('err','Erro ao salvar: '+err.message); act.disabled=false; }
+    return;
+  }
+  if(a==='test'){
+    act.disabled=true; state.textContent='testando…';
+    try{ const d=await gwPost('/api/admin/gateways/'+id+'/testar',{}); state.textContent=(d.ok?'✓ ':'✗ ')+(d.detalhe||''); state.style.color=d.ok?'var(--green)':'var(--red)'; }
+    catch(err){ state.textContent='✗ '+err.message; state.style.color='var(--red)'; }
+    act.disabled=false;
+  }
+});
 
 /* ---------- config de pixel ---------- */
 async function loadPixCfg(){

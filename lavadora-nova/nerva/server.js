@@ -28,16 +28,16 @@ const push = require('./push');
 const ads  = require('./ads');
 const geo  = require('./geo');
 const precos = require('./precos');   // tabela oficial de preços (checkout e /api/pix/create)
+const gateways = require('./gateways'); // PixNerva / Zenixpay / FlevoPay / InvictusPay — um adaptador por gateway
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
-const NERVA_BASE    = process.env.NERVA_BASE_URL || 'https://pixnerva.com.br/api';
-/* Chave da API e secret do webhook vêm das configurações (nerva/.env OU o
-   painel admin > Rastreamento). Lidos a cada uso: cadastrar no painel vale
-   na hora, sem reiniciar. */
-const nervaKey      = () => (settings.get().nervaApiKey || '').trim();
-const webhookSecret = () => (settings.get().nervaWebhookSecret || '').trim();
+/* Gateway ATIVO (painel > Gateways) e suas credenciais, lidos a cada uso:
+   trocar de gateway ou cadastrar chave no painel vale na hora, sem reiniciar. */
+const gwAtivo       = () => gateways.ativo();
+const gwPronto      = () => { const { adapter, cfg } = gwAtivo(); return adapter.pronto(cfg); };
+const webhookSecret = () => (gwAtivo().cfg.webhookSecret || '').trim();
 const PUBLIC_URL    = process.env.PUBLIC_URL || '';          // ex: https://api.suaoferta.com
 const ALLOWED_ORIGIN= process.env.ALLOWED_ORIGIN || '*';     // domínio da loja
 
@@ -45,7 +45,8 @@ const ALLOWED_ORIGIN= process.env.ALLOWED_ORIGIN || '*';     // domínio da loja
    funcionam; só a geração do Pix responde 503 até a chave ser cadastrada.
    Antes ele abortava, e a loja inteira ficava fora do ar por falta de uma
    linha no .env. */
-if (!nervaKey()) console.warn('[nerva] sem NERVA_API_KEY: pagamentos desligados até cadastrar a chave no painel (Rastreamento) ou no nerva/.env.');
+if (!gwPronto()) console.warn(`[gateways] ${gwAtivo().adapter.nome} sem chave: pagamentos desligados até cadastrar no painel (Gateways) ou no nerva/.env.`);
+else console.log(`[gateways] recebendo em: ${gwAtivo().adapter.nome}`);
 
 /* body raw preservado: a assinatura HMAC é sobre o corpo cru */
 app.use(express.json({
@@ -77,26 +78,6 @@ const clientIp = req =>
   (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
   req.socket.remoteAddress || '';
 
-async function nerva(path, { method = 'GET', body, idempotencyKey } = {}) {
-  const key = nervaKey();
-  if (!key) { const e = new Error('Pagamento indisponível: falta a chave da Nerva no servidor.'); e.status = 503; throw e; }
-  const headers = { 'x-api-key': key };
-  if (body) headers['Content-Type'] = 'application/json';
-  if (idempotencyKey) headers['idempotency-key'] = idempotencyKey;
-
-  const r = await fetch(`${NERVA_BASE}${path}`, {
-    method, headers, body: body ? JSON.stringify(body) : undefined
-  });
-  let data = {};
-  try { data = await r.json(); } catch (_) {}
-  if (!r.ok) {
-    const msg = data.message || `Nerva ${r.status}`;
-    const err = new Error(msg); err.status = r.status; err.payload = data;
-    throw err;
-  }
-  return data;
-}
-
 /* memória local só para reconciliar txid -> eventId do pixel.
    Em produção troque por Redis/DB. */
 const sales = new Map();
@@ -121,7 +102,8 @@ const novaChave = fp => `${LOJA_PREFIXO}${fp.slice(0, 8)}-${Date.now().toString(
 /* ---------------- CRIAR PIX ---------------- */
 app.post('/api/pix/create', async (req, res) => {
   const b = req.body || {};
-  if (!nervaKey()) {
+  const { adapter: gw, cfg: gwCfg } = gwAtivo();
+  if (!gw.pronto(gwCfg)) {
     return res.status(503).json({ ok: false, error: 'Pagamento temporariamente indisponível. Tente de novo em alguns minutos.' });
   }
   try {
@@ -167,30 +149,20 @@ app.post('/api/pix/create', async (req, res) => {
     const eventId    = crypto.randomUUID();
     const description = b.description || 'Bicicleta Elétrica V9 Max';
     const orderFp     = orderFingerprint(document, amount, description);
-    const anterior    = admin.findRecentByFp(orderFp, IDEM_WINDOW_MS);
+    /* pedido igual e ainda pendente reaproveita a cobrança — só se ela nasceu
+       NESTE gateway (depois de uma troca, a cobrança tem de ser nova) */
+    let anterior      = admin.findRecentByFp(orderFp, IDEM_WINDOW_MS);
+    if (anterior && (anterior.gateway || 'nerva') !== gw.id) anterior = null;
     // mesma chave -> a Nerva devolve a mesma cobrança; chave nova -> cobrança nova
     const externalId  = (anterior && anterior.externalId) || novaChave(orderFp);
     const t = b.utms || {};
 
-    const payload = {
-      amount,
-      description,
-      expirationInSeconds: 86400,
-      externalId,
-      customer: {
-        document,
-        name:  b.payerName  || undefined,
-        email: b.payerEmail || undefined,
-        phone: onlyDigits(b.payerPhone) || undefined
-      },
-      items: [{
-        description,
-        quantity: 1,
-        unitPrice: amount,
-        tangible: true
-      }],
-      /* Rastreamento é NOSSO (tracking.js). Só repassa à Nerva se pedido
-         explicitamente, senão ela dispararia um 2º CompletePayment. */
+    const pedido = {
+      amount, description, externalId, expiresInSeconds: 86400,
+      customer: { document, name: b.payerName || undefined, email: b.payerEmail || undefined, phone: onlyDigits(b.payerPhone) || undefined },
+      items: [{ description, quantity: 1, unitPrice: amount }],
+      /* Rastreamento é NOSSO (tracking.js). Só repassa ao gateway se pedido
+         explicitamente, senão ele dispararia um 2º CompletePayment. */
       tracking: process.env.NERVA_SEND_TRACKING !== '1' ? undefined : {
         utmSource:   t.utmSource   || undefined,
         utmMedium:   t.utmMedium   || undefined,
@@ -204,24 +176,21 @@ app.post('/api/pix/create', async (req, res) => {
         clientUserAgent: req.headers['user-agent'] || undefined,
         clientIpAddress: clientIp(req) || undefined,
         eventId
-      }
+      },
+      postbackUrl: PUBLIC_URL ? `${PUBLIC_URL}${gw.webhookPath}` : undefined
     };
-    if (PUBLIC_URL) payload.postbackUrl = `${PUBLIC_URL}/webhooks/nerva`;
 
-    let sale = await nerva('/sales', {
-      method: 'POST', body: payload, idempotencyKey: externalId
-    });
+    let sale = await gw.criarCobranca(gwCfg, pedido);
     /* a cobrança reaproveitada pode ter sido paga ou expirada sem o painel
        saber (webhook perdido): nesse caso emite uma nova, para o comprador
        nunca receber um QR morto. */
-    if (anterior && String(sale.status || '').toLowerCase() !== 'pending') {
-      payload.externalId = novaChave(orderFp);
-      sale = await nerva('/sales', {
-        method: 'POST', body: payload, idempotencyKey: payload.externalId
-      });
+    if (anterior && sale.status !== 'pending') {
+      pedido.externalId = novaChave(orderFp);
+      sale = await gw.criarCobranca(gwCfg, pedido);
     }
+    const payload = pedido;   // (nome antigo usado abaixo)
 
-    sales.set(sale.id, { eventId, externalId: payload.externalId, amount, status: sale.status });
+    sales.set(sale.id, { eventId, externalId: payload.externalId, amount, status: sale.status, gateway: gw.id });
     /* sem o sid a venda nao se liga a jornada do visitante, e o painel nao
        consegue mostrar "quem" comprou */
     try {
@@ -263,10 +232,11 @@ app.post('/api/pix/create', async (req, res) => {
          conversao veio de troca de publico (iOS -> Android) e nao da oferta.
          Vai so para o painel; a Nerva continua sem tracking (2o CompletePayment). */
       device: admin.deviceOf(req.headers['user-agent']),
-      description: b.description || '', ttclid: b.tiktokClickId || '', eventId, orderFp
+      description: b.description || '', ttclid: b.tiktokClickId || '', eventId, orderFp,
+      gateway: gw.id            // onde a cobrança nasceu: status/vigia consultam LÁ, mesmo após trocar
     });
     admin.logEvent(anterior && sale.id === anterior.id ? 'pix_reaproveitado' : 'pix_criado',
-      { id: sale.id, amount, utmCampaign: t.utmCampaign || '' });
+      { id: sale.id, amount, utmCampaign: t.utmCampaign || '', gateway: gw.id });
     push.notifyPixCreated(admin.getSale(sale.id));   // notifica PIX gerado (pendente)
 
     // contrato que o front já espera
@@ -279,7 +249,8 @@ app.post('/api/pix/create', async (req, res) => {
       purchaseEventId: eventId,
       externalId: payload.externalId,
       transactionId: sale.transactionId,
-      status: sale.status
+      status: sale.status,
+      gateway: gw.id
     });
   } catch (e) {
     console.error('createPix:', e.message, e.payload || '');
@@ -347,7 +318,9 @@ app.get('/api/pix/status/:id', async (req, res) => {
     if (local && String(local.status).toLowerCase() === 'paid') {
       return res.json({ status: 'PAID', amount: local.amount, paidAt: local.paidAt, purchaseEventId: local.eventId || undefined });
     }
-    const sale = await nerva(`/sales/${encodeURIComponent(req.params.id)}`);
+    const { adapter: gw, cfg: gwCfg } = gateways.deVenda(local || sales.get(req.params.id));
+    const sale = await gw.consultar(gwCfg, req.params.id);
+    if (!sale.id) sale.id = req.params.id;
     const cached = sales.get(sale.id);
     if (cached) cached.status = sale.status;
     if (String(sale.status).toLowerCase() === 'paid') { firePaid(sale.id, sale.amount, 'polling', sale); admin.markPaid(sale.id, sale); }
@@ -381,19 +354,16 @@ function exigeAdmin(req, res, next) {
   next();
 }
 
-// A Nerva devolve o saldo em CENTAVOS. Converter aqui evita que o painel
-// mostre "R$ 150.000,00" no lugar de "R$ 1.500,00".
-const centavosParaReais = c => Number(c || 0) / 100;
 
+/* painel > Gateways: lista, ativar, chaves, testar */
+gateways.mount(app, exigeAdmin, PUBLIC_URL);
+
+const semRecurso = (res, gw, o) => res.status(501).json({ error: `${gw.nome} não expõe ${o} pela API.` });
 app.get('/api/admin/nerva/saldo', exigeAdmin, async (req, res) => {
+  const { adapter: gw, cfg } = gwAtivo();
+  if (!gw.saldo) return semRecurso(res, gw, 'saldo');
   try {
-    const r = await nerva('/withdrawals/balance');
-    const d = (r && r.data) || {};
-    res.json({
-      disponivel: centavosParaReais(d.available),
-      retido:     centavosParaReais(d.withheld),
-      bruto:      { available: d.available, withheld: d.withheld }
-    });
+    res.json(Object.assign({ gateway: gw.id }, await gw.saldo(cfg)));
   } catch (e) {
     console.error('saldo:', e.message);
     res.status(e.status || 500).json({ error: e.message });
@@ -401,12 +371,14 @@ app.get('/api/admin/nerva/saldo', exigeAdmin, async (req, res) => {
 });
 
 app.get('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
+  const { adapter: gw, cfg } = gwAtivo();
+  if (!gw.saques) return semRecurso(res, gw, 'saques');
   try {
     const q = new URLSearchParams();
     q.set('page',  req.query.page  || '1');
     q.set('limit', Math.min(Number(req.query.limit) || 20, 100));
     if (req.query.status) q.set('status', req.query.status);
-    res.json(await nerva(`/withdrawals/my-withdrawals?${q}`));
+    res.json(await gw.saques(cfg, q.toString()));
   } catch (e) {
     console.error('saques:', e.message);
     res.status(e.status || 500).json({ error: e.message });
@@ -414,6 +386,8 @@ app.get('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
+  const { adapter: gw, cfg } = gwAtivo();
+  if (!gw.sacar) return semRecurso(res, gw, 'saque');
   try {
     const b = req.body || {};
     const amount = Number(b.amount);
@@ -426,15 +400,9 @@ app.post('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
     }
     if (!b.pixKey) return res.status(400).json({ error: 'Informe a chave PIX.' });
 
-    const saque = await nerva('/withdrawals', {
-      method: 'POST',
-      body: {
-        amount, method: 'pix', pixKeyType, pixKey: String(b.pixKey),
-        reference: b.reference || `saque-${Date.now().toString(36)}`
-      },
-      // sem isso, um duplo clique no painel viraria dois saques
-      idempotencyKey: b.reference || `saque-${Date.now().toString(36)}`
-    });
+    const reference = b.reference || `saque-${Date.now().toString(36)}`;
+    // idempotencyKey: sem isso, um duplo clique no painel viraria dois saques
+    const saque = await gw.sacar(cfg, { amount, method: 'pix', pixKeyType, pixKey: String(b.pixKey), reference }, reference);
     res.status(201).json(saque);
   } catch (e) {
     console.error('saque:', e.message);
@@ -442,82 +410,55 @@ app.post('/api/admin/nerva/saques', exigeAdmin, async (req, res) => {
   }
 });
 
-/* ---------------- WEBHOOK ---------------- */
-function verifySignature(req) {
-  const WEBHOOK_SECRET = webhookSecret();
-  if (!WEBHOOK_SECRET) return false;
-  const timestamp = req.headers['x-pixnerva-timestamp'];
-  const signature = req.headers['x-pixnerva-signature'];
-  if (!timestamp || !signature) return false;
+/* ---------------- WEBHOOK (um por gateway: /webhooks/<id>) ----------------
+   Nerva: assinatura HMAC obrigatória. Outros gateways: se houver token
+   cadastrado ele é exigido; sem token ('sem'), o webhook é só um aviso e o
+   status é CONFIRMADO reconsultando a API do gateway antes de marcar pago. */
+app.post('/webhooks/:gw', async (req, res) => {
+  const gw = gateways.porId(req.params.gw);
+  if (!gw) return res.status(404).json({ error: 'gateway desconhecido' });
+  const cfg = settings.gatewayConfig(gw.id);
+  const ver = gw.webhook.verificar(cfg, req);
+  if (ver === false) return res.status(401).json({ error: 'Assinatura inválida' });
 
-  // replay protection: 5 min
-  if (Math.abs(Date.now() / 1000 - Number(timestamp)) > 300) return false;
+  let ev = gw.webhook.interpretar(req.body || {});
+  const id = ev.id && String(ev.id);
+  if (!id) { console.log(`[webhook ${gw.id}] evento sem id:`, ev.tipo); return res.json({ received: true }); }
+  const rec = sales.get(id);
 
-  const expected = crypto
-    .createHmac('sha256', WEBHOOK_SECRET)
-    .update(`${timestamp}.${req.rawBody}`)
-    .digest('hex');
+  /* não assinado: confirma na fonte antes de acreditar em "pago" */
+  if (ver === 'sem' && ev.evento !== 'info') {
+    try {
+      const atual = await gw.consultar(cfg, id);
+      ev = { evento: ['paid', 'expired', 'failed', 'refunded'].includes(atual.status) ? atual.status : 'info', tipo: ev.tipo + ' (confirmado na API)', id, amount: atual.amount, status: atual.status, dados: atual };
+    } catch (e) {
+      console.warn(`[webhook ${gw.id}] não confirmou ${id} na API:`, e.message);
+      return res.json({ received: true, confirmado: false });
+    }
+  }
+  const dados = Object.assign({ id, amount: ev.amount, status: ev.status, gateway: gw.id }, ev.dados || {}, { id });
 
-  const a = Buffer.from(String(signature));
-  const b = Buffer.from(expected);
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
-}
-
-app.post('/webhooks/nerva', (req, res) => {
-  if (!verifySignature(req)) return res.status(401).json({ error: 'Assinatura inválida' });
-
-  const { event, data } = req.body || {};
-  const rec = data && sales.get(data.id);
-
-  switch (event) {
-    case 'sale.paid':
-      console.log('PAGO:', data.id, data.amount, 'eventId:', rec && rec.eventId);
-      firePaid(data.id, data.amount, 'webhook', data);   // TikTok primeiro
-      admin.markPaid(data.id, data);                      // depois painel/disco
-      // Aqui: libere o pedido / dispare o Purchase server-side se não usar o da Nerva.
+  switch (ev.evento) {
+    case 'paid':
+      console.log(`PAGO (${gw.id}):`, id, ev.amount, 'eventId:', rec && rec.eventId);
+      firePaid(id, ev.amount, 'webhook', dados);   // TikTok primeiro
+      admin.markPaid(id, dados);                   // depois painel/disco
       break;
-    case 'sale.expired':
-    case 'sale.failed':
-      console.log('NÃO PAGO:', event, data && data.id);
-      if (data && data.id) admin.setStatus(data.id, event === 'sale.expired' ? 'expired' : 'failed');
+    case 'expired':
+    case 'failed':
+      console.log(`NÃO PAGO (${gw.id}):`, ev.tipo, id);
+      admin.setStatus(id, ev.evento);
       break;
     /* Estorno: o dinheiro voltou para o comprador. Sem tratar isso, a venda
        seguia marcada como paga no painel e o faturamento ficava inflado. */
-    case 'sale.refunded':
-    case 'sale.med_accepted':
-      console.warn('ESTORNADO:', event, data && data.id, data && data.amount);
-      if (data && data.id) admin.setStatus(data.id, 'refunded');
+    case 'refunded':
+      console.warn(`ESTORNADO (${gw.id}):`, ev.tipo, id, ev.amount);
+      admin.setStatus(id, 'refunded');
       break;
-
-    case 'sale.med_created':
-      // MED é passivo: apenas registra, não abre disputa.
-      console.warn('MED aberto:', data && data.id);
-      break;
-
-    case 'sale.med_rejected':
-    case 'sale.med_cancelled':
-      // contestação encerrada a favor do seller: a venda continua paga
-      console.log('MED encerrado:', event, data && data.id);
-      break;
-
-    case 'sale.status_changed':
-      console.log('status:', data && data.previousStatus, '->', data && data.status);
-      break;
-
-    /* Saques: só registram no log. O saldo é consultado sob demanda em
-       /api/admin/nerva/saldo, então não há estado local a atualizar. */
-    case 'withdrawal.completed':
-      console.log('SAQUE PAGO:', data && data.id, data && data.amount);
-      break;
-    case 'withdrawal.failed':
-    case 'withdrawal.rejected':
-      console.warn('SAQUE NÃO PAGO:', event, data && data.id, '- saldo devolvido');
-      break;
-
     default:
-      console.log('evento:', event);
+      console.log(`[webhook ${gw.id}] evento:`, ev.tipo, id, ev.status || '');
   }
-  if (rec && data) rec.status = data.status;
+  if (rec && ev.status) rec.status = ev.status;
   return res.status(200).json({ received: true });
 });
 
@@ -535,16 +476,17 @@ const LOJA_RE = /v9\s?max|bicicleta|bike\b|patinete|gm5|cavalletta|capacete|gta\
 const RECON_MAX_AGE = 3 * 86400e3;                 // só últimos 3 dias
 let reconciling = false;
 async function reconcileFromNerva() {
-  if (reconciling || !nervaKey()) return;
+  const { adapter: gw, cfg: gwCfg } = gwAtivo();
+  if (reconciling || !gw.listar || !gw.pronto(gwCfg)) return;   // só gateways que listam vendas
   reconciling = true;
   let added = 0, healed = 0, scanned = 0;
   try {
     const cutoff = Date.now() - RECON_MAX_AGE;
     for (let page = 1; page <= 8; page++) {
       let d;
-      try { d = await nerva(`/sales?limit=50&page=${page}`); }
+      try { d = await gw.listar(gwCfg, page); }
       catch (e) { console.error('[reconcile] page', page, e.message); break; }
-      const arr = Array.isArray(d) ? d : (d && d.data);
+      const arr = d;
       if (!Array.isArray(arr) || !arr.length) break;
       let anyRecent = false;
       for (const s of arr) {
@@ -565,7 +507,7 @@ async function reconcileFromNerva() {
             id: s.id, status: st, amount: s.amount, fee: s.fee, netAmount: s.netAmount,
             description: s.description, externalId: s.externalId, transactionId: s.transactionId,
             createdAt: s.createdAt, paidAt: realPaidAt
-          }, { payerName: (s.customer && s.customer.name) || '', description: s.description });
+          }, { payerName: (s.raw && s.raw.customer && s.raw.customer.name) || '', description: s.description, gateway: gw.id });
           if (st === 'paid') { firePaid(s.id, s.amount, 'reconcile', Object.assign({}, s, { paidAt: realPaidAt })); admin.markPaid(s.id, Object.assign({}, s, { paidAt: realPaidAt })); }
           added++;
         } else {
@@ -610,7 +552,9 @@ async function vigiarPendentes() {
     for (const s of pend) {
       ultimaChecagem.set(s.id, Date.now());
       let atual;
-      try { atual = await nerva(`/sales/${encodeURIComponent(s.id)}`); }
+      const { adapter: gw, cfg: gwCfg } = gateways.deVenda(s);
+      if (!gw.pronto(gwCfg)) continue;                // gateway antigo sem chave: fica como está
+      try { atual = await gw.consultar(gwCfg, s.id); }
       catch (e) { if (e.status === 404) admin.setStatus(s.id, 'failed'); continue; }
       const st = String((atual && atual.status) || '').toLowerCase();
       if (st === 'paid') {
@@ -629,7 +573,7 @@ async function vigiarPendentes() {
 setInterval(vigiarPendentes, 3000);
 
 /* pix/webhook: só diz SE a chave está cadastrada (nunca o valor) */
-app.get('/health', (_req, res) => res.json({ ok: true, gateway: 'nerva', pix: !!nervaKey(), webhook: !!webhookSecret() }));
+app.get('/health', (_req, res) => res.json({ ok: true, gateway: gateways.ativoId(), pix: gwPronto(), webhook: !!webhookSecret() }));
 
 /* ---------------- COMPROVANTE DE PIX ----------------
    Antes o upload ia para um serviço de outra loja (tiktok-tracking.onrender.com):

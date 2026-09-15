@@ -393,6 +393,7 @@ function recordSale(sale, extra = {}) {
     eventId: sale.eventId || extra.eventId || '',
     orderFp: sale.orderFp || extra.orderFp || salesDb[sale.id]?.orderFp || '',
     sid: extra.sid || salesDb[sale.id]?.sid || '',
+    gateway: sale.gateway || extra.gateway || salesDb[sale.id]?.gateway || 'nerva',
     createdAt: sale.createdAt || salesDb[sale.id]?.createdAt || new Date().toISOString(),
     paidAt: sale.paidAt || salesDb[sale.id]?.paidAt || null
   });

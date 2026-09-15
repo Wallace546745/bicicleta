@@ -88,6 +88,40 @@ const stats = { enviados: 0, falhas: 0, ultimoErro: '', ultimoEnvio: null, ultim
 /* contadores por evento e por origem, para o painel medir paridade pixel↔servidor */
 const counters = load(path.join(DATA_DIR, 'track-counters.json'),
   { porEvento: {}, matchSoma: 0, matchN: 0, comCompra: 0, compraComMatchFraco: 0 });
+counters.origensBloqueadas = counters.origensBloqueadas || {};   // host de outro site -> quantos pedidos barrados
+
+/* ---------- SÓ ESTA LOJA alimenta este pixel ----------
+   O servidor recusa eventos que venham de outro site (Origin/Referer de outro
+   domínio) ou que digam ter acontecido em outra página (page_url de outro
+   domínio). Pedidos sem Origin/Referer (server-to-server, testes) passam. O
+   que foi barrado fica contado por host, visível no painel (Rastreamento). */
+function hostDaLoja() {
+  try { return new URL(process.env.PUBLIC_URL || '').hostname.replace(/^www\./, '').toLowerCase(); } catch (_) { return ''; }
+}
+function hostDe(url) {
+  try { return new URL(String(url || '')).hostname.replace(/^www\./, '').toLowerCase(); } catch (_) { return ''; }
+}
+const HOSTS_LOCAIS = new Set(['localhost', '127.0.0.1', '::1']);
+function ehDaqui(host) {
+  const meu = hostDaLoja();
+  if (!host) return true;                      // sem origem declarada
+  if (HOSTS_LOCAIS.has(host)) return true;
+  if (!meu) return true;                       // sem PUBLIC_URL configurada: não dá para comparar
+  return host === meu || host.endsWith('.' + meu);
+}
+function bloquearOrigem(host, motivo) {
+  const k = String(host || '?').slice(0, 80);
+  counters.origensBloqueadas[k] = (counters.origensBloqueadas[k] || 0) + 1;
+  persist();
+  if (counters.origensBloqueadas[k] === 1 || counters.origensBloqueadas[k] % 100 === 0) console.warn(`[track] barrado de ${k} (${motivo}): ${counters.origensBloqueadas[k]}x`);
+}
+/* middleware para as rotas públicas: Origin/Referer de outro site -> 403 */
+function guardaOrigem(req, res, next) {
+  const origem = hostDe(req.headers.origin) || hostDe(req.headers.referer);
+  if (ehDaqui(origem)) return next();
+  bloquearOrigem(origem, 'origem ' + (req.headers.origin ? 'Origin' : 'Referer') + ' em ' + req.path);
+  return res.status(403).json({ ok: false, error: 'origem não permitida' });
+}
 
 /* qualidade do match (0-100): quantos identificadores fortes o evento carrega */
 function matchScore(ev) {
@@ -309,6 +343,9 @@ function mount(app, auth, express) {
     let b = req.body;
     if (typeof b === 'string') { try { b = JSON.parse(b); } catch (_) { b = null; } }
     if (!b || !b.event) return res.status(400).json({ ok: false });
+    /* evento que diz ter acontecido em outro site nunca vai para este pixel */
+    const hostPagina = hostDe(b.page_url);
+    if (!ehDaqui(hostPagina)) { bloquearOrigem(hostPagina, 'page_url em /api/track'); return res.status(403).json({ ok: false, error: 'página de outro site' }); }
     /* event_time: o instante do clique no navegador, se veio e é plausível
        (até 7 dias atrás — fila offline reenviada na visita seguinte); senão,
        agora. O TikTok recusa evento com timestamp no futuro. */
@@ -367,6 +404,8 @@ function mount(app, auth, express) {
       ativo: enabled(), pixel: cfg.tiktokPixelId, teste: !!cfg.tiktokTestEventCode, saude, motivo,
       fila: queue.length, filaPresaMin: presaMin, ...stats,
       matchMedio,
+      lojaHost: hostDaLoja(),
+      origensBloqueadas: counters.origensBloqueadas,
       comprasRastreadas: counters.comCompra,
       comprasMatchFraco: counters.compraComMatchFraco,
       paridade
@@ -394,4 +433,4 @@ function estatisticas() {
   };
 }
 
-module.exports = { mount, enqueue, remember, contextOf, matchScore, enabled, estatisticas, sanitizeContents, sanitizeAd, localeDe, contexts: () => ctx };
+module.exports = { mount, enqueue, remember, contextOf, matchScore, enabled, estatisticas, sanitizeContents, sanitizeAd, localeDe, contexts: () => ctx, guardaOrigem, ehDaqui, hostDe, hostDaLoja };

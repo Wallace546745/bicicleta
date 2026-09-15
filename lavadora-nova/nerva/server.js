@@ -62,6 +62,11 @@ app.use((req, res, next) => {
   next();
 });
 
+/* Só ESTA loja alimenta este servidor e este pixel: pedido de rastreamento,
+   funil, preço, Pix ou comprovante vindo de outro site (Origin/Referer de outro
+   domínio) é recusado e contado — ver Rastreamento no painel. */
+app.use(['/api/track', '/api/funnel', '/api/pix', '/api/precos', '/api/comprovante'], tracking.guardaOrigem);
+
 /* painel admin + presença, e o editor da oferta */
 const adm = admin.mount(app);
 pages.mount(app, adm.auth);    // /p/<produto> — antes do content: trata /api/offer.json?p=

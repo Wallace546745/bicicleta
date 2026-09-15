@@ -932,7 +932,9 @@ async function loadTrk(){
   let t; try{ t=await api('/api/admin/tracking'); }catch(e){ if(e.auth) gate(true); return; }
   const dot=$('#trkDot'); dot.className='trk-dot '+(t.saude||'off');
   $('#trkTitle').textContent = t.ativo ? 'Events API ativo · pixel '+(t.pixel||'') : 'Events API desligado';
-  $('#trkMotivo').textContent = t.motivo || (t.ativo?'enviando eventos ao TikTok':'cole o Access Token abaixo para ligar');
+  const bloq=Object.entries(t.origensBloqueadas||{}).sort((a,b)=>b[1]-a[1]);
+  $('#trkMotivo').textContent = (t.motivo || (t.ativo?'enviando eventos ao TikTok':'cole o Access Token abaixo para ligar'))
+    + (bloq.length ? ' · barrados de outros sites: ' + bloq.slice(0,4).map(([h,n])=>h+' ('+n+')').join(', ') : (t.lojaHost ? ' · só '+t.lojaHost+' alimenta este pixel' : ''));
   $('#trkKpis').innerHTML =
     kpi('bolt', t.ativo?'green':'amber','Status', t.ativo?'Ativo':'Off', t.teste?'modo teste':'')+
     kpi('check','blue','Enviados', t.enviados||0, 'eventos ao TikTok')+

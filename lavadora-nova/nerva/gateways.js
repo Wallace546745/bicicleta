@@ -35,9 +35,11 @@ const onlyDigits = s => String(s || '').replace(/\D/g, '');
 function normStatus(s) {
   s = String(s || '').toLowerCase().trim();
   if (['paid', 'approved', 'completed', 'confirmed', 'pago', 'aprovado', 'aprovada', 'success', 'succeeded', 'settled', 'received', 'concluida', 'concluída'].includes(s)) return 'paid';
-  if (['pending', 'waiting_payment', 'waiting', 'processing', 'created', 'pendente', 'aguardando', 'aguardando_pagamento', 'unpaid', 'open', 'active', 'authorized', 'analysis', 'in_analysis'].includes(s)) return 'pending';
+  if (['pending', 'waiting_payment', 'waiting', 'processing', 'created', 'pendente', 'aguardando', 'aguardando_pagamento', 'unpaid', 'open', 'active', 'authorized', 'analysis', 'in_analysis', 'antifraud'].includes(s)) return 'pending';
+  /* disputa/pré-chargeback: o dinheiro ainda está com o lojista — segue paga; só o chargeback confirmado estorna */
+  if (['in_dispute', 'pre_chargeback', 'dispute'].includes(s)) return 'paid';
   if (['expired', 'expirado', 'expirada', 'canceled', 'cancelled', 'cancelado', 'cancelada', 'timeout'].includes(s)) return 'expired';
-  if (['refunded', 'chargedback', 'chargeback', 'estornado', 'estornada', 'reembolsado', 'med_accepted', 'reversed', 'devolvido'].includes(s)) return 'refunded';
+  if (['refunded', 'chargedback', 'chargeback', 'estornado', 'estornada', 'reembolsado', 'med_accepted', 'reversed', 'devolvido', 'charge_refund'].includes(s)) return 'refunded';
   if (['failed', 'refused', 'rejected', 'error', 'falhou', 'recusado', 'recusada', 'denied', 'declined'].includes(s)) return 'failed';
   return s || 'pending';
 }
@@ -90,8 +92,8 @@ function normalizar(gwId, d, { centavos = false } = {}) {
     id: String(pick(d, ['id', 'data.id', 'transaction.id', 'transactionId', 'txid']) || ''),
     status: st,
     amount: toReais(pick(d, ['amount', 'data.amount', 'value', 'total', 'transaction.amount']), centavos),
-    pixCode: pick(d, ['pixCode', 'pix.qrcode', 'pix.qrCode', 'pix.copyPaste', 'pix.copy_paste', 'pix.brCode', 'pix.emv', 'pix.code', 'qrcode', 'qrCode', 'pix_code', 'copyPaste', 'copy_paste', 'brCode', 'brcode', 'emv', 'data.pix.qrcode', 'data.pixCode', 'data.qrcode']),
-    pixQrCode: pick(d, ['pixQrCode', 'pix.qrcodeImage', 'pix.qrcode_image', 'pix.qrCodeBase64', 'pix.base64', 'pix.image', 'qrCodeBase64', 'qrcode_base64', 'base64QrCode', 'qrCodeImage', 'data.pix.qrcodeImage', 'data.pixQrCode']),
+    pixCode: pick(d, ['pixCode', 'pix.qrcode', 'pix.qrCode', 'pix.qr_code', 'pix.qrcode_text', 'pix.qr_code_text', 'pix.copyPaste', 'pix.copy_paste', 'pix.copiaECola', 'pix.copia_e_cola', 'pix.pixCode', 'pix.pix_code', 'pix.brCode', 'pix.br_code', 'pix.emv', 'pix.payload', 'pix.code', 'qrcode', 'qrCode', 'qr_code', 'qr_code_text', 'pix_code', 'pixCopiaECola', 'copyPaste', 'copy_paste', 'brCode', 'brcode', 'emv', 'payload', 'data.pix.qrcode', 'data.pix.qr_code', 'data.pix.copyPaste', 'data.pixCode', 'data.qrcode', 'transaction.pix.qrcode']),
+    pixQrCode: pick(d, ['pixQrCode', 'pix.qrcodeImage', 'pix.qrcode_image', 'pix.qr_code_image', 'pix.qrCodeBase64', 'pix.qrcode_base64', 'pix.qr_code_base64', 'pix.base64', 'pix.image', 'pix.image_base64', 'pix.qrCodeUrl', 'pix.qrcode_url', 'qrCodeBase64', 'qrcode_base64', 'qr_code_base64', 'base64QrCode', 'qrCodeImage', 'qr_code_image', 'data.pix.qrcodeImage', 'data.pix.qr_code_base64', 'data.pixQrCode']),
     transactionId: pick(d, ['transactionId', 'transaction_id', 'endToEndId', 'end_to_end_id', 'e2eId']),
     externalId: pick(d, ['externalId', 'external_id', 'externalRef', 'external_ref', 'reference', 'metadata.externalId']),
     description: pick(d, ['description', 'items.0.title', 'items.0.description']) || '',
@@ -281,11 +283,107 @@ function gatewayPadrao({ id, nome, site, baseUrl, nota }) {
   return gw;
 }
 
+/* =============================================================================
+   3) InvictusPay — conforme a documentação (app.invictuspayv2.com.br/docs)
+      base  https://api.invictuspayv2.com.br/api/v1
+      auth  X-Api-Key: sk_…
+      POST /transactions  { amount (centavos), paymentMethod:'pix',
+                            customer:{ name, email, document, phone } (todos obrigatórios),
+                            items:[{ description, quantity, amount (centavos), externalRef? }],
+                            pix:{ expirationInSeconds }, postbackUrl (só HTTPS) }
+      GET  /transactions/{txId}   GET /transactions?page&per_page&status
+      POST /transactions/{txId}/refund
+      status: pending, processing, antifraud, paid, failed, refused, expired,
+              cancelled, refunded, in_dispute, pre_chargeback, chargeback
+      webhook: evento CHARGE_REFUND no estorno; os demais são lidos de forma
+      tolerante e SEMPRE confirmados por GET /transactions/{id} antes de
+      marcar pago (a doc não descreve assinatura). */
+const invictuspay = {
+  id: 'invictuspay', nome: 'InvictusPay', site: 'https://invictuspay.com.br',
+  nota: 'Integração pela documentação oficial (v2): X-Api-Key, valores em centavos, cliente com e-mail e telefone obrigatórios. Webhook confirmado na API antes de marcar pago.',
+  campos: [
+    { key: 'apiKey',        label: 'API Key (X-Api-Key)', secreto: true, obrigatorio: true, placeholder: 'sk_…' },
+    { key: 'webhookSecret', label: 'Token do webhook',    secreto: true, placeholder: 'opcional — se você definir um token no painel da Invictus' },
+    { key: 'baseUrl',       label: 'URL da API',          placeholder: 'https://api.invictuspayv2.com.br/api/v1' }
+  ],
+  webhookPath: '/webhooks/invictuspay',
+  centavos: true,
+  base: cfg => String(cfg.baseUrl || 'https://api.invictuspayv2.com.br/api/v1').replace(/\/+$/, ''),
+  pronto: cfg => !!(cfg.apiKey || '').trim(),
+  async req(cfg, path, opts = {}) {
+    const key = (cfg.apiKey || '').trim();
+    if (!key) { const e = new Error('Pagamento indisponível: InvictusPay sem chave cadastrada.'); e.status = 503; throw e; }
+    return http(`${invictuspay.base(cfg)}${path}`, Object.assign({}, opts, { headers: Object.assign({ 'X-Api-Key': key }, opts.headers || {}) }));
+  },
+  async criarCobranca(cfg, p) {
+    const doc = onlyDigits(p.customer.document);
+    const email = String(p.customer.email || '').trim();
+    const phone = onlyDigits(p.customer.phone);
+    /* a Invictus valida e-mail e telefone: sem eles a API recusa — avisa o
+       comprador em vez de devolver um erro genérico */
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { const e = new Error('Informe um e-mail válido para gerar o Pix.'); e.status = 400; throw e; }
+    if (phone.length < 10 || phone.length > 11) { const e = new Error('Informe um telefone válido (com DDD) para gerar o Pix.'); e.status = 400; throw e; }
+    const cents = Math.round(p.amount * 100);
+    /* a raiz tem de ser a soma exata dos itens, e cada item divisível pela
+       quantidade: um item só, com o total, satisfaz as duas regras */
+    const payload = {
+      amount: cents,
+      paymentMethod: 'pix',
+      customer: { name: String(p.customer.name || 'Cliente').trim().slice(0, 100), email, document: doc, phone },
+      items: [{ description: String(p.description || 'Pedido').slice(0, 120), quantity: 1, amount: cents, externalRef: p.externalId }],
+      pix: { expirationInSeconds: p.expiresInSeconds || 86400 }
+    };
+    if (p.postbackUrl && /^https:\/\//i.test(p.postbackUrl)) payload.postbackUrl = p.postbackUrl;
+    const d = await invictuspay.req(cfg, '/transactions', { method: 'POST', body: payload });
+    const v = normalizar('invictuspay', d, { centavos: true });
+    if (!v.id) { const e = new Error('InvictusPay: resposta sem id de transação'); e.payload = d; throw e; }
+    if (!v.pixCode) { const e = new Error('InvictusPay: resposta sem código Pix'); e.payload = d; throw e; }
+    v.externalId = v.externalId || p.externalId;
+    return v;
+  },
+  async consultar(cfg, id) {
+    return normalizar('invictuspay', await invictuspay.req(cfg, `/transactions/${encodeURIComponent(id)}`), { centavos: true });
+  },
+  async listar(cfg, page = 1) {
+    const d = await invictuspay.req(cfg, `/transactions?page=${page}&per_page=50`);
+    const arr = Array.isArray(d) ? d : (d && (d.data || d.transactions || d.items));
+    return Array.isArray(arr) ? arr.filter(t => t && t.id).map(t => normalizar('invictuspay', t, { centavos: true })) : [];
+  },
+  async estornar(cfg, id) { return invictuspay.req(cfg, `/transactions/${encodeURIComponent(id)}/refund`, { method: 'POST', body: {} }); },
+  webhook: {
+    verificar(cfg, req) {
+      const tok = (cfg.webhookSecret || '').trim();
+      if (!tok) return 'sem';                       // sem token: só aviso, confirmado na API
+      const cand = [req.headers['x-webhook-token'], req.headers['x-webhook-secret'], req.headers['x-signature'], req.headers['x-api-key'],
+                    req.headers['authorization'], req.query && req.query.token, req.body && req.body.token].filter(Boolean).map(String);
+      return cand.some(c => c === tok || c === `Bearer ${tok}`);
+    },
+    interpretar(body) {
+      const data = (body && (body.data || body.transaction || body.charge || body.payload)) || body || {};
+      const tipo = String((body && (body.event || body.type || body.eventType)) || '').toUpperCase();
+      let status = normStatus(pick(data, ['status']));
+      if (tipo.includes('REFUND') || tipo.includes('CHARGEBACK')) status = 'refunded';
+      else if (tipo.includes('PAID') || tipo.includes('APPROVED') || tipo.includes('CONFIRM')) status = 'paid';
+      else if (tipo.includes('EXPIRE') || tipo.includes('CANCEL')) status = 'expired';
+      else if (tipo.includes('FAIL') || tipo.includes('REFUSE')) status = 'failed';
+      return { evento: ['paid', 'expired', 'failed', 'refunded'].includes(status) ? status : 'info', tipo: tipo || status,
+               id: pick(data, ['id', 'txId', 'transactionId', 'transaction_id']), amount: toReais(pick(data, ['amount']), true), status, dados: data };
+    }
+  },
+  async testar(cfg) {
+    try { await invictuspay.req(cfg, '/transactions?page=1&per_page=1'); return { ok: true, detalhe: 'chave aceita (listagem de transações respondeu)' }; }
+    catch (e) {
+      if (e.status === 401 || e.status === 403) return { ok: false, detalhe: 'chave recusada (401/403). Confira a API Key no painel da Invictus.' };
+      return { ok: false, detalhe: e.message };
+    }
+  }
+};
+
 const ADAPTADORES = {
   nerva,
   zenixpay:    gatewayPadrao({ id: 'zenixpay',    nome: 'Zenixpay',    site: 'https://zenixpay.com.br',    baseUrl: 'https://api.zenixpay.com.br/v1' }),
   flevopay:    gatewayPadrao({ id: 'flevopay',    nome: 'FlevoPay',    site: 'https://flevopay.com.br',    baseUrl: 'https://api.flevopay.com.br/v1' }),
-  invictuspay: gatewayPadrao({ id: 'invictuspay', nome: 'InvictusPay', site: 'https://invictuspay.com.br', baseUrl: 'https://api.invictuspay.app.br/v1' })
+  invictuspay
 };
 const ORDEM = ['nerva', 'zenixpay', 'flevopay', 'invictuspay'];
 

@@ -9,7 +9,7 @@ para os próximos Pix, sem reiniciar nada.
 | PixNerva    | completa: cobrança, webhook HMAC, reconciliação, saldo, saque | `/webhooks/nerva`          |
 | Zenixpay    | formato padrão de gateways de checkout (ver abaixo)           | `/webhooks/zenixpay`       |
 | FlevoPay    | formato padrão de gateways de checkout                        | `/webhooks/flevopay`       |
-| InvictusPay | formato padrão de gateways de checkout                        | `/webhooks/invictuspay`    |
+| InvictusPay | pela documentação oficial v2 (X-Api-Key, centavos, e-mail e telefone obrigatórios) | `/webhooks/invictuspay` |
 
 ## Como cadastrar um gateway
 
@@ -47,9 +47,21 @@ chave) e `"webhook"` (tem secret).
   venda como paga o servidor **reconsulta a API do gateway**. Um webhook
   falso nunca marca venda paga.
 
-## Formato padrão (Zenixpay, FlevoPay, InvictusPay)
+## InvictusPay (documentação oficial)
 
-Os três usam o formato mais comum entre gateways de checkout brasileiros
+Base `https://api.invictuspayv2.com.br/api/v1`, cabeçalho `X-Api-Key`.
+`POST /transactions` com `amount` em centavos igual à soma dos itens, `paymentMethod: "pix"`,
+`customer` com nome, e-mail, CPF/CNPJ e telefone (todos obrigatórios e validados),
+`items[{ description, quantity, amount, externalRef }]`, `pix.expirationInSeconds`
+e `postbackUrl` (só HTTPS). `GET /transactions/{txId}` para consultar,
+`POST /transactions/{txId}/refund` para estornar. Status: pending, processing,
+antifraud (pendentes), paid, in_dispute e pre_chargeback (seguem pagas), expired,
+cancelled, failed, refused, refunded e chargeback (estornada). O webhook é lido
+de forma tolerante e sempre confirmado por `GET /transactions/{id}`.
+
+## Formato padrão (Zenixpay, FlevoPay)
+
+Os dois usam o formato mais comum entre gateways de checkout brasileiros
 (`nerva/gateways.js`, função `gatewayPadrao`):
 
 - autenticação `Authorization: Basic base64(publicKey:secretKey)` (ou

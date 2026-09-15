@@ -169,7 +169,7 @@ function buildEvent(ev) {
 }
 function urlPadrao() {
   const pub = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
-  return pub ? pub + '/' : 'https://lavadoravonder.com/';
+  return pub ? pub + '/' : 'https://v9maxoficial.com/';
 }
 
 /* ---------- fila ---------- */

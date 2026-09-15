@@ -1,5 +1,5 @@
 /* =========================================================
-   Nerva — gateway ÚNICO da oferta Lavadora Vonder LAV 1300
+   Backend da loja V9 Max: gateways de pagamento Pix (PixNerva, Zenixpay, FlevoPay, InvictusPay)
    Adaptador que mantém o contrato que o front já usa:
      POST /api/pix/create        -> Nerva POST /sales
      GET  /api/pix/status/:id    -> Nerva GET  /sales/:id

@@ -45,7 +45,6 @@ const CAT_SMART  = ['Eletrônicos', 'Casa Inteligente', 'Assistentes e Automaç�
 const CAT_QUIM   = ['Acessórios para Veículos', 'Cuidado com o Veículo', 'Produtos de Limpeza'];
 const CAT_MOTO   = ['Acessórios para Veículos', 'Acessórios de Motos', 'Capacetes e Acessórios'];
 const CAT_FERR   = ['Ferramentas', 'Ferramentas Elétricas', 'Kits de Ferramentas'];
-const CAT_ACESS  = ['Ferramentas', 'Ferramentas Elétricas', 'Lavadoras e Acessórios'];
 
 const V127 = img => ({ rotulo: 'Voltagem', opcoes: [{ label: '127V', img }] });
 

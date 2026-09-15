@@ -476,6 +476,11 @@ tbody tr:hover{background:var(--surface-2)}
         </div>
       </div>
       <div class="grid kpis" id="trkKpis" style="margin-bottom:20px"></div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="sec-head"><h3 style="font-size:14px">Últimos eventos enviados ao TikTok</h3><p>o que cada evento levou para o match: ttclid do anúncio, cookie _ttp, ID externo, e-mail e telefone</p></div>
+        <div class="table-wrap"><table id="trkUltimos"><thead><tr><th>Hora</th><th>Evento</th><th>Valor</th><th>ttclid</th><th>_ttp</th><th>ID ext.</th><th>E-mail</th><th>Telefone</th><th>Match</th></tr></thead><tbody></tbody></table></div>
+        <p class="hint" id="trkUltimosHint" style="margin-top:8px"></p>
+      </div>
 
       <div class="card">
         <div class="sec-head"><h3 style="font-size:14px">Pixel / Rastreamento</h3><p>configure sem reiniciar — o token fica só no servidor</p></div>
@@ -935,6 +940,9 @@ async function loadTrk(){
   const dot=$('#trkDot'); dot.className='trk-dot '+(t.saude||'off');
   $('#trkTitle').textContent = t.ativo ? 'Events API ativo · pixel '+(t.pixel||'') : 'Events API desligado';
   const bloq=Object.entries(t.origensBloqueadas||{}).sort((a,b)=>b[1]-a[1]);
+  const ult=t.ultimosEventos||[]; const ok=v=>v?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>';
+  $('#trkUltimos tbody').innerHTML = ult.length ? ult.map(u=>'<tr><td>'+new Date(u.t).toLocaleTimeString('pt-BR')+'</td><td>'+esc(u.event)+'</td><td>'+(u.value!=null?brl(u.value):'—')+'</td><td>'+(u.ttclid?ok(1)+' <span class="hint">'+esc(u.ttclid)+'</span>':ok(0))+'</td><td>'+ok(u.ttp)+'</td><td>'+ok(u.external_id)+'</td><td>'+ok(u.email)+'</td><td>'+ok(u.phone)+'</td><td>'+(u.match||0)+'%</td></tr>').join('') : '<tr><td colspan="9" class="hint">nenhum evento desde o último reinício</td></tr>';
+  const comTt=ult.filter(u=>u.ttclid).length; $('#trkUltimosHint').textContent = ult.length ? (comTt+' de '+ult.length+' eventos recentes levaram ttclid. Sem ttclid = visita que não veio de um clique em anúncio do TikTok (ou o link do anúncio perdeu o parâmetro).') : '';
   $('#trkMotivo').textContent = (t.motivo || (t.ativo?'enviando eventos ao TikTok':'cole o Access Token abaixo para ligar'))
     + (bloq.length ? ' · barrados de outros sites: ' + bloq.slice(0,4).map(([h,n])=>h+' ('+n+')').join(', ') : (t.lojaHost ? ' · só '+t.lojaHost+' alimenta este pixel' : ''));
   $('#trkKpis').innerHTML =

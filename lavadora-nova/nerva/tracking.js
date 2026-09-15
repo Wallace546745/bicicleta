@@ -85,6 +85,7 @@ let queue = load(QUEUE_DB, []);          // [{ payload, tries, next, id }]
 let ctx   = load(CTX_DB, {});            // saleId -> contexto de match
 const seen = new Set(load(path.join(DATA_DIR, 'track-seen.json'), []));
 const stats = { enviados: 0, falhas: 0, ultimoErro: '', ultimoEnvio: null, ultimoCodigo: null };
+const ultimos = [];   // últimos eventos aceitos, com os identificadores que levaram (painel)
 /* contadores por evento e por origem, para o painel medir paridade pixel↔servidor */
 const counters = load(path.join(DATA_DIR, 'track-counters.json'),
   { porEvento: {}, matchSoma: 0, matchN: 0, comCompra: 0, compraComMatchFraco: 0 });
@@ -214,6 +215,15 @@ function enqueue(ev, opts) {
   if (!ev.event_id) ev.event_id = ev.event.toLowerCase() + '-' + crypto.randomUUID();
   if (seen.has(ev.event_id)) return { ok: true, duplicado: true };
   seen.add(ev.event_id);
+
+  /* diagnóstico para o painel: os últimos eventos e quais identificadores de
+     match cada um levou (ttclid/_ttp/external_id/e-mail/telefone) */
+  ultimos.unshift({
+    t: Date.now(), event: ev.event, value: ev.value != null ? Number(ev.value) : undefined,
+    ttclid: ev.ttclid ? String(ev.ttclid).slice(0, 8) + '…' : '', ttp: !!ev.ttp, external_id: !!ev.external_id,
+    email: !!ev.email, phone: !!ev.phone, ip: !!ev.ip, match: matchScore(ev)
+  });
+  if (ultimos.length > 40) ultimos.length = 40;
 
   /* métricas de paridade e match (contam mesmo com a API desligada) */
   const origem = ev._origem || (ev.event_id && String(ev.event_id).startsWith('pao-') ? 'servidor' : 'servidor');
@@ -405,6 +415,7 @@ function mount(app, auth, express) {
       fila: queue.length, filaPresaMin: presaMin, ...stats,
       matchMedio,
       lojaHost: hostDaLoja(),
+      ultimosEventos: ultimos.slice(0, 25),
       origensBloqueadas: counters.origensBloqueadas,
       comprasRastreadas: counters.comCompra,
       comprasMatchFraco: counters.compraComMatchFraco,

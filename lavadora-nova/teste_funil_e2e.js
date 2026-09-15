@@ -76,7 +76,7 @@ async function fluxoCompra(b) {
   const errs = []; p.on('pageerror', e => errs.push(e.message));
   const reqs = []; p.on('request', r => { if (/\/api\//.test(r.url())) reqs.push(r.method() + ' ' + r.url().replace(BASE, '')); });
   let pixResp = null; p.on('response', async r => { if (/\/api\/pix\/create/.test(r.url())) { try { pixResp = await r.json(); } catch (_) { pixResp = { erro: 'resposta não é JSON', status: r.status() }; } } });
-  await p.goto(BASE + '/', { waitUntil: 'networkidle', timeout: 40000 });
+  await p.goto(BASE + '/' + (process.env.QUERY || ''), { waitUntil: 'networkidle', timeout: 40000 });   // QUERY: ex. ?ttclid=… para testar o match
   await p.click('#buyNow', { force: true }); await p.waitForTimeout(500);
   log('  order bump aberto: ' + await p.$eval('#orderBumpModal', e => e.classList.contains('is-open')));
   await p.click('#obItem0', { force: true }); await p.click('#obConfirm', { force: true }); await p.waitForTimeout(2500);

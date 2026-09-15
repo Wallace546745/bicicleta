@@ -1,0 +1,49 @@
+# Teste de ponta a ponta do Pix na loja publicada: gera uma cobrança de teste
+# no gateway ATIVO, consulta o status e mostra o resultado (sem segredos).
+# Rodar em: Actions > "Teste de Pix na loja" > Run workflow.
+# A cobrança não é paga: expira sozinha em 24 h.
+name: Teste de Pix na loja
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: URL da loja
+        default: https://v9maxoficial.com
+        required: true
+jobs:
+  pix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Saúde e gateway ativo
+        run: |
+          curl -fsS "${{ inputs.site }}/health"; echo
+      - name: Gerar Pix de teste (item mais barato do catálogo)
+        id: criar
+        run: |
+          R=$(curl -sS -X POST "${{ inputs.site }}/api/pix/create" -H 'Content-Type: application/json' -H 'User-Agent: teste-pix-actions' -d '{
+            "value": 14.90,
+            "description": "TESTE AUTOMATICO - Carregador 48V 2Ah",
+            "payerCpf": "52998224725",
+            "payerName": "Teste Automatico Actions",
+            "payerEmail": "teste@v9maxoficial.com",
+            "payerPhone": "11999998888",
+            "pedido": { "itens": [ { "titulo": "Carregador 48V 2Ah", "sku": "CARREGADOR-48V-2A", "qtd": 1 } ], "frete": "gratis" }
+          }' -w '\nHTTP_STATUS:%{http_code}')
+          echo "$R" | sed -e 's/"qrCode":"[^"]*"/"qrCode":"(código Pix presente)"/' -e 's/"base64QrCode":"[^"]\{0,60\}[^"]*"/"base64QrCode":"(imagem presente)"/'
+          BODY=$(echo "$R" | sed '$d'); CODE=$(echo "$R" | tail -1 | cut -d: -f2)
+          echo "http=$CODE" >> $GITHUB_OUTPUT
+          echo "$BODY" > resposta.json
+          python3 - <<'PY'
+          import json,sys
+          d=json.load(open('resposta.json'))
+          ok=d.get('ok') and d.get('txid') and d.get('qrCode')
+          print('gateway:', d.get('gateway'), '| txid:', d.get('txid'), '| status:', d.get('status'), '| valor:', d.get('valor'))
+          print('codigo pix (inicio):', (d.get('qrCode') or '')[:40], '| tamanho:', len(d.get('qrCode') or ''), '| qr imagem:', 'sim' if d.get('base64QrCode') else 'nao')
+          open('txid','w').write(d.get('txid') or '')
+          sys.exit(0 if ok else 1)
+          PY
+      - name: Consultar status da cobrança
+        if: always() && steps.criar.outcome == 'success'
+        run: |
+          TX=$(cat txid); sleep 3
+          curl -fsS "${{ inputs.site }}/api/pix/status/$TX"; echo
